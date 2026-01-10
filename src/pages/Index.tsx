@@ -1,13 +1,22 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import FilmGrain from "@/components/FilmGrain";
+import Navigation from "@/components/Navigation";
+import HeroSection from "@/components/HeroSection";
+import MusicSection from "@/components/MusicSection";
+import LyricsSection from "@/components/LyricsSection";
+import VisualsSection from "@/components/VisualsSection";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main className="bg-night min-h-screen">
+      <FilmGrain />
+      <Navigation />
+      <HeroSection />
+      <MusicSection />
+      <LyricsSection />
+      <VisualsSection />
+      <Footer />
+    </main>
   );
 };
 
