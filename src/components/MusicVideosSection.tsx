@@ -1,12 +1,12 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Play } from "lucide-react";
+import { Play, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const musicVideos = [
   {
     id: 1,
     title: "Midnight Confessions",
-    youtubeId: "dQw4w9WgXcQ", // Placeholder - replace with actual video IDs
+    youtubeId: "dQw4w9WgXcQ",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
   },
   {
@@ -21,54 +21,105 @@ const musicVideos = [
     youtubeId: "dQw4w9WgXcQ",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
   },
+  {
+    id: 4,
+    title: "Golden Dreams",
+    youtubeId: "dQw4w9WgXcQ",
+    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+  },
+  {
+    id: 5,
+    title: "Night Drive",
+    youtubeId: "dQw4w9WgXcQ",
+    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+  },
+  {
+    id: 6,
+    title: "Champagne Wishes",
+    youtubeId: "dQw4w9WgXcQ",
+    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+  },
 ];
 
 const MusicVideosSection = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
-  return (
-    <section
-      id="videos"
-      ref={ref}
-      className="section-cinematic bg-night-soft py-24 md:py-40"
-    >
-      <div className="container mx-auto px-8 md:px-16">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1.2 }}
-          className="mb-16 md:mb-24"
-        >
-          <h2 className="text-section-title text-editorial text-ivory/90 mb-4">
-            Videos
-          </h2>
-          <p className="text-ivory/40 text-sm tracking-widest uppercase">
-            Music Films
-          </p>
-        </motion.div>
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 400;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {musicVideos.map((video, index) => (
-            <motion.div
-              key={video.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 + index * 0.15 }}
-              className="group relative"
-            >
-              {activeVideo === video.youtubeId ? (
-                <div className="aspect-video w-full">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
-                    title={video.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full"
-                  />
-                </div>
-              ) : (
+  return (
+    <>
+      <section
+        id="videos"
+        ref={ref}
+        className="section-cinematic bg-night-soft py-24 md:py-40"
+      >
+        <div className="container mx-auto px-8 md:px-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1.2 }}
+            className="mb-16 md:mb-24 flex items-end justify-between"
+          >
+            <div>
+              <h2 className="text-section-title text-editorial text-ivory/90 mb-4">
+                Videos
+              </h2>
+              <p className="text-ivory/40 text-sm tracking-widest uppercase">
+                Music Films
+              </p>
+            </div>
+            
+            {/* Scroll controls */}
+            <div className="hidden md:flex items-center gap-4">
+              <button
+                onClick={() => scroll("left")}
+                className="w-12 h-12 border border-ivory/20 flex items-center justify-center hover:border-gold/50 hover:text-gold transition-colors text-ivory/50"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="w-12 h-12 border border-ivory/20 flex items-center justify-center hover:border-gold/50 hover:text-gold transition-colors text-ivory/50"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Horizontal scroll container */}
+        <div className="relative">
+          <div
+            ref={scrollRef}
+            className="flex gap-6 overflow-x-auto scrollbar-hide px-8 md:px-16 pb-4"
+            style={{
+              scrollSnapType: "x mandatory",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            {musicVideos.map((video, index) => (
+              <motion.div
+                key={video.id}
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
+                className="group relative flex-shrink-0"
+                style={{ 
+                  width: "min(400px, 80vw)",
+                  scrollSnapAlign: "start",
+                }}
+              >
                 <button
                   onClick={() => setActiveVideo(video.youtubeId)}
                   className="w-full aspect-video relative overflow-hidden cursor-pointer"
@@ -92,22 +143,60 @@ const MusicVideosSection = () => {
                     </div>
                   </div>
                 </button>
-              )}
 
-              {/* Title */}
-              <div className="mt-4">
-                <p className="text-ivory/40 text-xs tracking-widest uppercase mb-1">
-                  Official Video
-                </p>
-                <h3 className="text-ivory font-serif text-lg tracking-wide">
-                  {video.title}
-                </h3>
-              </div>
-            </motion.div>
-          ))}
+                {/* Title */}
+                <div className="mt-4">
+                  <p className="text-ivory/40 text-xs tracking-widest uppercase mb-1">
+                    Official Video
+                  </p>
+                  <h3 className="text-ivory font-serif text-lg tracking-wide">
+                    {video.title}
+                  </h3>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Fade edges */}
+          <div className="absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-night-soft to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-night-soft to-transparent pointer-events-none" />
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Video Modal */}
+      {activeVideo && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-night/95 backdrop-blur-sm p-4"
+          onClick={() => setActiveVideo(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="relative w-full max-w-4xl aspect-video"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setActiveVideo(null)}
+              className="absolute -top-12 right-0 text-ivory/60 hover:text-ivory transition-colors z-10"
+            >
+              <X className="w-8 h-8" />
+            </button>
+            
+            <iframe
+              src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0`}
+              title="Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </motion.div>
+        </motion.div>
+      )}
+    </>
   );
 };
 

@@ -1,9 +1,26 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import FilmGrain from "@/components/FilmGrain";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
-import heroImage from "@/assets/hero-dashaday.jpg";
+
+const albums: Record<string, { title: string; year: string; color: string }> = {
+  "midnight-drive": {
+    title: "Midnight Drive",
+    year: "2025",
+    color: "from-night-soft to-secondary",
+  },
+  "velvet-hours": {
+    title: "Velvet Hours",
+    year: "2024",
+    color: "from-secondary to-night-card",
+  },
+  "after-dark": {
+    title: "After Dark",
+    year: "2023",
+    color: "from-night-card to-night",
+  },
+};
 
 const streamingPlatforms = [
   {
@@ -62,19 +79,26 @@ const streamingPlatforms = [
   },
 ];
 
-const Listen = () => {
+const AlbumDetail = () => {
+  const { slug } = useParams();
+  const album = albums[slug || ""];
+
+  if (!album) {
+    return (
+      <main className="bg-night min-h-screen flex items-center justify-center">
+        <p className="text-ivory">Album not found</p>
+      </main>
+    );
+  }
+
   return (
     <main className="bg-night min-h-screen relative overflow-hidden">
       <FilmGrain />
       <LightLeaksOverlay />
 
-      {/* Background image */}
+      {/* Background gradient */}
       <div className="fixed inset-0">
-        <img
-          src={heroImage}
-          alt=""
-          className="w-full h-full object-cover opacity-20 blur-xl scale-110"
-        />
+        <div className={`absolute inset-0 bg-gradient-to-br ${album.color} opacity-20`} />
         <div className="absolute inset-0 bg-gradient-to-b from-night via-night/90 to-night" />
       </div>
 
@@ -88,7 +112,7 @@ const Listen = () => {
           className="absolute top-8 left-8"
         >
           <Link
-            to="/"
+            to="/#music"
             className="flex items-center gap-3 text-ivory/50 hover:text-ivory transition-colors group"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -101,13 +125,20 @@ const Listen = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
+          {/* Album cover */}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className={`w-48 h-48 mx-auto mb-8 bg-gradient-to-br ${album.color} glow-gold`}
+          />
           <p className="text-gold text-xs tracking-[0.4em] uppercase mb-4">
-            Stream Now
+            {album.year}
           </p>
           <h1 className="text-hero text-editorial-display text-ivory mb-2">
-            Midnight Hour
+            {album.title}
           </h1>
           <p className="text-ivory/40 text-sm tracking-widest">
             by DashaDay
@@ -141,47 +172,9 @@ const Listen = () => {
             </motion.a>
           ))}
         </motion.div>
-
-        {/* Social links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="mt-20 text-center"
-        >
-          <p className="text-ivory/30 text-xs tracking-widest uppercase mb-6">
-            Follow DashaDay
-          </p>
-          <div className="flex items-center gap-8">
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-ivory/40 hover:text-gold transition-colors text-sm tracking-widest"
-            >
-              Instagram
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-ivory/40 hover:text-gold transition-colors text-sm tracking-widest"
-            >
-              X
-            </a>
-            <a
-              href="https://tiktok.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-ivory/40 hover:text-gold transition-colors text-sm tracking-widest"
-            >
-              TikTok
-            </a>
-          </div>
-        </motion.div>
       </div>
     </main>
   );
 };
 
-export default Listen;
+export default AlbumDetail;
