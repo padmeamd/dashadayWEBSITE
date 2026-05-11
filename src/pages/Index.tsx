@@ -1,6 +1,5 @@
 import FilmGrain from "@/components/FilmGrain";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
-import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import NewAlbumSection from "@/components/NewAlbumSection";
 import MusicSection from "@/components/MusicSection";
@@ -14,7 +13,6 @@ const Index = () => {
     <main className="bg-night min-h-screen overflow-x-hidden">
       <FilmGrain />
       <LightLeaksOverlay />
-      <Navigation />
       <HeroSection />
       <NewAlbumSection />
       <MusicSection />

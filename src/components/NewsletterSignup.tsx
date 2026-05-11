@@ -93,7 +93,7 @@ const NewsletterSignup = () => {
               placeholder="your@email.com"
               required
               autoComplete="email"
-              className="flex-1 min-w-0 bg-transparent border border-ivory/20 px-4 py-3 text-ivory text-sm placeholder:text-ivory/25 focus:border-gold/50 focus:outline-none transition-colors text-left"
+              className="flex-1 min-w-0 bg-transparent border border-ivory/20 px-4 py-3 text-ivory text-sm placeholder:text-ivory/25 focus:border-ivory/20 focus:outline-none focus:ring-0 text-left"
             />
             <button
               type="submit"

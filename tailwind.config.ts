@@ -65,6 +65,7 @@ export default {
       fontFamily: {
         serif: ["var(--font-serif)"],
         sans: ["var(--font-sans)"],
+        hand: ["var(--font-hand)", "cursive"],
       },
       borderRadius: {
         lg: "var(--radius)",

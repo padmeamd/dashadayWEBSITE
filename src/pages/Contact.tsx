@@ -125,7 +125,7 @@ const Contact = () => {
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-gold/50 focus:outline-none transition-colors"
+                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
                     required
                   />
                 </div>
@@ -137,7 +137,7 @@ const Contact = () => {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-gold/50 focus:outline-none transition-colors"
+                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
                     required
                   />
                 </div>
@@ -149,7 +149,7 @@ const Contact = () => {
                     type="text"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-gold/50 focus:outline-none transition-colors"
+                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
                     required
                   />
                 </div>
@@ -161,7 +161,7 @@ const Contact = () => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={6}
-                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-gold/50 focus:outline-none transition-colors resize-none"
+                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0 resize-none"
                     required
                   />
                 </div>
