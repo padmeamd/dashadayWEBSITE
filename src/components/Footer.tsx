@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Footer = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -14,6 +15,7 @@ const Footer = () => {
   return (
     <footer ref={ref} className="bg-night py-20 md:py-32">
       <div className="container mx-auto px-8 md:px-16">
+        <NewsletterSignup />
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}

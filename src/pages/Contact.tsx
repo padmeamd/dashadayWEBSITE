@@ -2,8 +2,12 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Mail, Instagram, Send } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import FilmGrain from "@/components/FilmGrain";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
+
+const CONTACT_INBOX = "dlaremetra@gmail.com";
+const FORMSUBMIT_AJAX_URL = `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_INBOX)}`;
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,11 +16,45 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+  const [honeypot, setHoneypot] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+    if (honeypot) return;
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(FORMSUBMIT_AJAX_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          _replyto: formData.email.trim(),
+          _subject: `[Site contact] ${formData.subject.trim()}`,
+          message: formData.message.trim(),
+          _captcha: false,
+        }),
+      });
+
+      const data = (await res.json().catch(() => ({}))) as { message?: string; error?: string };
+
+      if (!res.ok) {
+        throw new Error(data.message || data.error || "Could not send your message.");
+      }
+
+      toast.success("Message sent. We will get back to you soon.");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      toast.error(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -67,7 +105,18 @@ const Contact = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="relative space-y-6">
+                <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+                  <label htmlFor="contact-website">Website</label>
+                  <input
+                    id="contact-website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
                 <div>
                   <label className="block text-ivory/40 text-xs tracking-widest uppercase mb-2">
                     Name
@@ -118,10 +167,11 @@ const Contact = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 border border-gold/50 text-gold hover:bg-gold/10 transition-all duration-500 text-sm tracking-widest uppercase flex items-center justify-center gap-3"
+                  disabled={isSubmitting}
+                  className="w-full px-8 py-4 border border-gold/50 text-gold hover:bg-gold/10 transition-all duration-500 text-sm tracking-widest uppercase flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   <Send className="w-4 h-4" />
-                  Send Message
+                  {isSubmitting ? "Sending…" : "Send Message"}
                 </button>
               </form>
             </motion.div>
