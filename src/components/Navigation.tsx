@@ -30,8 +30,8 @@ const Navigation = () => {
   const linkClass = cn(
     "link-subtle tracking-[0.2em] uppercase transition-colors duration-500",
     isHomePage
-      ? "text-[13px] text-ivory/[0.94] hover:text-ivory md:text-[15px] md:tracking-[0.22em] drop-shadow-[0_1px_10px_hsl(0_0%_0%/0.55)]"
-      : "text-[13px] text-ivory/60 hover:text-ivory md:text-[14px]"
+      ? "text-[15px] text-ivory/[0.94] hover:text-ivory md:text-[17px] md:tracking-[0.22em] drop-shadow-[0_1px_10px_hsl(0_0%_0%/0.55)]"
+      : "text-[15px] text-ivory/60 hover:text-ivory md:text-[16px]"
   );
 
   return (
@@ -55,8 +55,8 @@ const Navigation = () => {
         className={cn(
           "transition-colors duration-500 hover:text-gold",
           isHomePage
-            ? "font-serif text-xl font-light tracking-[0.14em] text-ivory drop-shadow-[0_2px_14px_hsl(0_0%_0%/0.72),0_0_1px_hsl(40_20%_96%/0.35)] md:text-2xl"
-            : "text-editorial text-sm tracking-[0.3em] text-ivory/80"
+            ? "font-serif text-2xl font-light tracking-[0.14em] text-ivory drop-shadow-[0_2px_14px_hsl(0_0%_0%/0.72),0_0_1px_hsl(40_20%_96%/0.35)] md:text-3xl"
+            : "text-editorial text-base tracking-[0.28em] text-ivory/80 md:text-lg"
         )}
       >
         DashaDay

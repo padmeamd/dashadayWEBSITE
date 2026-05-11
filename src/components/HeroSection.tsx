@@ -5,6 +5,7 @@ import {
   useMotionValue,
   useSpring,
   useReducedMotion,
+  MotionValue,
   motionValue,
   useMotionTemplate,
 } from "framer-motion";
@@ -30,16 +31,17 @@ const HOTSPOTS: HotspotDef[] = [
     to: "/contact",
     objectLabel: "TELEPHONE",
     actionLabel: "CONTACT",
-    style: { left: "0%", top: "62%", width: "20%", height: "28%" },
-    labelClassName: "absolute bottom-[10%] left-[6%] md:bottom-[8%] md:left-[8%]",
+    style: { left: "5%", top: "55%", width: "24%", height: "34%" },
+    labelClassName:
+      "absolute left-[58%] top-[5%] flex -translate-x-1/2 md:left-[62%] md:top-[3%]",
   },
   {
     id: "candles",
     to: "/about",
     objectLabel: "CANDLES",
     actionLabel: "ABOUT",
-    style: { left: "49%", top: "34%", width: "17%", height: "40%" },
-    labelClassName: "absolute top-[6%] right-[2%] md:top-[8%]",
+    style: { left: "46%", top: "30%", width: "20%", height: "44%" },
+    labelClassName: "absolute top-[0%] right-[2%] md:top-[2%]",
   },
   {
     id: "vinyl",
@@ -63,7 +65,8 @@ const HOTSPOTS: HotspotDef[] = [
     objectLabel: "DRESS",
     actionLabel: "MERCH",
     style: { left: "56%", top: "0%", width: "42%", height: "78%" },
-    labelClassName: "absolute left-[5%] top-[24%] md:left-[7%] md:top-[28%]",
+    labelClassName:
+      "absolute left-[78%] top-[20%] flex -translate-x-1/2 md:left-[82%] md:top-[24%]",
   },
 ];
 
@@ -79,9 +82,9 @@ function CandleCursorLight({
   flameY,
   active,
 }: {
-  cursorX: ReturnType<typeof useSpring<number>>;
-  cursorY: ReturnType<typeof useSpring<number>>;
-  flameY: ReturnType<typeof useTransform<number, number>>;
+  cursorX: MotionValue<number>;
+  cursorY: MotionValue<number>;
+  flameY: MotionValue<number>;
   active: boolean;
 }) {
   const ambient = useMotionTemplate`radial-gradient(ellipse min(52vmin, 70vw) min(44vmin, 58vw) at ${cursorX}px ${cursorY}px, hsl(26 72% 48% / 0.13) 0%, hsl(22 58% 32% / 0.06) 48%, transparent 70%)`;
@@ -133,6 +136,63 @@ const STREAMING = [
         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
       </svg>
     ),
+  },
+];
+
+type Prediction = {
+  song: string;
+  lyric: string;
+};
+
+const PREDICTIONS: Prediction[] = [
+  { song: "Blockbuster", lyric: "Now your life is a blockbuster:\nthere's no love but there is action" },
+  { song: "Venom", lyric: "Come and feed my ego,\nit's gasping for attention" },
+  { song: "Cinematic", lyric: "What if we're just meant to be?\nIt isn't just a fantasy" },
+  { song: "So Confusing", lyric: "Fuck, you're so confusing" },
+  {
+    song: "Love You Like You Do",
+    lyric: "You could've just said let's be friends\nYou could've but you wouldn't want that",
+  },
+  { song: "Be That", lyric: "Be the one who walks through smoke,\nHolds the dream you never spoke." },
+  {
+    song: "Feel The Same",
+    lyric:
+      "We both know about manipulation...\nMaybe we should get back 'cuz fuck it,man, I still love the tension...",
+  },
+  {
+    song: "Expectations",
+    lyric: "If you hear this song\nCall me, say you're sorry\nSay it meant something at all",
+  },
+  {
+    song: "Darker Than Lust",
+    lyric: "Your heat is heaven, then it's hush\nYou want my heart, but not my trust",
+  },
+  { song: "Marylebone Road", lyric: "London is the best place for a heartbreak" },
+  {
+    song: "Lied to You",
+    lyric: "I've been to Oxford once again...\nand it is good you weren't there",
+  },
+  {
+    song: "ur time is up",
+    lyric: "I forgot how your voice used to burn...\nbut maybe not fully",
+  },
+  {
+    song: "Season of Rollercoasters",
+    lyric: "But it's over -\nthe season of rollercoasters",
+  },
+  {
+    song: "Not My Circus",
+    lyric: "Thought I'd cry, beg for the role,\nBut darling -\nI'd rather binge a show alone.",
+  },
+  { song: "That Boy Was a Mistake", lyric: "That boy was a mistake" },
+  { song: "SUFM", lyric: "If my voice is too loud for you\nThen baby, that's your issue" },
+  {
+    song: "Give Up On Love",
+    lyric: "My egos in bruises\nbut hearts filled with hope",
+  },
+  {
+    song: "Back to My Old Ways",
+    lyric: "Your melancholy killed my vibe\nAlmost forgot that I'm fine",
   },
 ];
 
@@ -205,7 +265,7 @@ function MirrorMotes({ reduced }: { reduced: boolean }) {
   );
 }
 
-/** Typography on the mirror — no glass card, no synthetic light-leak overlays */
+/** Typography on the mirror - no glass card, no synthetic light-leak overlays */
 function MirrorCopyOnGlass({
   reduced,
   onEnterWorld,
@@ -214,14 +274,12 @@ function MirrorCopyOnGlass({
   onEnterWorld: () => void;
 }) {
   return (
-    <div
-      className="pointer-events-none absolute z-[34] flex items-center justify-center px-2 py-4 md:px-4"
-      style={MIRROR_BOX}
-    >
-      <div className="pointer-events-auto relative flex h-full w-[92%] max-w-[94%] flex-col items-center justify-center overflow-hidden text-center">
+    <div className="pointer-events-none absolute z-[34] overflow-hidden" style={MIRROR_BOX}>
+      <div className="pointer-events-auto relative h-full min-h-0 w-full">
         <MirrorMotes reduced={reduced} />
 
-        <div className="relative z-[1] flex flex-col items-center gap-4 md:gap-5">
+        <div className="absolute inset-0 z-[1] flex items-center justify-center px-3 py-3 md:px-4 md:py-4">
+          <div className="flex max-h-full w-full max-w-[min(100%,26rem)] translate-x-16 flex-col items-center justify-center gap-4 text-center md:translate-x-32 md:gap-5">
           <div className="flex flex-wrap items-end justify-center gap-3 md:gap-4">
             <motion.div
               initial={reduced ? false : { opacity: 0.85 }}
@@ -229,7 +287,7 @@ function MirrorCopyOnGlass({
               transition={{ duration: reduced ? 0 : 1.8, ease: [0.22, 1, 0.36, 1] }}
             >
               <motion.p
-                className="font-hand text-[clamp(1.85rem,5.2vw,3.1rem)] leading-[1.08] tracking-wide text-ivory md:text-[clamp(2.1rem,4.6vw,3.45rem)]"
+                className="font-moralana text-[clamp(1.85rem,5.2vw,3.1rem)] leading-[1.08] tracking-wide text-ivory md:text-[clamp(2.1rem,4.6vw,3.45rem)]"
                 style={{
                   textShadow:
                     "0 0 20px hsl(38 65% 55% / 0.28), 0 2px 16px hsl(0 0% 0% / 0.75), 0 0 1px hsl(40 22% 98% / 0.35)",
@@ -272,11 +330,12 @@ function MirrorCopyOnGlass({
             animate={{ opacity: 1 }}
             transition={{ delay: reduced ? 0 : 0.9, duration: 0.8 }}
             onClick={onEnterWorld}
-            className="mt-0.5 border-0 bg-transparent font-serif text-[12px] font-light tracking-[0.32em] text-ivory underline decoration-gold/45 decoration-[0.5px] underline-offset-[7px] transition-colors hover:text-ivory hover:decoration-gold/75 md:text-[14px] md:tracking-[0.34em]"
+            className="border-0 bg-transparent font-serif text-[12px] font-light tracking-[0.32em] text-ivory underline decoration-gold/45 decoration-[0.5px] underline-offset-[7px] transition-colors hover:text-ivory hover:decoration-gold/75 md:text-[14px] md:tracking-[0.34em]"
             style={{ textShadow: "0 1px 10px hsl(0 0% 0% / 0.8)" }}
           >
             ENTER MY WORLD
           </motion.button>
+          </div>
         </div>
       </div>
     </div>
@@ -297,7 +356,7 @@ function HeroCinematicHeader() {
   };
 
   const linkClass =
-    "font-serif text-[12px] font-light tracking-[0.26em] text-ivory/[0.88] transition-colors duration-500 hover:text-ivory md:text-[14px] md:tracking-[0.28em]";
+    "font-serif text-[14px] font-light tracking-[0.24em] text-ivory/[0.88] transition-colors duration-500 hover:text-ivory md:text-[16px] md:tracking-[0.26em]";
   const glow = "drop-shadow-[0_0_12px_hsl(38_55%_48%/0.18)] drop-shadow-[0_1px_8px_hsl(0_0%_0%/0.55)]";
 
   return (
@@ -310,7 +369,7 @@ function HeroCinematicHeader() {
       <div className="pointer-events-auto relative flex min-w-0 flex-1 justify-between gap-6">
         <Link
           to="/"
-          className={`font-hand text-[clamp(1.15rem,2.9vw,1.65rem)] leading-none text-ivory ${glow} transition-opacity hover:opacity-90`}
+          className={`font-hand text-[clamp(1.35rem,3.4vw,1.95rem)] leading-none text-ivory ${glow} transition-opacity hover:opacity-90`}
         >
           DashaDay
         </Link>
@@ -337,11 +396,15 @@ function HeroCinematicHeader() {
 }
 
 function AnnotationLabel({ objectLabel, actionLabel }: { objectLabel: string; actionLabel: string }) {
+  const showAction = Boolean(actionLabel.trim());
+
   return (
     <div className="flex items-start gap-2 md:gap-2.5">
       <div className="flex min-w-0 flex-col gap-0.5 text-left">
         <span
-          className="font-serif text-[11px] font-light uppercase leading-tight tracking-[0.18em] text-ivory/[0.9] md:text-[13px] md:tracking-[0.2em]"
+          className={`font-serif uppercase leading-tight tracking-[0.18em] text-ivory/[0.9] ${
+            showAction ? "text-[11px] md:text-[13px]" : "text-[13px] md:text-[16px]"
+          } font-light`}
           style={{
             textShadow:
               "0 0 10px hsl(0 0% 0% / 0.75), 0 0 18px hsl(38 45% 42% / 0.12)",
@@ -349,21 +412,25 @@ function AnnotationLabel({ objectLabel, actionLabel }: { objectLabel: string; ac
         >
           {objectLabel}
         </span>
-        <span
-          className="font-serif text-[10px] font-light uppercase leading-tight tracking-[0.14em] text-gold/80 md:text-[12px] md:tracking-[0.16em]"
-          style={{
-            textShadow: "0 0 10px hsl(43 50% 40% / 0.2), 0 1px 8px hsl(0 0% 0% / 0.65)",
-          }}
-        >
-          {actionLabel}
-        </span>
+        {showAction ? (
+          <span
+            className="font-serif text-[10px] font-light uppercase leading-tight tracking-[0.14em] text-gold/80 md:text-[12px] md:tracking-[0.16em]"
+            style={{
+              textShadow: "0 0 10px hsl(43 50% 40% / 0.2), 0 1px 8px hsl(0 0% 0% / 0.65)",
+            }}
+          >
+            {actionLabel}
+          </span>
+        ) : null}
       </div>
-      <span
-        className="mt-0.5 flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-full border border-ivory/[0.22] text-ivory/75 shadow-[0_0_12px_hsl(38_45%_40%/0.12)] md:h-[24px] md:w-[24px]"
-        aria-hidden
-      >
-        <Plus className="h-[9px] w-[9px] md:h-[11px] md:w-[11px]" strokeWidth={1.25} />
-      </span>
+      {showAction ? (
+        <span
+          className="mt-0.5 flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-full border border-ivory/[0.22] text-ivory/75 shadow-[0_0_12px_hsl(38_45%_40%/0.12)] md:h-[24px] md:w-[24px]"
+          aria-hidden
+        >
+          <Plus className="h-[9px] w-[9px] md:h-[11px] md:w-[11px]" strokeWidth={1.25} />
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -415,7 +482,190 @@ function DustMotes({ reduced }: { reduced: boolean }) {
   );
 }
 
-/** Vignette only — no warm “light leak” blobs (those read as stray glow on the mirror). */
+function LetterDust({ reduced }: { reduced: boolean }) {
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 18 }, (_, i) => ({
+        id: i,
+        left: `${(i * 37) % 100}%`,
+        top: `${(i * 53) % 100}%`,
+        size: 1 + (i % 3),
+        duration: 2.6 + (i % 7) * 0.35,
+        delay: (i % 6) * 0.11,
+      })),
+    []
+  );
+
+  if (reduced) return null;
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {particles.map((p) => (
+        <motion.span
+          key={p.id}
+          className="absolute rounded-full bg-[hsl(40_35%_96%/0.12)]"
+          style={{ left: p.left, top: p.top, width: p.size, height: p.size }}
+          animate={{ opacity: [0.05, 0.18, 0.06], y: [0, -10, 0] }}
+          transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function PredictionLetter({
+  prediction,
+  open,
+  reduced,
+  onNext,
+}: {
+  prediction: Prediction;
+  open: boolean;
+  reduced: boolean;
+  onNext?: () => void;
+}) {
+  return (
+    <motion.div
+      className="pointer-events-none absolute inset-0 z-[70] flex items-center justify-center p-6"
+      initial={false}
+      animate={{ opacity: open ? 1 : 0 }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <motion.div
+        className="pointer-events-auto w-full max-w-xl"
+        initial={{ opacity: 0, y: 16, rotateX: 16, scale: 0.98 }}
+        animate={
+          open
+              ? { opacity: 1, x: [0, 3, -2, 0], y: [0, -1, 1, 0], rotateX: 0, scale: 1 }
+              : { opacity: 0, y: 10, x: 0, rotateX: 14, scale: 0.98 }
+        }
+          transition={{ duration: 0.9, delay: open ? 0.15 : 0, ease: [0.22, 1, 0.36, 1] }}
+        style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+      >
+        <motion.div
+          className="relative overflow-hidden rounded-[1.25rem] border border-ivory/15 bg-night/20 shadow-[0_30px_90px_hsl(0_0%_0%/0.62)]"
+          initial={false}
+          animate={open ? { scaleY: 1 } : { scaleY: 0.92 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          style={{ transformOrigin: "50% 0%" }}
+          role={onNext ? "button" : undefined}
+          tabIndex={onNext ? 0 : -1}
+          onClick={(e) => {
+            e.stopPropagation();
+            onNext?.();
+          }}
+          onKeyDown={(e) => {
+            if (!onNext) return;
+            if (e.key === "Enter" || e.key === " ") onNext();
+          }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                'linear-gradient(to bottom, rgba(255,250,235,0.96), rgba(233,205,160,0.72)), url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'240\' height=\'240\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.25\'/%3E%3C/svg%3E")',
+              backgroundBlendMode: "overlay",
+              opacity: 0.95,
+            }}
+            aria-hidden
+          />
+
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 10%, hsl(43 55% 72% / 0.38), transparent 60%)",
+            }}
+            animate={{ opacity: open ? 0.55 : 0 }}
+            transition={{ duration: 0.9, ease: "easeInOut" }}
+            aria-hidden
+          />
+
+          <motion.div
+            className="absolute inset-0 pointer-events-none mix-blend-soft-light"
+            style={{
+              background:
+                'radial-gradient(ellipse at 62% 28%, rgba(255,198,94,0.22) 0%, rgba(255,198,94,0) 62%)',
+            }}
+            animate={open ? { opacity: [0.1, 0.24, 0.15, 0.28, 0.12] } : { opacity: 0 }}
+            transition={
+              open
+                ? { duration: 2.6, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0.2 }
+            }
+            aria-hidden
+          />
+
+          <motion.div
+            className="absolute -inset-[2px] origin-top"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(255,250,235,0.22), rgba(0,0,0,0))",
+              transform: "translateZ(0)",
+            }}
+            initial={false}
+            animate={{ scaleY: open ? 1 : 0 }}
+            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            aria-hidden
+          />
+
+          <LetterDust reduced={reduced} />
+
+          <div className="relative px-8 py-10 md:px-10 md:py-12">
+            <div className="flex items-center justify-between gap-6">
+              <div className="text-left">
+                <p className="text-xs tracking-[0.36em] uppercase text-ivory/40">Secret prediction</p>
+                <p className="font-hand text-ivory text-sm md:text-base mt-1">From inside the album universe</p>
+              </div>
+              <div
+                className="h-[10px] w-[10px] rounded-full border border-ivory/20"
+                style={{ boxShadow: "0 0 22px hsl(43 55% 52% / 0.35)" }}
+                aria-hidden
+              />
+            </div>
+
+            <div className="mt-7 border-t border-ivory/10 pt-6">
+              <motion.div
+                key={prediction.song}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <p className="font-serif text-3xl md:text-4xl tracking-wide text-ivory/95">{prediction.song}</p>
+                <p className="mt-4 text-ivory/80 font-serif text-base md:text-lg leading-relaxed">
+                  "
+                  {prediction.lyric.split("\n").map((line, idx) => (
+                    <span key={idx}>
+                      {line}
+                      {idx < prediction.lyric.split("\n").length - 1 ? <br /> : null}
+                    </span>
+                  ))}
+                  "
+                </p>
+              </motion.div>
+            </div>
+
+            <div className="mt-8 flex flex-col items-center gap-3 border-t border-ivory/10 pt-6">
+              <Link
+                to="/listen"
+                state={{ song: prediction.song }}
+                onClick={(e) => e.stopPropagation()}
+                className="text-xs tracking-[0.3em] uppercase text-gold hover:text-ivory transition-colors underline decoration-gold/40 underline-offset-4"
+              >
+                LISTEN TO THE SONG
+              </Link>
+              <div className="text-center text-[11px] text-ivory/45 tracking-[0.24em] uppercase">
+                Click the candles again for another prophecy
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/** Vignette only - no warm "light leak" blobs (those read as stray glow on the mirror). */
 function HeroVignette({ reduced }: { reduced: boolean }) {
   return (
     <div className="pointer-events-none absolute inset-0 z-[18] overflow-hidden" aria-hidden="true">
@@ -462,6 +712,33 @@ const HeroSection = () => {
 
   const [finePointer, setFinePointer] = useState(true);
   const [spotActive, setSpotActive] = useState(false);
+  const [candlesHover, setCandlesHover] = useState(false);
+  const [predictionsOpen, setPredictionsOpen] = useState(false);
+  const [predictionIdx, setPredictionIdx] = useState(0);
+  const lastPredictionIdxRef = useRef<number | null>(null);
+
+  const pickNextPredictionIndex = useCallback((prev: number | null) => {
+    if (PREDICTIONS.length <= 1) return 0;
+    const current = prev ?? -1;
+    let next = Math.floor(Math.random() * PREDICTIONS.length);
+    let guard = 0;
+    while (next === current && guard < 12) {
+      next = Math.floor(Math.random() * PREDICTIONS.length);
+      guard += 1;
+    }
+    return next;
+  }, []);
+
+  const onCandlesClick = useCallback(() => {
+    const next = pickNextPredictionIndex(lastPredictionIdxRef.current);
+    lastPredictionIdxRef.current = next;
+    setPredictionIdx(next);
+    setPredictionsOpen(true);
+    setCandlesHover(false);
+  }, [pickNextPredictionIndex]);
+
+  const candleGlowActive = candlesHover || predictionsOpen;
+  const currentPrediction = PREDICTIONS[predictionIdx];
 
   const cursorX = useSpring(motionValue(-9999), CANDLE_CURSOR_SPRING);
   const cursorY = useSpring(motionValue(-9999), CANDLE_CURSOR_SPRING);
@@ -517,7 +794,7 @@ const HeroSection = () => {
         onMouseLeave={onMouseLeave}
         className="relative h-screen w-full overflow-hidden bg-[hsl(350_28%_5%)]"
       >
-        <h1 className="sr-only">DashaDay — Things I Shouldn&apos;t Say, debut album</h1>
+        <h1 className="sr-only">DashaDay - Things I Shouldn&apos;t Say, debut album</h1>
 
         {!reduced && finePointer ? (
           <CandleCursorLight cursorX={cursorX} cursorY={cursorY} flameY={flameY} active={spotActive} />
@@ -568,10 +845,35 @@ const HeroSection = () => {
           style={{ left: "49%", top: "38%", width: "17%", height: "36%" }}
           aria-hidden="true"
         >
-          <div className="hero-candle-flicker absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_50%_58%,hsl(28_92%_56%/0.15)_0%,transparent_72%)] blur-[2px]" />
+          <motion.div
+            className="hero-candle-flicker absolute inset-0 rounded-full"
+            animate={{
+              opacity: candleGlowActive ? 1 : 0.75,
+              filter: candleGlowActive ? "blur(1px)" : "blur(2px)",
+            }}
+            transition={{ duration: 0.45, ease: "easeInOut" }}
+            style={{
+              background: `radial-gradient(ellipse_at_50%_58%,hsl(28_92%_56%/${candleGlowActive ? 0.22 : 0.15})_0%,transparent_72%)`,
+            }}
+            aria-hidden="true"
+          />
         </div>
 
         <HeroVignette reduced={reduced} />
+
+        <motion.div
+          className="pointer-events-none absolute inset-0 z-[45] bg-night"
+          animate={{ opacity: predictionsOpen ? 0.58 : 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          aria-hidden="true"
+        />
+
+        <PredictionLetter
+          prediction={currentPrediction}
+          open={predictionsOpen}
+          reduced={reduced}
+          onNext={predictionsOpen ? onCandlesClick : undefined}
+        />
 
         <motion.img
           src="/image/dust.png"
@@ -605,21 +907,57 @@ const HeroSection = () => {
         <MirrorCopyOnGlass reduced={reduced} onEnterWorld={scrollToNewAlbum} />
 
         <div className="absolute inset-0 z-[33]">
-          {HOTSPOTS.map((spot) => (
-            <MotionLink
-              key={spot.id}
-              to={spot.to}
-              className="pointer-events-auto absolute outline-none ring-offset-2 ring-offset-[hsl(350_28%_5%)] focus-visible:ring-2 focus-visible:ring-gold/45"
-              style={spot.style}
-            >
-              <span className="sr-only">
-                {spot.objectLabel} — {spot.actionLabel}
-              </span>
-              <div className={spot.labelClassName}>
-                <AnnotationLabel objectLabel={spot.objectLabel} actionLabel={spot.actionLabel} />
-              </div>
-            </MotionLink>
-          ))}
+          {HOTSPOTS.map((spot) => {
+            if (spot.id === "candles") {
+              return (
+                <button
+                  key={spot.id}
+                  type="button"
+                  onPointerDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onCandlesClick();
+                  }}
+                  onMouseEnter={() => setCandlesHover(true)}
+                  onMouseLeave={() => setCandlesHover(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onCandlesClick();
+                  }}
+                  className="pointer-events-auto z-[9999] absolute block cursor-pointer bg-transparent border-0 p-0 m-0 outline-none ring-offset-2 ring-offset-[hsl(350_28%_5%)] focus-visible:ring-2 focus-visible:ring-gold/45"
+                  style={{ ...spot.style, zIndex: 9999, touchAction: "manipulation" }}
+                  aria-label="Open predictions letter"
+                >
+                  <span className="sr-only">
+                    {predictionsOpen ? "PREDICTIONS" : `${spot.objectLabel} - ${spot.actionLabel}`}
+                  </span>
+                  <div className={spot.labelClassName}>
+                    <AnnotationLabel
+                      objectLabel={predictionsOpen ? "PREDICTIONS" : spot.objectLabel}
+                      actionLabel={predictionsOpen ? "" : spot.actionLabel}
+                    />
+                  </div>
+                </button>
+              );
+            }
+
+            return (
+              <MotionLink
+                key={spot.id}
+                to={spot.to}
+                className="pointer-events-auto absolute outline-none ring-offset-2 ring-offset-[hsl(350_28%_5%)] focus-visible:ring-2 focus-visible:ring-gold/45"
+                style={spot.style}
+              >
+                <span className="sr-only">
+                  {spot.objectLabel} - {spot.actionLabel}
+                </span>
+                <div className={spot.labelClassName}>
+                  <AnnotationLabel objectLabel={spot.objectLabel} actionLabel={spot.actionLabel} />
+                </div>
+              </MotionLink>
+            );
+          })}
         </div>
 
         <motion.div

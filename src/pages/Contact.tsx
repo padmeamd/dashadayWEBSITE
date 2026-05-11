@@ -118,57 +118,57 @@ const Contact = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-ivory/40 text-xs tracking-widest uppercase mb-2">
+                  <label className="block text-ivory/40 text-sm tracking-widest uppercase mb-2">
                     Name
                   </label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
+                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-base text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-ivory/40 text-xs tracking-widest uppercase mb-2">
+                  <label className="block text-ivory/40 text-sm tracking-widest uppercase mb-2">
                     Email
                   </label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
+                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-base text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-ivory/40 text-xs tracking-widest uppercase mb-2">
+                  <label className="block text-ivory/40 text-sm tracking-widest uppercase mb-2">
                     Subject
                   </label>
                   <input
                     type="text"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
+                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-base text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-ivory/40 text-xs tracking-widest uppercase mb-2">
+                  <label className="block text-ivory/40 text-sm tracking-widest uppercase mb-2">
                     Message
                   </label>
                   <textarea
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={6}
-                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0 resize-none"
+                    className="w-full bg-transparent border border-ivory/20 px-4 py-3 text-base text-ivory focus:border-ivory/20 focus:outline-none focus:ring-0 resize-none"
                     required
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full px-8 py-4 border border-gold/50 text-gold hover:bg-gold/10 transition-all duration-500 text-sm tracking-widest uppercase flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none"
+                  className="w-full px-8 py-4 border border-gold/50 text-gold hover:bg-gold/10 transition-all duration-500 text-base tracking-widest uppercase flex items-center justify-center gap-3 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   <Send className="w-4 h-4" />
                   {isSubmitting ? "Sending…" : "Send Message"}

@@ -66,6 +66,7 @@ export default {
         serif: ["var(--font-serif)"],
         sans: ["var(--font-sans)"],
         hand: ["var(--font-hand)", "cursive"],
+        moralana: ["var(--font-moralana)"],
       },
       borderRadius: {
         lg: "var(--radius)",
