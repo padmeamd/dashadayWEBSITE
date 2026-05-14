@@ -5,21 +5,24 @@ import vinylRecord from "@/assets/vinyl-record.png";
 import heroImage from "@/assets/hero-dashaday.jpg";
 
 const songTitles = [
-  "Midnight Confessions",
-  "Velvet Shadows",
-  "After Hours",
-  "City Lights Fade",
-  "Whispers in the Dark",
-  "Golden Hour",
-  "Champagne Dreams",
-  "Silent Streets",
-  "Neon Heartbeat",
-  "Lost in You",
-  "Twilight Zone",
-  "Smoke & Mirrors",
-  "Electric Touch",
-  "Moonlit Drive",
-  "Until Dawn",
+  "Blockbuster",
+  "Venom",
+  "Cinematic",
+  "So Confusing",
+  "Love You Like You Do",
+  "Be That",
+  "Feel The Same",
+  "Expectations",
+  "Darker Than Lust",
+  "Marylebone Road",
+  "Lied to You",
+  "ur time is up",
+  "Season of Rollercoasters",
+  "Not My Circus",
+  "That Boy Was a Mistake",
+  "SUFM",
+  "Give Up On Love",
+  "Back to My Old Ways",
 ];
 
 const NewAlbumSection = () => {
@@ -43,7 +46,7 @@ const NewAlbumSection = () => {
             New Release
           </p>
           <h2 className="text-section-title text-editorial text-ivory/90">
-            Midnight Hour
+            Things I Shouldn't Say
           </h2>
         </motion.div>
 

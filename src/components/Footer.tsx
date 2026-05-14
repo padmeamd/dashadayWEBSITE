@@ -8,6 +8,7 @@ const Footer = () => {
 
   const socialLinks = [
     { label: "Instagram", href: "#" },
+    { label: "TikTok", href: "#" },
     { label: "Spotify", href: "#" },
     { label: "Apple Music", href: "#" },
   ];

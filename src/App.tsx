@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Listen from "./pages/Listen";
 import AlbumDetail from "./pages/AlbumDetail";
 import DAYDMedia from "./pages/DAYDMedia";
+import Videos from "./pages/Videos";
 import Contact from "./pages/Contact";
 import SimpleCinematicPage from "./pages/SimpleCinematicPage";
 import NotFound from "./pages/NotFound";
@@ -26,7 +27,7 @@ const App = () => (
           <Route path="/dayd-media" element={<DAYDMedia />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/music" element={<Listen />} />
-          <Route path="/videos" element={<DAYDMedia />} />
+          <Route path="/videos" element={<Videos />} />
           <Route
             path="/about"
             element={<SimpleCinematicPage title="About" subtitle="The story behind the sound—coming soon." />}

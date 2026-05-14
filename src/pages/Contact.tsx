@@ -88,7 +88,7 @@ const Contact = () => {
             transition={{ duration: 1 }}
             className="text-center mb-16"
           >
-            <h1 className="text-hero text-editorial-display text-ivory mb-4">
+            <h1 className="text-editorial-display text-ivory mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1.1 }}>
               Get in Touch
             </h1>
             <div className="w-24 h-px bg-gold/50 mx-auto mb-8" />

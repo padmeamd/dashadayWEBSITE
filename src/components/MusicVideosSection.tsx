@@ -5,37 +5,37 @@ import { Play, X, ChevronLeft, ChevronRight } from "lucide-react";
 const musicVideos = [
   {
     id: 1,
-    title: "Midnight Confessions",
+    title: "Blockbuster",
     youtubeId: "dQw4w9WgXcQ",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
   },
   {
     id: 2,
-    title: "Velvet Shadows",
+    title: "Venom",
     youtubeId: "dQw4w9WgXcQ",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
   },
   {
     id: 3,
-    title: "After Hours",
+    title: "Cinematic",
     youtubeId: "dQw4w9WgXcQ",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
   },
   {
     id: 4,
-    title: "Golden Dreams",
+    title: "So Confusing",
     youtubeId: "dQw4w9WgXcQ",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
   },
   {
     id: 5,
-    title: "Night Drive",
+    title: "Love You Like You Do",
     youtubeId: "dQw4w9WgXcQ",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
   },
   {
     id: 6,
-    title: "Champagne Wishes",
+    title: "Be That",
     youtubeId: "dQw4w9WgXcQ",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
   },

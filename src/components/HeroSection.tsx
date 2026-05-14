@@ -31,7 +31,7 @@ const HOTSPOTS: HotspotDef[] = [
     to: "/contact",
     objectLabel: "TELEPHONE",
     actionLabel: "CONTACT",
-    style: { left: "5%", top: "55%", width: "24%", height: "34%" },
+    style: { left: "1%", top: "59%", width: "24%", height: "34%" },
     labelClassName:
       "absolute left-[58%] top-[5%] flex -translate-x-1/2 md:left-[62%] md:top-[3%]",
   },
@@ -39,8 +39,8 @@ const HOTSPOTS: HotspotDef[] = [
     id: "candles",
     to: "/about",
     objectLabel: "CANDLES",
-    actionLabel: "ABOUT",
-    style: { left: "46%", top: "30%", width: "20%", height: "44%" },
+    actionLabel: "PREDICTIONS",
+    style: { left: "48%", top: "30%", width: "20%", height: "44%" },
     labelClassName: "absolute top-[0%] right-[2%] md:top-[2%]",
   },
   {
@@ -48,14 +48,22 @@ const HOTSPOTS: HotspotDef[] = [
     to: "/videos",
     objectLabel: "VINYL PLAYER",
     actionLabel: "VIDEOS",
-    style: { left: "68%", top: "54%", width: "30%", height: "38%" },
+    style: { left: "57%", top: "32%", width: "30%", height: "38%" },
     labelClassName: "absolute bottom-[14%] left-1/2 flex -translate-x-1/2 md:bottom-[16%]",
   },
   {
+    id: "perfume",
+    to: "/music",
+    objectLabel: "PERFUME",
+    actionLabel: "MUSIC",
+    style: { left: "20%", top: "50%", width: "16%", height: "22%" },
+    labelClassName: "absolute bottom-[4%] left-1/2 flex -translate-x-1/2",
+  },
+  {
     id: "jewelry",
-    to: "/lyrics",
+    to: "/dayd-media",
     objectLabel: "JEWELRY TRAY",
-    actionLabel: "LYRICS",
+    actionLabel: "DAYD MEDIA",
     style: { left: "28%", top: "56%", width: "28%", height: "24%" },
     labelClassName: "absolute bottom-[4%] left-1/2 flex -translate-x-1/2",
   },
@@ -64,7 +72,7 @@ const HOTSPOTS: HotspotDef[] = [
     to: "/merch",
     objectLabel: "DRESS",
     actionLabel: "MERCH",
-    style: { left: "56%", top: "0%", width: "42%", height: "78%" },
+    style: { left: "48%", top: "12%", width: "42%", height: "78%" },
     labelClassName:
       "absolute left-[78%] top-[20%] flex -translate-x-1/2 md:left-[82%] md:top-[24%]",
   },
@@ -196,6 +204,7 @@ const PREDICTIONS: Prediction[] = [
   },
 ];
 
+
 function LipstickKissSmudge() {
   const uid = useId().replace(/:/g, "");
   const blurId = `kiss-blur-${uid}`;
@@ -310,7 +319,6 @@ function MirrorCopyOnGlass({
               animate={{ opacity: 1 }}
               transition={{ delay: reduced ? 0 : 0.6, duration: 1 }}
             >
-              <LipstickKissSmudge />
             </motion.div>
           </div>
 
@@ -321,7 +329,7 @@ function MirrorCopyOnGlass({
             className="max-w-[22rem] font-serif text-[12px] font-light leading-relaxed tracking-[0.26em] text-ivory md:text-[14px] md:tracking-[0.28em]"
             style={{ textShadow: "0 1px 12px hsl(0 0% 0% / 0.85)" }}
           >
-            THE DEBUT ALBUM AVAILABLE NOW
+            STREAM THE ALBUM NOW
           </motion.p>
 
           <motion.button
@@ -518,144 +526,325 @@ function PredictionLetter({
   open,
   reduced,
   onNext,
+  onClose,
 }: {
   prediction: Prediction;
   open: boolean;
   reduced: boolean;
   onNext?: () => void;
+  onClose?: () => void;
 }) {
+  useEffect(() => {
+    if (!open || !onClose) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [open, onClose]);
+
   return (
     <motion.div
-      className="pointer-events-none absolute inset-0 z-[70] flex items-center justify-center p-6"
+      className="pointer-events-none absolute inset-0 z-[70] flex items-center justify-center p-5 md:p-10"
       initial={false}
       animate={{ opacity: open ? 1 : 0 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
+      {/* Letter */}
       <motion.div
-        className="pointer-events-auto w-full max-w-xl"
-        initial={{ opacity: 0, y: 16, rotateX: 16, scale: 0.98 }}
+        className="pointer-events-auto relative w-full"
+        style={{ maxWidth: "430px" }}
+        initial={false}
         animate={
           open
-              ? { opacity: 1, x: [0, 3, -2, 0], y: [0, -1, 1, 0], rotateX: 0, scale: 1 }
-              : { opacity: 0, y: 10, x: 0, rotateX: 14, scale: 0.98 }
+            ? { opacity: 1, y: 0, rotateX: 0, scale: 1 }
+            : { opacity: 0, y: 24, rotateX: 10, scale: 0.97 }
         }
-          transition={{ duration: 0.9, delay: open ? 0.15 : 0, ease: [0.22, 1, 0.36, 1] }}
-        style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+        transition={{ duration: 1.05, delay: open ? 0.1 : 0, ease: [0.22, 1, 0.36, 1] }}
+        style={{ maxWidth: "430px", perspective: 1000, transformStyle: "preserve-3d" }}
       >
+        {/* Unfold from the top edge downward */}
         <motion.div
-          className="relative overflow-hidden rounded-[1.25rem] border border-ivory/15 bg-night/20 shadow-[0_30px_90px_hsl(0_0%_0%/0.62)]"
           initial={false}
-          animate={open ? { scaleY: 1 } : { scaleY: 0.92 }}
-          transition={{ duration: 0.7, ease: "easeInOut" }}
+          animate={open ? { scaleY: 1, opacity: 1 } : { scaleY: 0.08, opacity: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           style={{ transformOrigin: "50% 0%" }}
-          role={onNext ? "button" : undefined}
-          tabIndex={onNext ? 0 : -1}
-          onClick={(e) => {
-            e.stopPropagation();
-            onNext?.();
-          }}
-          onKeyDown={(e) => {
-            if (!onNext) return;
-            if (e.key === "Enter" || e.key === " ") onNext();
-          }}
         >
+          {/* ── PAPER ── */}
           <div
-            className="absolute inset-0"
             style={{
-              backgroundImage:
-                'linear-gradient(to bottom, rgba(255,250,235,0.96), rgba(233,205,160,0.72)), url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'240\' height=\'240\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.25\'/%3E%3C/svg%3E")',
-              backgroundBlendMode: "overlay",
-              opacity: 0.95,
-            }}
-            aria-hidden
-          />
-
-          <motion.div
-            className="absolute inset-0"
-            style={{
+              /* Aged ivory — very muted, not white, not yellow.
+                 A slight warm shift at the top (where the candlelight hits)
+                 cooling toward the bottom. */
               background:
-                "radial-gradient(ellipse at 50% 10%, hsl(43 55% 72% / 0.38), transparent 60%)",
+                "linear-gradient(170deg, #f6eedc 0%, #ede4c8 30%, #e9dfc2 58%, #e5d8ba 82%, #e2d3b4 100%)",
+              boxShadow: [
+                "0 2px 6px rgba(0,0,0,0.14)",
+                "0 16px 40px rgba(0,0,0,0.32)",
+                "0 44px 100px rgba(0,0,0,0.62)",
+                "0 80px 160px rgba(0,0,0,0.38)",
+                "0 0 0 1px rgba(20,12,4,0.07)",
+                "inset 0 0 80px rgba(160,110,40,0.04)",
+              ].join(", "),
+              borderRadius: "1px",
+              position: "relative",
+              overflow: "hidden",
+              cursor: "pointer",
             }}
-            animate={{ opacity: open ? 0.55 : 0 }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
-            aria-hidden
-          />
-
-          <motion.div
-            className="absolute inset-0 pointer-events-none mix-blend-soft-light"
-            style={{
-              background:
-                'radial-gradient(ellipse at 62% 28%, rgba(255,198,94,0.22) 0%, rgba(255,198,94,0) 62%)',
+            onClick={(e) => {
+              e.stopPropagation();
+              onNext?.();
             }}
-            animate={open ? { opacity: [0.1, 0.24, 0.15, 0.28, 0.12] } : { opacity: 0 }}
-            transition={
-              open
-                ? { duration: 2.6, repeat: Infinity, ease: "easeInOut" }
-                : { duration: 0.2 }
-            }
-            aria-hidden
-          />
+            role="article"
+          >
+            {/* ── Fractal paper grain ── */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                backgroundImage:
+                  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.13'/%3E%3C/svg%3E\")",
+                mixBlendMode: "multiply",
+                opacity: 0.55,
+              }}
+              aria-hidden
+            />
 
-          <motion.div
-            className="absolute -inset-[2px] origin-top"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(255,250,235,0.22), rgba(0,0,0,0))",
-              transform: "translateZ(0)",
-            }}
-            initial={false}
-            animate={{ scaleY: open ? 1 : 0 }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            aria-hidden
-          />
+            {/* ── Very subtle inset edge darkening (paper has thickness) ── */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                boxShadow: "inset 0 0 28px rgba(20,10,2,0.07)",
+              }}
+              aria-hidden
+            />
 
-          <LetterDust reduced={reduced} />
+            {/* ── Candlelight from upper-right: warm amber wash ── */}
+            <motion.div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 78% 6%, rgba(220,155,30,0.18) 0%, rgba(200,130,20,0) 52%)",
+                mixBlendMode: "multiply",
+              }}
+              animate={
+                open
+                  ? { opacity: [0.4, 0.85, 0.48, 0.9, 0.38, 0.75, 0.52] }
+                  : { opacity: 0 }
+              }
+              transition={
+                open
+                  ? { duration: 4.8, repeat: Infinity, ease: "easeInOut" }
+                  : { duration: 0.2 }
+              }
+              aria-hidden
+            />
 
-          <div className="relative px-8 py-10 md:px-10 md:py-12">
-            <div className="flex items-center justify-between gap-6">
-              <div className="text-left">
-                <p className="text-xs tracking-[0.36em] uppercase text-ivory/40">Secret prediction</p>
-                <p className="font-hand text-ivory text-sm md:text-base mt-1">From inside the album universe</p>
+            {/* ── Second softer flicker pass (slightly out of phase) ── */}
+            <motion.div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 55% 0%, rgba(200,140,20,0.1) 0%, rgba(180,110,10,0) 45%)",
+                mixBlendMode: "multiply",
+              }}
+              animate={
+                open
+                  ? { opacity: [0.6, 0.3, 0.7, 0.25, 0.65, 0.35, 0.55] }
+                  : { opacity: 0 }
+              }
+              transition={
+                open
+                  ? { duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.7 }
+                  : { duration: 0.2 }
+              }
+              aria-hidden
+            />
+
+            {/* ── Fold crease at 2/3 — a single aged horizontal line ── */}
+            <div
+              className="pointer-events-none absolute inset-x-0"
+              style={{
+                top: "67%",
+                height: "1px",
+                background:
+                  "linear-gradient(to right, transparent 4%, rgba(18,10,2,0.055) 22%, rgba(18,10,2,0.055) 78%, transparent 96%)",
+              }}
+              aria-hidden
+            />
+
+            {/* ── Dust motes floating over the paper ── */}
+            <LetterDust reduced={reduced} />
+
+            {/* ══════════════════ CONTENT ══════════════════ */}
+            <div style={{ position: "relative", zIndex: 5, padding: "44px 42px 38px" }}>
+
+              {/* Close — barely visible until hover */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose?.();
+                }}
+                style={{
+                  position: "absolute",
+                  top: "18px",
+                  right: "20px",
+                  color: "rgba(25,14,4,0.22)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  fontFamily: "Cormorant Garamond, serif",
+                  lineHeight: 1,
+                  padding: "4px 5px",
+                  transition: "color 0.25s",
+                }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLButtonElement).style.color = "rgba(25,14,4,0.5)")
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLButtonElement).style.color = "rgba(25,14,4,0.22)")
+                }
+                aria-label="Close"
+              >
+                ✕
+              </button>
+
+              {/* ── Header ── */}
+              <div style={{ textAlign: "center", marginBottom: "30px" }}>
+                <p
+                  style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: "12px",
+                    fontWeight: 500,
+                    letterSpacing: "0.42em",
+                    textTransform: "uppercase",
+                    color: "rgba(45,26,8,0.55)",
+                    marginBottom: "14px",
+                  }}
+                >
+                  The Letter Has Spoken
+                </p>
+                {/* Thin gold rule */}
+                <div
+                  style={{
+                    height: "1px",
+                    background:
+                      "linear-gradient(to right, transparent 2%, rgba(140,95,28,0.35) 28%, rgba(160,110,32,0.45) 50%, rgba(140,95,28,0.35) 72%, transparent 98%)",
+                  }}
+                  aria-hidden
+                />
               </div>
-              <div
-                className="h-[10px] w-[10px] rounded-full border border-ivory/20"
-                style={{ boxShadow: "0 0 22px hsl(43 55% 52% / 0.35)" }}
-                aria-hidden
-              />
-            </div>
 
-            <div className="mt-7 border-t border-ivory/10 pt-6">
+              {/* ── Prediction (animates on each new prediction) ── */}
               <motion.div
                 key={prediction.song}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  duration: 0.65,
+                  delay: open ? 0.28 : 0,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                style={{ textAlign: "center" }}
               >
-                <p className="font-serif text-3xl md:text-4xl tracking-wide text-ivory/95">{prediction.song}</p>
-                <p className="mt-4 text-ivory/80 font-serif text-base md:text-lg leading-relaxed">
-                  "
-                  {prediction.lyric.split("\n").map((line, idx) => (
+                {/* Song title */}
+                <p
+                  style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: "clamp(1.7rem, 4vw, 2.3rem)",
+                    fontWeight: 500,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "#18090200",
+                    lineHeight: 1.08,
+                    marginBottom: "1.25rem",
+                    /* Layered text shadow for warmth and depth */
+                    textShadow:
+                      "0 1px 0 rgba(255,245,220,0.6), 0 2px 12px rgba(0,0,0,0.08)",
+                    color: "#180902",
+                  }}
+                >
+                  {prediction.song}
+                </p>
+
+                {/* Lyric */}
+                <p
+                  style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontStyle: "italic",
+                    fontWeight: 300,
+                    fontSize: "clamp(0.95rem, 2.1vw, 1.1rem)",
+                    color: "#2c1606",
+                    lineHeight: 1.9,
+                    marginBottom: "2rem",
+                  }}
+                >
+                  &#8220;
+                  {prediction.lyric.split("\n").map((line, idx, arr) => (
                     <span key={idx}>
                       {line}
-                      {idx < prediction.lyric.split("\n").length - 1 ? <br /> : null}
+                      {idx < arr.length - 1 ? <br /> : null}
                     </span>
                   ))}
-                  "
+                  &#8221;
                 </p>
               </motion.div>
-            </div>
 
-            <div className="mt-8 flex flex-col items-center gap-3 border-t border-ivory/10 pt-6">
-              <Link
-                to="/listen"
-                state={{ song: prediction.song }}
-                onClick={(e) => e.stopPropagation()}
-                className="text-xs tracking-[0.3em] uppercase text-gold hover:text-ivory transition-colors underline decoration-gold/40 underline-offset-4"
-              >
-                LISTEN TO THE SONG
-              </Link>
-              <div className="text-center text-[11px] text-ivory/45 tracking-[0.24em] uppercase">
-                Click the candles again for another prophecy
+              {/* ── Footer ── */}
+              <div style={{ textAlign: "center" }}>
+                {/* Thin gold rule */}
+                <div
+                  style={{
+                    height: "1px",
+                    marginBottom: "20px",
+                    background:
+                      "linear-gradient(to right, transparent 2%, rgba(140,95,28,0.28) 28%, rgba(155,105,30,0.38) 50%, rgba(140,95,28,0.28) 72%, transparent 98%)",
+                  }}
+                  aria-hidden
+                />
+
+                {/* Listen CTA */}
+                <Link
+                  to="/listen"
+                  state={{ song: prediction.song }}
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    display: "inline-block",
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    letterSpacing: "0.36em",
+                    textTransform: "uppercase",
+                    color: "rgba(110,68,14,0.82)",
+                    textDecoration: "none",
+                    borderBottom: "1px solid rgba(110,68,14,0.3)",
+                    paddingBottom: "3px",
+                    transition: "opacity 0.2s",
+                  }}
+                  onMouseEnter={(e) =>
+                    ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.5")
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")
+                  }
+                >
+                  Listen to the Song
+                </Link>
+
+                <p
+                  style={{
+                    marginTop: "12px",
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: "11px",
+                    fontWeight: 500,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    color: "rgba(50,28,8,0.45)",
+                  }}
+                >
+                  Tap for another prophecy
+                </p>
               </div>
             </div>
           </div>
@@ -664,6 +853,9 @@ function PredictionLetter({
     </motion.div>
   );
 }
+
+
+
 
 /** Vignette only - no warm "light leak" blobs (those read as stray glow on the mirror). */
 function HeroVignette({ reduced }: { reduced: boolean }) {
@@ -736,6 +928,8 @@ const HeroSection = () => {
     setPredictionsOpen(true);
     setCandlesHover(false);
   }, [pickNextPredictionIndex]);
+
+  const onClosePredictions = useCallback(() => setPredictionsOpen(false), []);
 
   const candleGlowActive = candlesHover || predictionsOpen;
   const currentPrediction = PREDICTIONS[predictionIdx];
@@ -842,19 +1036,54 @@ const HeroSection = () => {
 
         <div
           className="pointer-events-none absolute z-[16]"
-          style={{ left: "49%", top: "38%", width: "17%", height: "36%" }}
+          style={{ left: "45%", top: "26%", width: "24%", height: "52%" }}
           aria-hidden="true"
         >
+          {/* Base warm ambient glow — always present, brightens on hover */}
           <motion.div
-            className="hero-candle-flicker absolute inset-0 rounded-full"
-            animate={{
-              opacity: candleGlowActive ? 1 : 0.75,
-              filter: candleGlowActive ? "blur(1px)" : "blur(2px)",
-            }}
-            transition={{ duration: 0.45, ease: "easeInOut" }}
+            className="absolute inset-0 rounded-full"
+            animate={{ opacity: candleGlowActive ? 1 : 0.6 }}
+            transition={{ duration: 0.65, ease: "easeInOut" }}
             style={{
-              background: `radial-gradient(ellipse_at_50%_58%,hsl(28_92%_56%/${candleGlowActive ? 0.22 : 0.15})_0%,transparent_72%)`,
+              background:
+                "radial-gradient(ellipse at 50% 62%, hsl(28 88% 52% / 0.2) 0%, hsl(22 70% 38% / 0.08) 55%, transparent 75%)",
             }}
+            aria-hidden="true"
+          />
+
+          {/* Bright flame core — visible on hover, flickers when letter is open */}
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            animate={{
+              opacity: predictionsOpen
+                ? [0.5, 0.92, 0.6, 1.0, 0.48, 0.88, 0.66]
+                : candlesHover
+                ? 0.9
+                : 0,
+            }}
+            transition={
+              predictionsOpen
+                ? { duration: 3.2, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0.45, ease: "easeInOut" }
+            }
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 36%, hsl(46 100% 78% / 0.32) 0%, hsl(32 94% 60% / 0.2) 34%, transparent 62%)",
+              filter: "blur(0.5px)",
+            }}
+            aria-hidden="true"
+          />
+
+          {/* Wide room warmth — spreads when the letter is open */}
+          <motion.div
+            className="absolute rounded-full"
+            style={{
+              inset: "-55%",
+              background:
+                "radial-gradient(ellipse at 50% 64%, hsl(28 68% 44% / 0.12) 0%, transparent 68%)",
+            }}
+            animate={{ opacity: predictionsOpen ? 1 : 0 }}
+            transition={{ duration: 1.0, ease: "easeInOut" }}
             aria-hidden="true"
           />
         </div>
@@ -862,9 +1091,11 @@ const HeroSection = () => {
         <HeroVignette reduced={reduced} />
 
         <motion.div
-          className="pointer-events-none absolute inset-0 z-[45] bg-night"
-          animate={{ opacity: predictionsOpen ? 0.58 : 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="absolute inset-0 z-[45] bg-night"
+          animate={{ opacity: predictionsOpen ? 0.65 : 0 }}
+          transition={{ duration: 0.65, ease: "easeInOut" }}
+          style={{ pointerEvents: predictionsOpen ? "auto" : "none" }}
+          onClick={onClosePredictions}
           aria-hidden="true"
         />
 
@@ -873,7 +1104,9 @@ const HeroSection = () => {
           open={predictionsOpen}
           reduced={reduced}
           onNext={predictionsOpen ? onCandlesClick : undefined}
+          onClose={onClosePredictions}
         />
+
 
         <motion.img
           src="/image/dust.png"
@@ -906,7 +1139,7 @@ const HeroSection = () => {
 
         <MirrorCopyOnGlass reduced={reduced} onEnterWorld={scrollToNewAlbum} />
 
-        <div className="absolute inset-0 z-[33]">
+        <div className="absolute inset-0 z-[36]">
           {HOTSPOTS.map((spot) => {
             if (spot.id === "candles") {
               return (
@@ -947,7 +1180,7 @@ const HeroSection = () => {
                 key={spot.id}
                 to={spot.to}
                 className="pointer-events-auto absolute outline-none ring-offset-2 ring-offset-[hsl(350_28%_5%)] focus-visible:ring-2 focus-visible:ring-gold/45"
-                style={spot.style}
+                style={{ ...spot.style, zIndex: spot.id === "vinyl" ? 50 : undefined }}
               >
                 <span className="sr-only">
                   {spot.objectLabel} - {spot.actionLabel}
@@ -1008,7 +1241,7 @@ const HeroSection = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 1.2 }}
           >
-            I love you, don&apos;t you mind?
+            Still thinking of me,   are you?
           </motion.p>
         </motion.div>
       </section>

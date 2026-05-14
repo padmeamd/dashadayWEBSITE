@@ -91,7 +91,7 @@ const DAYDMedia = () => {
           transition={{ duration: 1 }}
           className="max-w-4xl mx-auto text-center mb-16"
         >
-          <h1 className="text-hero text-editorial-display text-gold mb-4">
+          <h1 className="text-editorial-display text-gold mb-4" style={{ fontSize: "clamp(2.6rem, 6.5vw, 4.5rem)", lineHeight: 1.1 }}>
             DAYD Media
           </h1>
           <div className="w-24 h-px bg-gold/50 mx-auto mb-8" />
