@@ -97,22 +97,42 @@ const Listen = () => {
         </motion.div>
 
         {/* Album info */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-center mb-16"
-        >
-          <p className="text-gold text-xs tracking-[0.4em] uppercase mb-4">
+        <div className="text-center mb-16">
+          <motion.p
+            className="text-gold text-xs tracking-[0.4em] uppercase mb-4"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
             Stream Now
-          </p>
-          <h1 className="text-hero text-editorial-display text-ivory mb-2">
-            Midnight Hour
-          </h1>
-          <p className="text-ivory/40 text-sm tracking-widest">
+          </motion.p>
+          <motion.h1
+            className="text-[clamp(1.6rem,4vw,2.8rem)] text-editorial-display text-ivory mb-2"
+            initial={{ opacity: 0, filter: "blur(12px)", y: 14, scale: 0.97 }}
+            animate={[
+              { opacity: 1, filter: "blur(0px)", y: 0, scale: 1 },
+              { opacity: [0.93, 0.99, 0.94, 0.98, 0.93], scale: [1, 1.007, 1, 1.005, 1] },
+            ]}
+            transition={[
+              { duration: 1.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] },
+              { duration: 7, delay: 2.1, repeat: Infinity, ease: "easeInOut" },
+            ]}
+            style={{
+              textShadow:
+                "0 0 22px hsl(38 65% 55% / 0.22), 0 2px 18px hsl(0 0% 0% / 0.7), 0 0 1px hsl(40 22% 98% / 0.3)",
+            }}
+          >
+            Things I Shouldn&apos;t Say
+          </motion.h1>
+          <motion.p
+            className="text-ivory/40 text-sm tracking-widest"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 1.2, ease: "easeOut" }}
+          >
             by DashaDay
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
         {/* Streaming platforms grid */}
         <motion.div

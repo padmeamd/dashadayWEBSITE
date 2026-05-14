@@ -80,13 +80,13 @@ const NewAlbumSection = () => {
               <div className="w-64 h-64 md:w-80 md:h-80 relative glow-gold overflow-hidden -translate-x-4 md:-translate-x-8">
                 <img
                   src={heroImage}
-                  alt="Midnight Hour Album"
+                  alt="Things I Shouldn't Say Album"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-night/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <p className="text-ivory/60 text-xs tracking-widest">2026</p>
-                  <p className="text-ivory font-serif text-lg">Midnight Hour</p>
+                  <p className="text-ivory font-serif text-lg">Things I Shouldn't Say</p>
                 </div>
               </div>
             </div>

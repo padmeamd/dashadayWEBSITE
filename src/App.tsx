@@ -11,12 +11,14 @@ import Videos from "./pages/Videos";
 import Contact from "./pages/Contact";
 import SimpleCinematicPage from "./pages/SimpleCinematicPage";
 import NotFound from "./pages/NotFound";
+import SparklesCursor from "./components/SparklesCursor";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <SparklesCursor />
       <Toaster />
       <Sonner />
       <BrowserRouter>
