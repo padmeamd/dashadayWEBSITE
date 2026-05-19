@@ -182,13 +182,24 @@
     width: 100%;
   }
 
-  /* Cinematic fade sections */
+  /* Cinematic fade sections — content-sized on mobile, full viewport on desktop */
   .section-cinematic {
-    min-height: 100vh;
+    min-height: auto;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .section-cinematic {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+  }
+
+  .section-container {
+    @apply container mx-auto px-4 sm:px-8 md:px-16;
   }
 
   /* Blur depth effect */
@@ -238,8 +249,30 @@
   }
 
   .text-section-title {
-    font-size: clamp(2rem, 6vw, 4rem);
-    line-height: 1.1;
+    font-size: clamp(1.75rem, 5.5vw, 4rem);
+    line-height: 1.12;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pt-safe {
+    padding-top: max(1rem, env(safe-area-inset-top, 0px));
+  }
+
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .min-h-screen-safe {
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   /* Hero dressing-room: candle flicker (bulb overlay removed with mirror bloom) */

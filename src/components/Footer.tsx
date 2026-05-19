@@ -14,8 +14,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer ref={ref} className="bg-night py-20 md:py-32">
-      <div className="container mx-auto px-8 md:px-16">
+    <footer ref={ref} className="bg-night py-16 sm:py-20 md:py-32">
+      <motion.div className="section-container">
         <NewsletterSignup />
         <motion.div
           initial={{ opacity: 0 }}
@@ -23,19 +23,19 @@ const Footer = () => {
           transition={{ duration: 1.5 }}
           className="flex flex-col items-center text-center"
         >
-          <h3 className="text-editorial-display text-3xl md:text-4xl text-ivory/90 mb-4">
+          <h3 className="text-editorial-display text-2xl sm:text-3xl md:text-4xl text-ivory/90 mb-4">
             DashaDay
           </h3>
           <p className="text-ivory/30 text-xs tracking-[0.3em] uppercase mb-12">
-            music after midnight
+            things i shouldn&apos;t say
           </p>
 
-          <div className="flex items-center gap-10 mb-16">
+          <div className="mb-16 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 sm:gap-x-8 md:gap-x-10">
             {socialLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="link-subtle text-xs tracking-[0.2em] uppercase text-ivory/40 hover:text-ivory transition-colors duration-500"
+                className="link-subtle inline-flex min-h-11 items-center text-xs tracking-[0.2em] uppercase text-ivory/40 hover:text-ivory transition-colors duration-500"
               >
                 {link.label}
               </a>
@@ -48,7 +48,7 @@ const Footer = () => {
             © 2025 DashaDay. All rights reserved.
           </p>
         </motion.div>
-      </div>
+      </motion.div>
     </footer>
   );
 };

@@ -2,18 +2,42 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const lyrics = [
-  "I found you in the static",
-  "between the hours we don't name",
-  "when the city sleeps",
-  "and I'm wide awake",
+  "Be that",
+  "Someone's broken, someone's burned,",
+  "Someone's waiting, never learned.",
+  "Someone's counting days in fear,",
+  "Someone's lost why they are here.",
   "",
-  "You said forever",
-  "like it was easy to keep",
-  "now I'm driving alone",
-  "through streets that remember",
+  "Someone's trading soul for shame,",
+  "Fading slow in someone's name.",
+  "Someone's praying, scared to hope,",
+  "Wakes up crying, barely copes.",
   "",
-  "Music after midnight",
-  "is the only truth I know",
+  "Call me chaos, call me bright —",
+  "I've been broken, still I bite.",
+  "Painted tears and velvet rage,",
+  "Watch me set fire to the cage.",
+  "",
+  "Be the one who walks through smoke,",
+  "Holds the dream you never spoke.",
+  "Don't just ache — become the fire,",
+  "Turn your scars into desire.",
+  "Be that.",
+  "",
+  "Be that bitch, be that flame,",
+  "Be the thunder in the rain.",
+  "Be that dream they said was dead —",
+  "Rise in heels and paint it red.",
+  "",
+  "Someone's drowning in the blue,",
+  "Drinks the ache like bitter truth.",
+  "Hears the voices in the dark,",
+  "Still they chase that distant spark.",
+  "",
+  "There are some who walk through smoke,",
+  "Holding tight to dreams they spoke.",
+  "They don't break, they bend like fire—",
+  "Turning scars into desire.",
 ];
 
 const LyricsSection = () => {
@@ -24,9 +48,9 @@ const LyricsSection = () => {
     <section
       id="lyrics"
       ref={ref}
-      className="section-cinematic bg-night py-32 md:py-48"
+      className="section-cinematic bg-night py-20 sm:py-32 md:py-48"
     >
-      <div className="container mx-auto px-8 md:px-16 max-w-3xl">
+      <div className="section-container max-w-3xl">
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -36,8 +60,11 @@ const LyricsSection = () => {
           <h2 className="text-section-title text-editorial text-ivory/90 mb-4">
             Lyrics
           </h2>
+          <p className="text-ivory/60 text-sm tracking-widest uppercase mb-2">
+            Be That
+          </p>
           <p className="text-ivory/40 text-sm tracking-widest uppercase">
-            From "Midnight Drive"
+            From &ldquo;Things I Shouldn&apos;t Say&rdquo;
           </p>
         </motion.div>
 
@@ -52,7 +79,7 @@ const LyricsSection = () => {
                 delay: 0.5 + index * 0.15,
                 ease: "easeOut",
               }}
-              className="font-serif text-xl md:text-2xl lg:text-3xl text-ivory leading-relaxed tracking-wide"
+              className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl text-ivory leading-relaxed tracking-normal sm:tracking-wide"
             >
               {line || <span className="block h-8" />}
             </motion.p>

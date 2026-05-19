@@ -62,7 +62,7 @@ const NewsletterSignup = () => {
       <div className="relative border border-ivory/15 bg-night-soft/40 px-6 py-10 md:px-10 md:py-12 text-center">
         <div className="w-12 h-px bg-gold/40 mx-auto mb-6" />
         <h2 className="text-editorial-display text-2xl md:text-3xl text-ivory mb-3 tracking-tight">
-          The midnight letter
+          The Things I Shouldn&apos;t Say letter
         </h2>
         <p className="text-ivory/45 text-sm md:text-base leading-relaxed mb-8 max-w-md mx-auto">
           New drops, live dates, and behind-the-scenes notes—no spam, just the good stuff.
@@ -98,7 +98,7 @@ const NewsletterSignup = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 border border-gold/50 text-gold text-xs tracking-widest uppercase hover:bg-gold/10 transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 border border-gold/50 px-6 py-3 text-xs uppercase tracking-widest text-gold transition-all duration-500 hover:bg-gold/10 disabled:pointer-events-none disabled:opacity-50"
             >
               <Mail className="w-4 h-4" />
               {isSubmitting ? "Joining…" : "Subscribe"}

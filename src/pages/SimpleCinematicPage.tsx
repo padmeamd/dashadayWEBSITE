@@ -14,10 +14,10 @@ const SimpleCinematicPage = ({ title, subtitle }: SimpleCinematicPageProps) => {
     <main className="bg-night min-h-screen relative overflow-hidden">
       <FilmGrain />
       <LightLeaksOverlay />
-      <div className="relative z-10 min-h-screen px-8 md:px-16 py-24 flex flex-col items-center justify-center text-center">
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-12 text-center sm:px-8 sm:py-20 md:px-16 md:py-24">
         <Link
           to="/"
-          className="absolute top-8 left-8 md:left-16 inline-flex items-center gap-3 text-ivory/50 hover:text-ivory transition-colors group"
+          className="absolute left-4 top-[max(1rem,env(safe-area-inset-top))] inline-flex min-h-11 items-center gap-3 text-ivory/50 transition-colors hover:text-ivory group sm:left-8 md:left-16"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           <span className="text-sm tracking-widest uppercase">Back</span>
@@ -30,7 +30,7 @@ const SimpleCinematicPage = ({ title, subtitle }: SimpleCinematicPageProps) => {
           <h1 className="text-section-title text-editorial-display text-ivory mb-4">{title}</h1>
           <div className="w-16 h-px bg-gold/40 mx-auto mb-8" />
           {subtitle ? (
-            <p className="text-ivory/50 text-lg max-w-md mx-auto leading-relaxed">{subtitle}</p>
+            <p className="mx-auto max-w-md text-base leading-relaxed text-ivory/50 sm:text-lg">{subtitle}</p>
           ) : null}
         </motion.div>
       </div>

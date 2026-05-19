@@ -1,45 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Play, X, ChevronLeft, ChevronRight } from "lucide-react";
-
-const musicVideos = [
-  {
-    id: 1,
-    title: "Blockbuster",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-  },
-  {
-    id: 2,
-    title: "Venom",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-  },
-  {
-    id: 3,
-    title: "Cinematic",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-  },
-  {
-    id: 4,
-    title: "So Confusing",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-  },
-  {
-    id: 5,
-    title: "Love You Like You Do",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-  },
-  {
-    id: 6,
-    title: "Be That",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-  },
-];
+import { musicVideos } from "@/data/musicVideos";
 
 const MusicVideosSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -62,14 +24,14 @@ const MusicVideosSection = () => {
       <section
         id="videos"
         ref={ref}
-        className="section-cinematic bg-night-soft py-24 md:py-40"
+        className="section-cinematic bg-night-soft py-16 sm:py-24 md:py-40"
       >
-        <div className="container mx-auto px-8 md:px-16">
+        <div className="section-container">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1.2 }}
-            className="mb-16 md:mb-24 flex items-end justify-between"
+            className="mb-12 flex flex-col gap-4 sm:mb-16 md:mb-24 md:flex-row md:items-end md:justify-between"
           >
             <div>
               <h2 className="text-section-title text-editorial text-ivory/90 mb-4">
@@ -102,7 +64,7 @@ const MusicVideosSection = () => {
         <div className="relative">
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide px-8 md:px-16 pb-4"
+            className="scrollbar-hide flex gap-4 overflow-x-auto px-4 pb-4 sm:gap-6 sm:px-8 md:px-16"
             style={{
               scrollSnapType: "x mandatory",
               WebkitOverflowScrolling: "touch",
@@ -180,10 +142,12 @@ const MusicVideosSection = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              type="button"
               onClick={() => setActiveVideo(null)}
-              className="absolute -top-12 right-0 text-ivory/60 hover:text-ivory transition-colors z-10"
+              className="absolute right-2 top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-ivory/25 bg-night/80 text-ivory/70 backdrop-blur-sm transition-colors hover:border-gold/40 hover:text-ivory"
+              aria-label="Close video"
             >
-              <X className="w-8 h-8" />
+              <X className="h-5 w-5" strokeWidth={1.25} />
             </button>
             
             <iframe

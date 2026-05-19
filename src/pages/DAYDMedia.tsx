@@ -62,12 +62,12 @@ const DAYDMedia = () => {
 
       {/* Curtain-like gradients */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-night via-night/80 to-transparent" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-night via-night/80 to-transparent" />
+        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r md:w-32 from-night via-night/80 to-transparent" />
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l md:w-32 from-night via-night/80 to-transparent" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen px-8 md:px-16 py-24">
+      <div className="relative z-10 min-h-screen px-4 py-12 sm:px-8 sm:py-20 md:px-16 md:py-24">
         {/* Back button */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -175,7 +175,7 @@ const DAYDMedia = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
-          className="max-w-3xl mx-auto text-center mb-20 p-12 border border-ivory/10 bg-night/50 backdrop-blur-sm"
+          className="mx-auto mb-16 max-w-3xl border border-ivory/10 bg-night/50 p-6 text-center backdrop-blur-sm sm:mb-20 sm:p-10 md:p-12"
         >
           <h2 className="text-2xl text-editorial text-ivory/90 mb-6 tracking-widest">
             Want your creative project to be done by DASHA?
@@ -242,10 +242,12 @@ const DAYDMedia = () => {
               <div className="absolute -inset-4 border-8 border-secondary/30 pointer-events-none" />
               
               <button
+                type="button"
                 onClick={() => setActiveVideo(null)}
-                className="absolute -top-12 right-0 text-ivory/60 hover:text-ivory transition-colors z-10"
+                className="absolute right-2 top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-ivory/25 bg-night/80 text-ivory/70 backdrop-blur-sm transition-colors hover:border-gold/40 hover:text-ivory"
+                aria-label="Close video"
               >
-                <X className="w-8 h-8" />
+                <X className="h-5 w-5" strokeWidth={1.25} />
               </button>
               
               <iframe

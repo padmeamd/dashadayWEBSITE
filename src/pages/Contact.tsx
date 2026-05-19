@@ -63,7 +63,7 @@ const Contact = () => {
       <LightLeaksOverlay />
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen px-8 md:px-16 py-24">
+      <div className="relative z-10 min-h-screen px-4 py-12 sm:px-8 sm:py-20 md:px-16 md:py-24">
         {/* Back button */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -92,13 +92,13 @@ const Contact = () => {
               Get in Touch
             </h1>
             <div className="w-24 h-px bg-gold/50 mx-auto mb-8" />
-            <p className="text-ivory/50 text-lg max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-base text-ivory/50 sm:text-lg">
               Have a creative project in mind? Want to collaborate? 
               Drop a message and let's create something beautiful together.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
