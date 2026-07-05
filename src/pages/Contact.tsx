@@ -188,11 +188,11 @@ const Contact = () => {
                   Direct Contact
                 </h3>
                 <a
-                  href="mailto:hello@dashaday.com"
+                  href={`mailto:${CONTACT_INBOX}`}
                   className="flex items-center gap-4 text-ivory hover:text-gold transition-colors group"
                 >
                   <Mail className="w-5 h-5 text-gold" />
-                  <span className="text-lg">hello@dashaday.com</span>
+                  <span className="text-lg">{CONTACT_INBOX}</span>
                 </a>
               </div>
 
@@ -202,13 +202,13 @@ const Contact = () => {
                 </h3>
                 <div className="space-y-4">
                   <a
-                    href="https://instagram.com/dashaday"
+                    href="https://www.instagram.com/heydashaday/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-4 text-ivory/70 hover:text-ivory transition-colors group"
                   >
                     <Instagram className="w-5 h-5 text-gold" />
-                    <span>@dashaday</span>
+                    <span>@heydashaday</span>
                   </a>
                   <a
                     href="https://youtube.com"

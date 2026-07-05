@@ -14,6 +14,7 @@ import Predictions from "./pages/Predictions";
 import SimpleCinematicPage from "./pages/SimpleCinematicPage";
 import NotFound from "./pages/NotFound";
 import SparklesCursor from "./components/SparklesCursor";
+import ConcertPopup from "./components/ConcertPopup";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <SparklesCursor />
+      <ConcertPopup />
       <Toaster />
       <Sonner />
       <BrowserRouter>
