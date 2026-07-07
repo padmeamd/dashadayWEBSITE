@@ -1,6 +1,6 @@
 export const SITE_URL = "https://heydashaday.com";
 
-export const SITE_NAME = "DashaDay";
+export const SITE_NAME = "DashaDay Official Website";
 
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/image/background.png`;
 
