@@ -652,6 +652,34 @@ const LiveShows = () => {
         />
       </div>
 
+      {/* Extra light leaks */}
+      <div className="pointer-events-none fixed inset-0 z-[1] overflow-hidden mix-blend-screen" aria-hidden>
+        <motion.div
+          className="absolute top-[5%] left-[20%] w-[400px] h-[300px] rounded-full rotate-12"
+          style={{ background: "radial-gradient(ellipse at center, hsl(350 60% 50% / 0.12) 0%, hsl(20 70% 50% / 0.06) 40%, transparent 65%)" }}
+          animate={{ opacity: [0.15, 0.35, 0.2, 0.4, 0.15], x: [0, 30, -10, 20, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute top-[30%] right-[10%] w-[350px] h-[250px] rounded-full -rotate-6"
+          style={{ background: "radial-gradient(ellipse at center, hsl(30 65% 55% / 0.1) 0%, hsl(350 50% 45% / 0.05) 45%, transparent 65%)" }}
+          animate={{ opacity: [0.1, 0.3, 0.15, 0.28, 0.1], y: [0, -20, 10, -15, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        />
+        <motion.div
+          className="absolute top-[60%] left-[5%] w-[500px] h-[350px] rounded-full rotate-[-8deg]"
+          style={{ background: "radial-gradient(ellipse at center, hsl(340 55% 45% / 0.1) 0%, hsl(10 60% 50% / 0.04) 50%, transparent 65%)" }}
+          animate={{ opacity: [0.12, 0.25, 0.1, 0.22, 0.12], x: [-10, 20, 0, 15, -10] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+        />
+        <motion.div
+          className="absolute bottom-[10%] right-[25%] w-[300px] h-[200px] rounded-full rotate-3"
+          style={{ background: "radial-gradient(ellipse at center, hsl(38 60% 50% / 0.08) 0%, hsl(350 45% 40% / 0.04) 40%, transparent 60%)" }}
+          animate={{ opacity: [0.1, 0.2, 0.08, 0.18, 0.1] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 7 }}
+        />
+      </div>
+
       {/* Background hero image */}
       <div
         className="pointer-events-none fixed inset-0 z-[2] bg-[center_top_15%] bg-cover bg-no-repeat"
@@ -689,21 +717,68 @@ const LiveShows = () => {
             <MarqueeBulbs count={18} />
           </motion.div>
 
-          {/* Title */}
+          {/* Neon Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-editorial-display text-ivory mb-2"
+            className="relative text-editorial-display mb-2"
             style={{
               fontSize: "clamp(2.8rem, 8vw, 5.5rem)",
               lineHeight: 1,
               letterSpacing: "0.06em",
-              textShadow:
-                "0 0 60px hsl(38 70% 50% / 0.25), 0 0 120px hsl(38 55% 45% / 0.1), 0 4px 24px hsl(0 0% 0% / 0.5)",
             }}
           >
-            Live Shows
+            {/* Neon glow layer (behind) */}
+            <motion.span
+              className="absolute inset-0 flex items-center justify-center"
+              style={{
+                color: "hsl(350 65% 60%)",
+                filter: "blur(12px)",
+              }}
+              animate={{
+                opacity: [0.4, 0.7, 0.5, 0.8, 0.4],
+                filter: ["blur(12px)", "blur(16px)", "blur(10px)", "blur(14px)", "blur(12px)"],
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              aria-hidden
+            >
+              Live Shows
+            </motion.span>
+            {/* Wide glow */}
+            <motion.span
+              className="absolute inset-0 flex items-center justify-center"
+              style={{
+                color: "hsl(350 55% 55%)",
+                filter: "blur(30px)",
+              }}
+              animate={{ opacity: [0.2, 0.4, 0.25, 0.45, 0.2] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              aria-hidden
+            >
+              Live Shows
+            </motion.span>
+            {/* Main text */}
+            <motion.span
+              className="relative"
+              style={{
+                color: "hsl(0 0% 95%)",
+                textShadow:
+                  "0 0 10px hsl(350 70% 60% / 0.8), 0 0 30px hsl(350 60% 50% / 0.5), 0 0 60px hsl(350 55% 45% / 0.3), 0 0 100px hsl(350 50% 40% / 0.15), 0 4px 20px hsl(0 0% 0% / 0.5)",
+              }}
+              animate={{
+                textShadow: [
+                  "0 0 10px hsl(350 70% 60% / 0.8), 0 0 30px hsl(350 60% 50% / 0.5), 0 0 60px hsl(350 55% 45% / 0.3), 0 0 100px hsl(350 50% 40% / 0.15), 0 4px 20px hsl(0 0% 0% / 0.5)",
+                  "0 0 15px hsl(350 75% 65% / 0.9), 0 0 40px hsl(350 65% 55% / 0.6), 0 0 80px hsl(350 58% 48% / 0.35), 0 0 120px hsl(350 52% 42% / 0.2), 0 4px 20px hsl(0 0% 0% / 0.5)",
+                  "0 0 8px hsl(350 65% 58% / 0.7), 0 0 25px hsl(350 55% 48% / 0.45), 0 0 55px hsl(350 50% 42% / 0.25), 0 0 90px hsl(350 48% 38% / 0.12), 0 4px 20px hsl(0 0% 0% / 0.5)",
+                  "0 0 12px hsl(350 72% 62% / 0.85), 0 0 35px hsl(350 62% 52% / 0.55), 0 0 70px hsl(350 56% 46% / 0.3), 0 0 110px hsl(350 50% 40% / 0.18), 0 4px 20px hsl(0 0% 0% / 0.5)",
+                  "0 0 10px hsl(350 70% 60% / 0.8), 0 0 30px hsl(350 60% 50% / 0.5), 0 0 60px hsl(350 55% 45% / 0.3), 0 0 100px hsl(350 50% 40% / 0.15), 0 4px 20px hsl(0 0% 0% / 0.5)",
+                ],
+              }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              Live Shows
+            </motion.span>
           </motion.h1>
 
           {/* Marquee bulbs bottom */}
