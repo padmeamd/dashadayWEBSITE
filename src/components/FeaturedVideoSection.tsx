@@ -2,6 +2,69 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useMemo } from "react";
 import { Play } from "lucide-react";
 
+function Sparkles() {
+  const sparkles = useMemo(
+    () =>
+      Array.from({ length: 22 }, (_, i) => ({
+        id: i,
+        left: `${(i * 43 + 17) % 100}%`,
+        top: `${(i * 37 + 5) % 100}%`,
+        size: 2 + (i % 3),
+        dur: 3 + (i % 4) * 1.5,
+        delay: (i % 7) * 0.6,
+      })),
+    []
+  );
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {sparkles.map((s) => (
+        <motion.span
+          key={s.id}
+          className="absolute rounded-full"
+          style={{
+            left: s.left,
+            top: s.top,
+            width: s.size,
+            height: s.size,
+            background: "radial-gradient(circle, hsl(38 80% 75% / 0.9) 0%, hsl(38 60% 55% / 0.4) 40%, transparent 70%)",
+            boxShadow: `0 0 ${s.size * 2}px hsl(38 70% 60% / 0.4)`,
+          }}
+          animate={{
+            opacity: [0, 0.8, 0, 0.6, 0],
+            scale: [0.5, 1.3, 0.5, 1.1, 0.5],
+          }}
+          transition={{ duration: s.dur, repeat: Infinity, ease: "easeInOut", delay: s.delay }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function LightLeaks() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden mix-blend-screen" aria-hidden>
+      <motion.div
+        className="absolute -top-[10%] -left-[15%] w-[450px] h-[350px] rounded-full rotate-12"
+        style={{ background: "radial-gradient(ellipse at center, hsl(350 55% 50% / 0.1) 0%, hsl(30 60% 50% / 0.04) 50%, transparent 70%)" }}
+        animate={{ opacity: [0.2, 0.45, 0.2], x: [0, 25, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute top-[20%] -right-[10%] w-[400px] h-[300px] rounded-full -rotate-6"
+        style={{ background: "radial-gradient(ellipse at center, hsl(38 50% 50% / 0.08) 0%, hsl(350 40% 40% / 0.03) 50%, transparent 65%)" }}
+        animate={{ opacity: [0.15, 0.35, 0.15], y: [0, -15, 0] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+      />
+      <motion.div
+        className="absolute bottom-[5%] left-[20%] w-[500px] h-[250px] rounded-full rotate-3"
+        style={{ background: "radial-gradient(ellipse at center, hsl(350 45% 45% / 0.08) 0%, transparent 60%)" }}
+        animate={{ opacity: [0.1, 0.3, 0.1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+      />
+    </div>
+  );
+}
+
 function CinematicParticles() {
   const particles = useMemo(
     () =>
@@ -43,7 +106,7 @@ const FeaturedVideoSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="relative bg-night py-12 sm:py-16 md:py-20 overflow-hidden">
+    <section ref={ref} className="relative bg-night pt-4 sm:pt-6 pb-12 sm:pb-16 md:pb-20 overflow-hidden">
       {/* Ambient glow */}
       <motion.div
         className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full"
@@ -56,6 +119,8 @@ const FeaturedVideoSection = () => {
       />
 
       <CinematicParticles />
+      <Sparkles />
+      <LightLeaks />
 
       <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8">
         {/* Header */}
@@ -73,7 +138,7 @@ const FeaturedVideoSection = () => {
             <div className="w-10 sm:w-16 h-px bg-gradient-to-l from-transparent to-gold/20" />
           </div>
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-ivory/90 leading-tight">
-            Blockbuster
+            Cinematic
           </h2>
           <p className="text-ivory/35 text-xs tracking-[0.2em] uppercase mt-2">
             Official Music Video
@@ -96,7 +161,7 @@ const FeaturedVideoSection = () => {
               <iframe
                 className="absolute inset-0 w-full h-full"
                 src="https://www.youtube.com/embed/ttj_ktpPOp8?rel=0&modestbranding=1"
-                title="DashaDay - Blockbuster (Official Music Video)"
+                title="DashaDay - Cinematic (Official Music Video)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
