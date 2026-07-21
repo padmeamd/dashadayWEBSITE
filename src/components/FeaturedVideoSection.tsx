@@ -112,7 +112,7 @@ const FeaturedVideoSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="relative bg-night pt-4 sm:pt-6 pb-12 sm:pb-16 md:pb-20 overflow-hidden">
+    <section ref={ref} className="relative bg-night pt-4 sm:pt-6 pb-4 sm:pb-6 overflow-hidden">
       {/* Ambient glow */}
       <motion.div
         className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full"

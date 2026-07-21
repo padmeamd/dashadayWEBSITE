@@ -93,7 +93,7 @@ const LyricsSection = () => {
     <section
       id="lyrics"
       ref={ref}
-      className="section-cinematic bg-night py-12 sm:py-16 md:py-20 relative overflow-hidden"
+      className="section-cinematic bg-night py-8 sm:py-12 md:py-14 relative overflow-hidden"
     >
       {/* Ambient glow */}
       <motion.div
@@ -108,12 +108,12 @@ const LyricsSection = () => {
 
       <FloatingEmbers />
 
-      <div className="section-container max-w-2xl relative z-10">
+      <div className="section-container max-w-4xl relative z-10">
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1.5 }}
-          className="mb-10 sm:mb-14"
+          className="mb-6 sm:mb-8"
         >
           {/* Divider line */}
           <motion.div
@@ -140,32 +140,45 @@ const LyricsSection = () => {
           </p>
         </motion.div>
 
-        <div className="space-y-4">
-          {lyrics.map((line, index) => (
-            <motion.p
-              key={index}
-              initial={{ opacity: 0, x: -16 }}
-              animate={isInView ? { opacity: line ? 0.8 : 0, x: 0 } : {}}
-              transition={{
-                duration: 0.8,
-                delay: 0.5 + index * 0.12,
-                ease: "easeOut",
-              }}
-              className="font-serif text-base sm:text-lg md:text-xl text-ivory leading-relaxed tracking-normal sm:tracking-wide"
-              style={{
-                textShadow: line ? "0 0 20px hsl(350 45% 50% / 0.08)" : "none",
-              }}
-            >
-              {line || <span className="block h-5" />}
-            </motion.p>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5">
+          {(() => {
+            const stanzas: string[][] = [];
+            let current: string[] = [];
+            lyrics.forEach((line) => {
+              if (line === "") {
+                if (current.length) { stanzas.push(current); current = []; }
+              } else {
+                current.push(line);
+              }
+            });
+            if (current.length) stanzas.push(current);
+            return stanzas.map((stanza, si) => (
+              <motion.div
+                key={si}
+                initial={{ opacity: 0, y: 10 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.4 + si * 0.1, ease: "easeOut" }}
+                className="space-y-1"
+              >
+                {stanza.map((line, li) => (
+                  <p
+                    key={li}
+                    className="font-serif text-sm sm:text-base text-ivory/75 leading-relaxed tracking-wide"
+                    style={{ textShadow: "0 0 20px hsl(350 45% 50% / 0.08)" }}
+                  >
+                    {line}
+                  </p>
+                ))}
+              </motion.div>
+            ));
+          })()}
         </div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 0.3 } : {}}
-          transition={{ duration: 1, delay: 3 }}
-          className="mt-12 text-center"
+          transition={{ duration: 1, delay: 2 }}
+          className="mt-8 text-center"
         >
           <p className="text-ivory/40 text-xs tracking-[0.3em] uppercase">
             — DashaDay
