@@ -8,5 +8,6 @@ export const SITE_NAV_ITEMS: SiteNavItem[] = [
   { label: "Lyrics", href: "#lyrics", type: "section" },
   { label: "Visuals", href: "#visuals", type: "section" },
   { label: "DAYD Media", href: "/dayd-media", type: "route" },
+  { label: "Links", href: "/links", type: "route" },
   { label: "Contact", href: "/contact", type: "route" },
 ];
