@@ -8,6 +8,7 @@ import MusicSection from "@/components/MusicSection";
 import MusicVideosSection from "@/components/MusicVideosSection";
 import LyricsSection from "@/components/LyricsSection";
 import VisualsSection from "@/components/VisualsSection";
+import LinksStrip from "@/components/LinksStrip";
 import Footer from "@/components/Footer";
 
 const SectionBlend = ({ from = "night", to = "night" }: { from?: string; to?: string }) => (
@@ -36,6 +37,7 @@ const Index = () => {
       <LyricsSection />
       <SectionBlend from="night" to="night" />
       <VisualsSection />
+      <LinksStrip />
       <Footer />
     </main>
   );
