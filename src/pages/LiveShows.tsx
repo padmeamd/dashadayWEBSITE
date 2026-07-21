@@ -654,7 +654,7 @@ const LiveShows = () => {
 
       {/* Background hero image */}
       <div
-        className="pointer-events-none fixed inset-0 z-[2] bg-center bg-cover bg-no-repeat"
+        className="pointer-events-none fixed inset-0 z-[2] bg-[center_top_15%] bg-cover bg-no-repeat"
         style={{
           backgroundImage: "url('/image/imgs/dasha_guitar.PNG')",
           opacity: 0.12,
