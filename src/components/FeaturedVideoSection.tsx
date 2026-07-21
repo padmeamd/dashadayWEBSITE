@@ -44,22 +44,28 @@ function LightLeaks() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden mix-blend-screen" aria-hidden>
       <motion.div
-        className="absolute -top-[10%] -left-[15%] w-[450px] h-[350px] rounded-full rotate-12"
-        style={{ background: "radial-gradient(ellipse at center, hsl(350 55% 50% / 0.1) 0%, hsl(30 60% 50% / 0.04) 50%, transparent 70%)" }}
-        animate={{ opacity: [0.2, 0.45, 0.2], x: [0, 25, 0] }}
+        className="absolute -top-[10%] -left-[15%] w-[500px] h-[400px] rounded-full rotate-12"
+        style={{ background: "radial-gradient(ellipse at center, hsl(350 60% 50% / 0.18) 0%, hsl(30 65% 50% / 0.08) 45%, transparent 70%)" }}
+        animate={{ opacity: [0.3, 0.6, 0.3], x: [0, 30, 0] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute top-[20%] -right-[10%] w-[400px] h-[300px] rounded-full -rotate-6"
-        style={{ background: "radial-gradient(ellipse at center, hsl(38 50% 50% / 0.08) 0%, hsl(350 40% 40% / 0.03) 50%, transparent 65%)" }}
-        animate={{ opacity: [0.15, 0.35, 0.15], y: [0, -15, 0] }}
+        className="absolute top-[15%] -right-[10%] w-[450px] h-[350px] rounded-full -rotate-6"
+        style={{ background: "radial-gradient(ellipse at center, hsl(38 55% 55% / 0.15) 0%, hsl(350 45% 45% / 0.06) 45%, transparent 65%)" }}
+        animate={{ opacity: [0.25, 0.5, 0.25], y: [0, -20, 0] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 3 }}
       />
       <motion.div
-        className="absolute bottom-[5%] left-[20%] w-[500px] h-[250px] rounded-full rotate-3"
-        style={{ background: "radial-gradient(ellipse at center, hsl(350 45% 45% / 0.08) 0%, transparent 60%)" }}
-        animate={{ opacity: [0.1, 0.3, 0.1] }}
+        className="absolute bottom-[0%] left-[15%] w-[550px] h-[300px] rounded-full rotate-3"
+        style={{ background: "radial-gradient(ellipse at center, hsl(350 50% 48% / 0.14) 0%, hsl(20 55% 45% / 0.06) 40%, transparent 60%)" }}
+        animate={{ opacity: [0.2, 0.45, 0.2] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+      />
+      <motion.div
+        className="absolute top-[40%] left-[40%] w-[400px] h-[300px] rounded-full -rotate-3"
+        style={{ background: "radial-gradient(ellipse at center, hsl(38 50% 50% / 0.1) 0%, hsl(350 40% 42% / 0.05) 45%, transparent 65%)" }}
+        animate={{ opacity: [0.15, 0.35, 0.15], x: [-15, 15, -15] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 7 }}
       />
     </div>
   );
