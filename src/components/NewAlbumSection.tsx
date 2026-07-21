@@ -35,7 +35,7 @@ const NewAlbumSection = () => {
     <section
       id="new-album"
       ref={ref}
-      className="section-cinematic scroll-mt-20 bg-night pt-8 sm:pt-12 md:pt-16 pb-16 sm:pb-24 md:pb-40 md:scroll-mt-24"
+      className="section-cinematic scroll-mt-20 bg-night pt-4 sm:pt-6 md:pt-8 pb-16 sm:pb-24 md:pb-40 md:scroll-mt-24"
     >
       <div className="section-container">
         <motion.div

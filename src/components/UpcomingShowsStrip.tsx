@@ -20,7 +20,7 @@ const SHOWS = [
 ];
 
 const UpcomingShowsStrip = () => (
-  <section className="relative z-10 pt-8 sm:pt-10 pb-3 sm:pb-4 overflow-hidden">
+  <section className="relative z-10 pt-8 sm:pt-10 pb-0 overflow-hidden">
     {/* Subtle red glow behind */}
     <div
       className="pointer-events-none absolute inset-0"
