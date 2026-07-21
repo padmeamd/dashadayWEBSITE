@@ -3,6 +3,7 @@ import LightLeaksOverlay from "@/components/LightLeaksOverlay";
 import HeroSection from "@/components/HeroSection";
 import UpcomingShowsStrip from "@/components/UpcomingShowsStrip";
 import NewAlbumSection from "@/components/NewAlbumSection";
+import FeaturedVideoSection from "@/components/FeaturedVideoSection";
 import MusicSection from "@/components/MusicSection";
 import MusicVideosSection from "@/components/MusicVideosSection";
 import LyricsSection from "@/components/LyricsSection";
@@ -17,6 +18,7 @@ const Index = () => {
       <HeroSection />
       <UpcomingShowsStrip />
       <NewAlbumSection />
+      <FeaturedVideoSection />
       <MusicSection />
       <MusicVideosSection />
       <LyricsSection />
