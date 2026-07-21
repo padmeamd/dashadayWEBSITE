@@ -10,6 +10,15 @@ import LyricsSection from "@/components/LyricsSection";
 import VisualsSection from "@/components/VisualsSection";
 import Footer from "@/components/Footer";
 
+const SectionBlend = ({ from = "night", to = "night" }: { from?: string; to?: string }) => (
+  <div
+    className="h-16 sm:h-24 -mt-8 sm:-mt-12 relative z-[1]"
+    style={{
+      background: `linear-gradient(to bottom, hsl(var(--${from})) 0%, hsl(var(--${to})) 100%)`,
+    }}
+  />
+);
+
 const Index = () => {
   return (
     <main className="bg-night min-h-screen overflow-x-hidden">
@@ -19,9 +28,13 @@ const Index = () => {
       <UpcomingShowsStrip />
       <NewAlbumSection />
       <FeaturedVideoSection />
+      <SectionBlend from="night" to="night" />
       <MusicSection />
+      <SectionBlend from="night" to="night-soft" />
       <MusicVideosSection />
+      <SectionBlend from="night-soft" to="night" />
       <LyricsSection />
+      <SectionBlend from="night" to="night" />
       <VisualsSection />
       <Footer />
     </main>

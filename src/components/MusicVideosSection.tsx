@@ -24,7 +24,7 @@ const MusicVideosSection = () => {
       <section
         id="videos"
         ref={ref}
-        className="section-cinematic bg-night-soft py-16 sm:py-24 md:py-40"
+        className="section-cinematic bg-night-soft pt-8 sm:pt-12 pb-16 sm:pb-24 md:pb-40"
       >
         <div className="section-container">
           <motion.div
