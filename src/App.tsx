@@ -14,6 +14,7 @@ import Predictions from "./pages/Predictions";
 import SimpleCinematicPage from "./pages/SimpleCinematicPage";
 import NotFound from "./pages/NotFound";
 import Links from "./pages/Links";
+import LiveShows from "./pages/LiveShows";
 import SparklesCursor from "./components/SparklesCursor";
 import ConcertPopup from "./components/ConcertPopup";
 
@@ -55,6 +56,7 @@ function AppRoutes() {
             element={<SimpleCinematicPage title="Merch" subtitle="Wear the velvet night—coming soon." />}
           />
           <Route path="/links" element={<Links />} />
+          <Route path="/live" element={<LiveShows />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
