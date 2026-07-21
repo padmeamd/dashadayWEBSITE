@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft, X, MapPin, Clock, Ticket } from "lucide-react";
 import { useState, useMemo, useCallback, useEffect } from "react";
+import LightLeaksOverlay from "@/components/LightLeaksOverlay";
 
 /* ═══════════════════════════════ DATA ═══════════════════════════════ */
 
