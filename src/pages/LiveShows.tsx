@@ -281,7 +281,7 @@ function ShowCard({
       <div className="absolute inset-0 translate-y-3 bg-black/25 blur-xl rounded-sm transition-all duration-500 group-hover:translate-y-6 group-hover:blur-2xl group-hover:bg-black/35" />
 
       {/* Warm hover glow */}
-      <div className="pointer-events-none absolute -inset-6 rounded-xl bg-[radial-gradient(ellipse_at_center,hsl(38_65%_50%/0.1),transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute -inset-6 rounded-xl bg-[radial-gradient(ellipse_at_center,hsl(350_55%_45%/0.12),transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       {/* Brass pushpin */}
       <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-30">
@@ -300,12 +300,12 @@ function ShowCard({
       <div
         className={`relative overflow-hidden border transition-all duration-500 ${
           isUpcoming
-            ? "border-gold/20 group-hover:border-gold/40 shadow-[0_0_30px_hsl(38_60%_40%/0.06)]"
+            ? "border-[hsl(350_50%_40%/0.35)] group-hover:border-[hsl(350_55%_50%/0.5)] shadow-[0_0_35px_hsl(350_50%_35%/0.12)]"
             : "border-ivory/[0.08] group-hover:border-ivory/15"
         }`}
         style={{
           background: isUpcoming
-            ? "linear-gradient(145deg, hsl(38 20% 15%) 0%, hsl(35 16% 12%) 50%, hsl(38 14% 11%) 100%)"
+            ? "linear-gradient(145deg, hsl(350 35% 18%) 0%, hsl(350 28% 14%) 50%, hsl(350 22% 12%) 100%)"
             : "linear-gradient(145deg, hsl(350 18% 11%) 0%, hsl(348 15% 9%) 50%, hsl(350 12% 8%) 100%)",
         }}
       >
@@ -323,7 +323,7 @@ function ShowCard({
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "linear-gradient(110deg, transparent 25%, hsl(38 70% 60% / 0.06) 42%, hsl(38 80% 65% / 0.1) 50%, hsl(38 70% 60% / 0.06) 58%, transparent 75%)",
+                "linear-gradient(110deg, transparent 25%, hsl(350 60% 55% / 0.08) 42%, hsl(350 70% 60% / 0.14) 50%, hsl(350 60% 55% / 0.08) 58%, transparent 75%)",
             }}
             animate={{ x: ["-120%", "220%"] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
@@ -331,7 +331,7 @@ function ShowCard({
         )}
 
         {/* Gold inset border */}
-        {isUpcoming && <div className="absolute inset-3 border border-gold/[0.08] pointer-events-none" />}
+        {isUpcoming && <div className="absolute inset-3 border border-[hsl(350_45%_45%/0.12)] pointer-events-none" />}
 
         {/* Wax seal */}
         {isUpcoming && (
@@ -678,7 +678,7 @@ const LiveShows = () => {
         </motion.div>
 
         {/* ══ HERO ══ */}
-        <div className="relative pt-24 sm:pt-28 pb-10 sm:pb-14 px-4 text-center">
+        <div className="relative pt-24 sm:pt-28 pb-4 sm:pb-6 px-4 text-center">
           {/* Marquee bulbs top */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -711,7 +711,7 @@ const LiveShows = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 2, delay: 0.5 }}
-            className="mb-6 sm:mb-8"
+            className="mb-3 sm:mb-4"
           >
             <MarqueeBulbs count={18} />
           </motion.div>
@@ -721,7 +721,7 @@ const LiveShows = () => {
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ duration: 1, delay: 0.7 }}
-            className="flex items-center justify-center gap-3 mb-6"
+            className="flex items-center justify-center gap-3 mb-2"
           >
             <div className="w-14 sm:w-24 h-px bg-gradient-to-r from-transparent to-gold/25" />
             <svg className="w-4 h-4 text-gold/30" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
@@ -730,15 +730,6 @@ const LiveShows = () => {
             <div className="w-14 sm:w-24 h-px bg-gradient-to-l from-transparent to-gold/25" />
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.9 }}
-            className="font-serif text-ivory/40 text-base sm:text-lg italic max-w-lg mx-auto leading-relaxed text-center"
-            style={{ textShadow: "0 2px 12px hsl(0 0% 0% / 0.4)" }}
-          >
-            Every performance tells a story. Every city becomes part of it.
-          </motion.p>
         </div>
 
         {/* ══ UPCOMING SECTION ══ */}
@@ -786,6 +777,18 @@ const LiveShows = () => {
             </div>
           </section>
         )}
+
+        {/* ══ QUOTE ══ */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2 }}
+          className="font-serif text-ivory/40 text-base sm:text-lg italic max-w-lg mx-auto leading-relaxed text-center px-4 py-8 sm:py-12"
+          style={{ textShadow: "0 2px 12px hsl(0 0% 0% / 0.4)" }}
+        >
+          Every performance tells a story. Every city becomes part of it.
+        </motion.p>
 
         {/* ══ SOFFIT LIGHTS ══ */}
         <SoffitLightsRig />
