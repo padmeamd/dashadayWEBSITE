@@ -652,6 +652,17 @@ const LiveShows = () => {
         />
       </div>
 
+      {/* Background hero image */}
+      <div
+        className="pointer-events-none fixed inset-0 z-[2] bg-center bg-cover bg-no-repeat"
+        style={{
+          backgroundImage: "url('/image/imgs/dasha_guitar.PNG')",
+          opacity: 0.12,
+          maskImage: "linear-gradient(to bottom, black 0%, black 50%, transparent 85%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 50%, transparent 85%)",
+        }}
+      />
+
       <div className="relative z-10">
         {/* Back */}
         <motion.div
