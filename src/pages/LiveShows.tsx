@@ -719,6 +719,15 @@ const LiveShows = () => {
             <div className="w-14 sm:w-24 h-px bg-gradient-to-l from-transparent to-gold/25" />
           </motion.div>
 
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.9 }}
+            className="font-serif text-ivory/40 text-base sm:text-lg italic max-w-lg mx-auto leading-relaxed text-center"
+            style={{ textShadow: "0 2px 12px hsl(0 0% 0% / 0.4)" }}
+          >
+            Every performance tells a story. Every city becomes part of it.
+          </motion.p>
         </div>
 
         {/* ══ UPCOMING SECTION ══ */}
@@ -766,18 +775,6 @@ const LiveShows = () => {
             </div>
           </section>
         )}
-
-        {/* ══ QUOTE ══ */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2 }}
-          className="font-serif text-ivory/40 text-base sm:text-lg italic max-w-lg mx-auto leading-relaxed text-center px-4 py-8 sm:py-12"
-          style={{ textShadow: "0 2px 12px hsl(0 0% 0% / 0.4)" }}
-        >
-          Every performance tells a story. Every city becomes part of it.
-        </motion.p>
 
         {/* ══ SOFFIT LIGHTS ══ */}
         <SoffitLightsRig />
