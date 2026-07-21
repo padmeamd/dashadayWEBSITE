@@ -199,118 +199,132 @@ function ShowCard({
   );
 }
 
-function MicrophoneIllustration() {
+const SOFFIT_LIGHTS = [
+  { x: 30, color: "hsl(38 80% 55%)", beamEnd: 260, delay: 0, sway: [-3, 4, -2, 3, -3] },
+  { x: 110, color: "hsl(350 65% 50%)", beamEnd: 240, delay: 0.4, sway: [2, -3, 4, -2, 2] },
+  { x: 190, color: "hsl(220 60% 55%)", beamEnd: 255, delay: 0.8, sway: [-4, 2, -3, 5, -4] },
+  { x: 270, color: "hsl(38 70% 50%)", beamEnd: 245, delay: 1.2, sway: [3, -4, 2, -3, 3] },
+  { x: 350, color: "hsl(280 50% 55%)", beamEnd: 250, delay: 0.6, sway: [-2, 5, -4, 2, -2] },
+  { x: 430, color: "hsl(350 60% 48%)", beamEnd: 235, delay: 1.0, sway: [4, -2, 3, -5, 4] },
+  { x: 510, color: "hsl(160 45% 45%)", beamEnd: 260, delay: 0.2, sway: [-3, 3, -2, 4, -3] },
+];
+
+function SoffitLightsIllustration() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.2, delay: 0.5 }}
-      className="relative mx-auto mt-20 mb-8 flex flex-col items-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.5, delay: 0.5 }}
+      className="relative mx-auto mt-20 mb-8 flex flex-col items-center overflow-hidden"
     >
       <svg
-        viewBox="0 0 120 280"
-        className="w-16 sm:w-20 h-auto"
+        viewBox="0 0 540 280"
+        className="w-full max-w-lg h-auto"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden
       >
-        {/* Mic head glow */}
-        <motion.ellipse
-          cx="60"
-          cy="60"
-          rx="44"
-          ry="44"
-          fill="hsl(38 60% 50% / 0.04)"
-          animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.08, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <defs>
+          {SOFFIT_LIGHTS.map((light, i) => (
+            <radialGradient key={`glow-${i}`} id={`soffit-glow-${i}`} cx="50%" cy="0%" r="80%">
+              <stop offset="0%" stopColor={light.color} stopOpacity="0.9" />
+              <stop offset="60%" stopColor={light.color} stopOpacity="0.3" />
+              <stop offset="100%" stopColor={light.color} stopOpacity="0" />
+            </radialGradient>
+          ))}
+          {SOFFIT_LIGHTS.map((light, i) => (
+            <linearGradient key={`beam-${i}`} id={`soffit-beam-${i}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={light.color} stopOpacity="0.18" />
+              <stop offset="40%" stopColor={light.color} stopOpacity="0.06" />
+              <stop offset="100%" stopColor={light.color} stopOpacity="0" />
+            </linearGradient>
+          ))}
+        </defs>
 
-        {/* Mic head */}
-        <path
-          d="M60 10 C35 10 30 30 30 50 C30 75 35 95 60 95 C85 95 90 75 90 50 C90 30 85 10 60 10Z"
-          stroke="hsl(40 30% 70% / 0.5)"
-          strokeWidth="1.5"
-          fill="none"
-        />
+        {/* Truss bar */}
+        <rect x="10" y="8" width="520" height="6" rx="3" fill="hsl(0 0% 30% / 0.4)" stroke="hsl(0 0% 45% / 0.2)" strokeWidth="0.5" />
+        <rect x="10" y="10" width="520" height="2" rx="1" fill="hsl(0 0% 50% / 0.08)" />
 
-        {/* Grille lines */}
-        {[25, 35, 45, 55, 65, 75, 85].map((y) => (
-          <motion.line
-            key={y}
-            x1={y < 50 ? 36 + (50 - y) * 0.2 : 36 + (y - 50) * 0.2}
-            y1={y}
-            x2={y < 50 ? 84 - (50 - y) * 0.2 : 84 - (y - 50) * 0.2}
-            y2={y}
-            stroke="hsl(40 25% 60% / 0.2)"
-            strokeWidth="0.8"
-            animate={{ opacity: [0.15, 0.35, 0.15] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: y * 0.03 }}
-          />
+        {/* Truss details */}
+        {[70, 150, 230, 310, 390, 470].map((tx) => (
+          <line key={tx} x1={tx} y1="8" x2={tx} y2="14" stroke="hsl(0 0% 50% / 0.15)" strokeWidth="0.8" />
         ))}
 
-        {/* Ring / connector */}
-        <rect
-          x="48"
-          y="95"
-          width="24"
-          height="8"
-          rx="2"
-          stroke="hsl(40 30% 65% / 0.4)"
-          strokeWidth="1"
-          fill="hsl(40 30% 50% / 0.05)"
-        />
+        {SOFFIT_LIGHTS.map((light, i) => (
+          <motion.g
+            key={i}
+            animate={{ x: light.sway }}
+            transition={{ duration: 8 + i * 1.5, repeat: Infinity, ease: "easeInOut", delay: light.delay }}
+          >
+            {/* Light beam cone */}
+            <motion.polygon
+              points={`${light.x - 8},30 ${light.x - 55},${light.beamEnd} ${light.x + 55},${light.beamEnd} ${light.x + 8},30`}
+              fill={`url(#soffit-beam-${i})`}
+              animate={{ opacity: [0.5, 0.85, 0.6, 0.9, 0.5] }}
+              transition={{ duration: 4 + i * 0.7, repeat: Infinity, ease: "easeInOut", delay: light.delay }}
+            />
 
-        {/* Stand */}
-        <line
-          x1="60"
-          y1="103"
-          x2="60"
-          y2="240"
-          stroke="hsl(40 25% 60% / 0.25)"
-          strokeWidth="2"
-        />
+            {/* Fixture housing */}
+            <rect
+              x={light.x - 10}
+              y="14"
+              width="20"
+              height="16"
+              rx="2"
+              fill="hsl(0 0% 15% / 0.7)"
+              stroke="hsl(0 0% 35% / 0.3)"
+              strokeWidth="0.8"
+            />
 
-        {/* Stand base */}
-        <motion.path
-          d="M30 240 Q60 248 90 240"
-          stroke="hsl(40 25% 60% / 0.2)"
-          strokeWidth="1.5"
-          fill="none"
-          animate={{ opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        />
+            {/* Fixture lens */}
+            <motion.ellipse
+              cx={light.x}
+              cy="30"
+              rx="7"
+              ry="3"
+              fill={`url(#soffit-glow-${i})`}
+              animate={{ opacity: [0.6, 1, 0.7, 0.95, 0.6] }}
+              transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: light.delay }}
+            />
 
-        {/* Guitar leaning against stand */}
-        <g transform="translate(78, 130) rotate(15)">
-          {/* Guitar neck */}
-          <line
-            x1="0"
-            y1="0"
-            x2="0"
-            y2="-70"
-            stroke="hsl(30 40% 55% / 0.3)"
-            strokeWidth="2.5"
-          />
-          {/* Tuning pegs */}
-          {[-68, -63, -58].map((y) => (
-            <g key={y}>
-              <line x1="-4" y1={y} x2="4" y2={y} stroke="hsl(40 30% 65% / 0.25)" strokeWidth="1" />
-            </g>
-          ))}
-          {/* Guitar body */}
-          <ellipse cx="0" cy="18" rx="14" ry="20" stroke="hsl(30 35% 50% / 0.3)" strokeWidth="1.2" fill="hsl(30 40% 20% / 0.06)" />
-          <ellipse cx="0" cy="38" rx="16" ry="22" stroke="hsl(30 35% 50% / 0.3)" strokeWidth="1.2" fill="hsl(30 40% 20% / 0.06)" />
-          {/* Sound hole */}
-          <circle cx="0" cy="20" r="5" stroke="hsl(30 30% 45% / 0.25)" strokeWidth="0.8" fill="none" />
-          {/* Strings */}
-          {[-2, 0, 2].map((x) => (
-            <line key={x} x1={x} y1={-55} x2={x} y2={45} stroke="hsl(40 20% 70% / 0.1)" strokeWidth="0.4" />
-          ))}
-        </g>
+            {/* Bright point */}
+            <motion.circle
+              cx={light.x}
+              cy="30"
+              r="3"
+              fill={light.color}
+              animate={{ opacity: [0.5, 0.9, 0.6, 1, 0.5], scale: [1, 1.15, 1, 1.1, 1] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: light.delay }}
+            />
+
+            {/* Haze in beam */}
+            <motion.ellipse
+              cx={light.x}
+              cy={140 + i * 8}
+              rx={25 + i * 3}
+              ry={40}
+              fill={light.color.replace(")", " / 0.02)")}
+              animate={{ opacity: [0.3, 0.6, 0.3], cy: [130 + i * 8, 150 + i * 8, 130 + i * 8] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: light.delay + 1 }}
+            />
+          </motion.g>
+        ))}
+
+        {/* Stage floor line */}
+        <motion.line
+          x1="20"
+          y1="268"
+          x2="520"
+          y2="268"
+          stroke="hsl(38 40% 50% / 0.12)"
+          strokeWidth="0.8"
+          animate={{ opacity: [0.08, 0.2, 0.08] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
       </svg>
 
       <motion.p
-        className="text-ivory/15 text-[10px] tracking-[0.4em] uppercase mt-4"
+        className="text-ivory/15 text-[10px] tracking-[0.4em] uppercase mt-2"
         animate={{ opacity: [0.15, 0.3, 0.15] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -412,7 +426,7 @@ const LiveShows = () => {
           </motion.div>
 
           {/* Mic + guitar illustration */}
-          <MicrophoneIllustration />
+          <SoffitLightsIllustration />
 
           <StageFloorReflection />
         </div>
