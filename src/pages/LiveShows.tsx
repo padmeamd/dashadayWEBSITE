@@ -1,733 +1,801 @@
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Clock, Ticket } from "lucide-react";
-import { useRef, useMemo } from "react";
-import FilmGrain from "@/components/FilmGrain";
-import LightLeaksOverlay from "@/components/LightLeaksOverlay";
+import { ArrowLeft, X, MapPin, Clock, Ticket } from "lucide-react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 
-/* ────────────────────────── DATA ────────────────────────── */
+/* ═══════════════════════════════ DATA ═══════════════════════════════ */
 
-const SHOWS = [
+type Show = {
+  id: string;
+  dateNum: string;
+  month: string;
+  year: string;
+  day: string;
+  time: string;
+  title: string;
+  venue: string;
+  city: string;
+  ticketUrl: string;
+  status: "upcoming" | "past";
+  stamp?: string;
+  diary?: string;
+  guests?: string;
+};
+
+const SHOWS: Show[] = [
   {
     id: "jul-30",
     dateNum: "30",
     month: "July",
-    day: "Wednesday",
     year: "2026",
+    day: "Wednesday",
     time: "Doors 7 PM",
     title: "Flamboyant Bone + Gravity Riot",
     venue: "The Bread and Roses",
     city: "London",
     ticketUrl:
       "https://dice.fm/event/k6yglp-flamboyant-bone-gravity-riot-30th-jul-the-bread-and-roses-london-tickets",
+    status: "upcoming",
     diary: "A warm pub stage, close enough to feel the crowd breathe with you.",
+    guests: "Flamboyant Bone, Gravity Riot",
   },
   {
     id: "aug-2",
     dateNum: "2",
     month: "August",
-    day: "Saturday",
     year: "2026",
+    day: "Saturday",
     time: "Doors 7 PM",
     title: "DashaDay: Pre-Birthday Celebration",
     venue: "Aces & Eights Saloon Bar",
     city: "London",
     ticketUrl:
       "https://www.bandsintown.com/t/108619704?app_id=50017ce9c97df54ca7dfca64854274b1&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket",
-    featured: true,
+    status: "upcoming",
     diary:
       "The night before everything changes. A celebration of the songs, the stories, and the people who made it all matter.",
+    guests: "Live band: Gravity Riot",
   },
 ];
 
-/* ────────────────────────── ATMOSPHERE ────────────────────────── */
+/*
+  Each invitation gets a unique hand-placed position on the wall.
+  Coordinates are percentage-based. Rotations are small and varied.
+  This is the heart of the "scattered memory wall" feel.
+*/
+const PLACEMENTS = [
+  { left: "4%",  top: "6%",  rotate: -2.8, z: 4, scale: 1 },
+  { left: "52%", top: "2%",  rotate: 1.6,  z: 6, scale: 1.04 },
+  { left: "28%", top: "38%", rotate: -1.2, z: 3, scale: 0.97 },
+  { left: "62%", top: "42%", rotate: 2.4,  z: 5, scale: 1.01 },
+  { left: "8%",  top: "68%", rotate: 1.8,  z: 2, scale: 0.98 },
+  { left: "48%", top: "72%", rotate: -3.1, z: 7, scale: 1.02 },
+];
 
-function DustMotes() {
-  const particles = useMemo(
+/* ═══════════════════════════════ ATMOSPHERE ═══════════════════════════════ */
+
+function VelvetBackground() {
+  return (
+    <div className="pointer-events-none fixed inset-0 z-0" aria-hidden>
+      {/* Deep burgundy velvet base */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 120% 80% at 50% 40%, hsl(350 30% 10%) 0%, hsl(350 35% 7%) 40%, hsl(350 28% 5%) 100%)",
+        }}
+      />
+      {/* Velvet texture — soft fiber grain */}
+      <div
+        className="absolute inset-0 opacity-[0.035] mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23v)'/%3E%3C/svg%3E")`,
+        }}
+      />
+      {/* Second texture layer for depth */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")`,
+        }}
+      />
+      {/* Warm vignette */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 50% 45%, transparent 0%, hsl(350 35% 4% / 0.5) 100%)",
+        }}
+      />
+    </div>
+  );
+}
+
+function CandlelightAmbience() {
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[1]" aria-hidden>
+      {/* Main warm pool — top center */}
+      <motion.div
+        className="absolute top-[-5%] left-[45%] w-[500px] h-[400px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, hsl(38 65% 50% / 0.07) 0%, hsl(30 50% 35% / 0.03) 45%, transparent 70%)",
+        }}
+        animate={{ opacity: [0.5, 0.85, 0.6, 0.9, 0.5], x: [-10, 10, -5, 8, -10] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* Left wall sconce */}
+      <motion.div
+        className="absolute top-[20%] left-[-2%] w-[300px] h-[400px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(ellipse at 30% 50%, hsl(30 55% 40% / 0.05) 0%, transparent 60%)",
+        }}
+        animate={{ opacity: [0.4, 0.7, 0.45, 0.65, 0.4] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+      />
+      {/* Right wall sconce */}
+      <motion.div
+        className="absolute top-[35%] right-[-2%] w-[300px] h-[350px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(ellipse at 70% 50%, hsl(38 50% 42% / 0.04) 0%, transparent 60%)",
+        }}
+        animate={{ opacity: [0.35, 0.6, 0.4, 0.55, 0.35] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      />
+    </div>
+  );
+}
+
+function FloatingDust() {
+  const motes = useMemo(
     () =>
-      Array.from({ length: 35 }, (_, i) => ({
+      Array.from({ length: 28 }, (_, i) => ({
         id: i,
-        left: `${(i * 37 + 11) % 100}%`,
-        top: `${(i * 43 + 7) % 100}%`,
-        size: 1 + (i % 3) * 0.5,
-        dur: 14 + (i % 9) * 2.5,
-        delay: (i % 7) * 0.4,
+        left: `${(i * 41 + 13) % 100}%`,
+        top: `${(i * 37 + 9) % 100}%`,
+        size: 1 + (i % 3) * 0.4,
+        dur: 16 + (i % 8) * 2.5,
+        delay: (i % 6) * 0.5,
       })),
     []
   );
   return (
-    <div className="pointer-events-none fixed inset-0 z-[5] overflow-hidden" aria-hidden>
-      {particles.map((p) => (
+    <div className="pointer-events-none fixed inset-0 z-[2] overflow-hidden" aria-hidden>
+      {motes.map((m) => (
         <motion.span
-          key={p.id}
-          className="absolute rounded-full bg-[hsl(40_28%_88%/0.08)]"
-          style={{ left: p.left, top: p.top, width: p.size, height: p.size }}
+          key={m.id}
+          className="absolute rounded-full bg-[hsl(38_30%_85%/0.06)]"
+          style={{ left: m.left, top: m.top, width: m.size, height: m.size }}
           animate={{
-            y: [0, -18, 6, -12, 0],
-            x: [0, 5, -4, 7, 0],
-            opacity: [0.03, 0.12, 0.05, 0.1, 0.03],
+            y: [0, -14, 5, -10, 0],
+            x: [0, 4, -3, 6, 0],
+            opacity: [0.02, 0.09, 0.04, 0.08, 0.02],
           }}
-          transition={{ duration: p.dur, repeat: Infinity, ease: "easeInOut", delay: p.delay }}
+          transition={{ duration: m.dur, repeat: Infinity, ease: "easeInOut", delay: m.delay }}
         />
       ))}
     </div>
   );
 }
 
-function MarqueeBulbs() {
-  const bulbs = useMemo(() => Array.from({ length: 24 }, (_, i) => i), []);
-  return (
-    <div className="flex items-center justify-center gap-2 sm:gap-3" aria-hidden>
-      {bulbs.map((i) => (
-        <motion.span
-          key={i}
-          className="inline-block w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
-          style={{
-            background: "radial-gradient(circle, hsl(38 80% 65%) 0%, hsl(38 60% 40%) 60%, hsl(38 40% 25%) 100%)",
-            boxShadow: "0 0 6px hsl(38 70% 50% / 0.5), 0 0 12px hsl(38 60% 40% / 0.2)",
-          }}
-          animate={{
-            opacity: [0.3, 0.9, 0.5, 1, 0.4, 0.85, 0.3],
-            scale: [0.9, 1.1, 0.95, 1.15, 0.9],
-          }}
-          transition={{
-            duration: 2.5 + (i % 5) * 0.6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.12,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
+/* ═══════════════════════════════ INVITATION CARD ═══════════════════════════════ */
 
-function VelvetCurtains() {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-[2] overflow-hidden" aria-hidden>
-      {/* Left curtain */}
-      <motion.div
-        className="absolute left-0 top-0 bottom-0 w-[15%] sm:w-[12%]"
-        initial={{ x: 0 }}
-        animate={{ x: [0, -2, 1, -1, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div
-          className="h-full w-full"
-          style={{
-            background:
-              "linear-gradient(to right, hsl(350 35% 8% / 0.95) 0%, hsl(350 30% 12% / 0.7) 30%, hsl(350 28% 14% / 0.4) 60%, hsl(350 25% 10% / 0.15) 80%, transparent 100%)",
-          }}
-        />
-        {/* Curtain fold highlights */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "repeating-linear-gradient(to right, transparent 0%, hsl(350 20% 18% / 0.08) 8%, transparent 16%, hsl(38 30% 30% / 0.04) 24%, transparent 32%)",
-          }}
-        />
-      </motion.div>
-
-      {/* Right curtain */}
-      <motion.div
-        className="absolute right-0 top-0 bottom-0 w-[15%] sm:w-[12%]"
-        initial={{ x: 0 }}
-        animate={{ x: [0, 2, -1, 1, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div
-          className="h-full w-full"
-          style={{
-            background:
-              "linear-gradient(to left, hsl(350 35% 8% / 0.95) 0%, hsl(350 30% 12% / 0.7) 30%, hsl(350 28% 14% / 0.4) 60%, hsl(350 25% 10% / 0.15) 80%, transparent 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "repeating-linear-gradient(to left, transparent 0%, hsl(350 20% 18% / 0.08) 8%, transparent 16%, hsl(38 30% 30% / 0.04) 24%, transparent 32%)",
-          }}
-        />
-      </motion.div>
-
-      {/* Top drape */}
-      <div
-        className="absolute top-0 left-0 right-0 h-12 sm:h-20"
-        style={{
-          background:
-            "linear-gradient(to bottom, hsl(350 35% 7% / 0.85) 0%, hsl(350 28% 8% / 0.4) 50%, transparent 100%)",
-        }}
-      />
-
-      {/* Curtain tassels */}
-      <motion.div
-        className="absolute left-[12%] sm:left-[10%] top-8 sm:top-14 w-4 h-16 sm:h-20"
-        animate={{ rotate: [0, 1.5, -1, 0.5, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div className="w-0.5 h-full mx-auto bg-gradient-to-b from-gold/30 via-gold/15 to-transparent" />
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-gold/20 bg-gold/5" />
-      </motion.div>
-      <motion.div
-        className="absolute right-[12%] sm:right-[10%] top-8 sm:top-14 w-4 h-16 sm:h-20"
-        animate={{ rotate: [0, -1.5, 1, -0.5, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div className="w-0.5 h-full mx-auto bg-gradient-to-b from-gold/30 via-gold/15 to-transparent" />
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-gold/20 bg-gold/5" />
-      </motion.div>
-    </div>
-  );
-}
-
-function ChandelierGlow() {
-  return (
-    <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 z-[3] w-full max-w-4xl" aria-hidden>
-      {/* Main chandelier warm pool */}
-      <motion.div
-        className="mx-auto w-[300px] h-[300px] sm:w-[500px] sm:h-[400px] rounded-full"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 30%, hsl(38 65% 50% / 0.08) 0%, hsl(30 50% 35% / 0.04) 40%, transparent 70%)",
-        }}
-        animate={{ opacity: [0.6, 0.9, 0.7, 1, 0.6] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      {/* Chandelier fixture hint */}
-      <motion.div
-        className="absolute top-4 left-1/2 -translate-x-1/2 w-1 h-8 sm:h-12"
-        style={{ background: "linear-gradient(to bottom, hsl(38 40% 50% / 0.15), transparent)" }}
-        animate={{ opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
-    </div>
-  );
-}
-
-function BackstageSmoke() {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-[4] overflow-hidden" aria-hidden>
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-[40%]"
-        style={{
-          background:
-            "linear-gradient(to top, hsl(350 20% 10% / 0.3) 0%, hsl(350 15% 12% / 0.08) 40%, transparent 100%)",
-        }}
-        animate={{ opacity: [0.4, 0.7, 0.5, 0.65, 0.4] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-[10%] left-[20%] w-[60%] h-[30%] rounded-full"
-        style={{
-          background: "radial-gradient(ellipse, hsl(30 15% 20% / 0.06) 0%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-        animate={{ x: [-20, 30, -10, 20, -20], opacity: [0.3, 0.5, 0.35, 0.45, 0.3] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-    </div>
-  );
-}
-
-/* ────────────────────────── HERO ────────────────────────── */
-
-function TheatreHero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  return (
-    <div ref={ref} className="relative min-h-[70vh] sm:min-h-[80vh] flex flex-col items-center justify-center px-4">
-      <ChandelierGlow />
-
-      <motion.div
-        style={{ y: titleY, opacity: titleOpacity }}
-        className="relative z-10 text-center max-w-3xl mx-auto"
-      >
-        {/* Marquee bulbs top */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 0.5 }}
-          className="mb-6 sm:mb-8"
-        >
-          <MarqueeBulbs />
-        </motion.div>
-
-        {/* Theatre signage title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-editorial-display text-ivory mb-3"
-          style={{
-            fontSize: "clamp(2.8rem, 8vw, 5.5rem)",
-            lineHeight: 1,
-            textShadow:
-              "0 0 60px hsl(38 65% 50% / 0.2), 0 0 120px hsl(38 50% 40% / 0.08), 0 4px 30px hsl(0 0% 0% / 0.6)",
-            letterSpacing: "0.08em",
-          }}
-        >
-          Live Shows
-        </motion.h1>
-
-        {/* Marquee bulbs bottom */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 0.7 }}
-          className="mb-8 sm:mb-10"
-        >
-          <MarqueeBulbs />
-        </motion.div>
-
-        {/* Ornamental divider */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 1.2, delay: 0.8 }}
-          className="flex items-center justify-center gap-3 mb-8"
-        >
-          <div className="w-12 sm:w-20 h-px bg-gradient-to-r from-transparent to-gold/30" />
-          <svg className="w-4 h-4 text-gold/40" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
-            <path d="M8 0l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" />
-          </svg>
-          <div className="w-12 sm:w-20 h-px bg-gradient-to-l from-transparent to-gold/30" />
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 1 }}
-          className="font-serif text-ivory/40 text-base sm:text-lg italic leading-relaxed max-w-lg mx-auto"
-          style={{ textShadow: "0 2px 12px hsl(0 0% 0% / 0.5)" }}
-        >
-          Every performance tells a story. Every city becomes part of it.
-        </motion.p>
-      </motion.div>
-    </div>
-  );
-}
-
-/* ────────────────────────── SHOW POSTER ────────────────────────── */
-
-function VintagePoster({
+function InvitationCard({
   show,
-  index,
+  placement,
+  onOpen,
 }: {
-  show: (typeof SHOWS)[number];
-  index: number;
+  show: Show;
+  placement: (typeof PLACEMENTS)[number];
+  onOpen: () => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const tilt = index % 2 === 0 ? -1.2 : 1.2;
+  const isUpcoming = show.status === "upcoming";
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50, rotate: tilt * 2 }}
-      animate={isInView ? { opacity: 1, y: 0, rotate: tilt } : {}}
-      transition={{ duration: 0.9, delay: index * 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative"
+    <motion.button
+      type="button"
+      onClick={onOpen}
+      className="absolute block text-left cursor-pointer outline-none group"
+      style={{
+        left: placement.left,
+        top: placement.top,
+        zIndex: placement.z,
+        width: "clamp(260px, 38vw, 380px)",
+      }}
+      initial={{ opacity: 0, y: 30, rotate: placement.rotate }}
+      animate={{ opacity: 1, y: 0, rotate: placement.rotate }}
+      transition={{ duration: 0.9, delay: placement.z * 0.12, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{
+        scale: 1.06,
+        rotate: 0,
+        zIndex: 50,
+        y: -12,
+        transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+      }}
     >
-      {/* Shadow / depth */}
-      <div className="absolute inset-0 translate-y-2 translate-x-1 rounded-sm bg-black/30 blur-xl transition-all duration-700 group-hover:translate-y-4 group-hover:blur-2xl" />
+      {/* Growing shadow on hover */}
+      <div className="absolute inset-0 translate-y-2 bg-black/20 blur-lg rounded-sm transition-all duration-500 group-hover:translate-y-6 group-hover:blur-2xl group-hover:bg-black/30" />
 
-      {/* Poster frame */}
-      <motion.div
-        whileHover={{ rotate: 0, scale: 1.02, y: -6 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className={`relative overflow-hidden border transition-all duration-700 ${
-          show.featured
-            ? "border-gold/30 shadow-[0_0_50px_hsl(38_60%_40%/0.1),inset_0_0_60px_hsl(38_50%_30%/0.05)]"
-            : "border-gold/10 shadow-[0_0_30px_hsl(0_0%_0%/0.3)]"
-        }`}
-        style={{ background: "linear-gradient(135deg, hsl(350 25% 9%) 0%, hsl(350 20% 7%) 50%, hsl(345 22% 8%) 100%)" }}
-      >
-        {/* Paper texture overlay */}
+      {/* Warm glow on hover */}
+      <div className="pointer-events-none absolute -inset-4 rounded-lg bg-[radial-gradient(ellipse_at_center,hsl(38_60%_45%/0.08),transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+      {/* Brass pushpin — stays fixed */}
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-30">
         <div
-          className="pointer-events-none absolute inset-0 z-[1] opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          }}
-        />
-
-        {/* Gold foil border inset */}
-        <div className="absolute inset-3 sm:inset-4 border border-gold/[0.08] pointer-events-none z-[1]" />
-        <div className="absolute inset-4 sm:inset-5 border border-gold/[0.04] pointer-events-none z-[1]" />
-
-        {/* Corner ornaments */}
-        {[
-          "top-3 left-3 sm:top-4 sm:left-4",
-          "top-3 right-3 sm:top-4 sm:right-4 -scale-x-100",
-          "bottom-3 left-3 sm:bottom-4 sm:left-4 -scale-y-100",
-          "bottom-3 right-3 sm:bottom-4 sm:right-4 -scale-x-100 -scale-y-100",
-        ].map((pos, ci) => (
-          <div key={ci} className={`absolute ${pos} pointer-events-none z-[1]`}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-gold/15">
-              <path d="M0 0v8c0-2 2-4 4-4h4c-4 0-6 0-8-4z" fill="currentColor" />
-              <path d="M0 0h8M0 0v8" stroke="currentColor" strokeWidth="0.5" opacity="0.5" />
-            </svg>
-          </div>
-        ))}
-
-        {/* Warm light sweep on hover */}
-        <motion.div
-          className="pointer-events-none absolute inset-0 z-[2] opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          className="w-3.5 h-3.5 rounded-full"
           style={{
             background:
-              "linear-gradient(120deg, transparent 20%, hsl(38 60% 50% / 0.04) 40%, hsl(38 70% 55% / 0.06) 50%, hsl(38 60% 50% / 0.04) 60%, transparent 80%)",
+              "radial-gradient(circle at 35% 30%, hsl(38 65% 68%) 0%, hsl(38 55% 45%) 50%, hsl(38 45% 32%) 100%)",
+            boxShadow: "0 2px 6px hsl(0 0% 0% / 0.5), 0 1px 2px hsl(0 0% 0% / 0.3)",
           }}
         />
+        <div
+          className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
+          style={{ background: "hsl(38 80% 80% / 0.6)" }}
+        />
+      </div>
+
+      {/* The invitation paper */}
+      <div
+        className={`relative overflow-hidden border transition-all duration-500 ${
+          isUpcoming
+            ? "border-gold/15 group-hover:border-gold/30"
+            : "border-ivory/[0.06] group-hover:border-ivory/12"
+        }`}
+        style={{
+          background: isUpcoming
+            ? "linear-gradient(145deg, hsl(38 18% 14% / 0.95) 0%, hsl(35 15% 11% / 0.97) 50%, hsl(38 12% 10% / 0.95) 100%)"
+            : "linear-gradient(145deg, hsl(350 18% 10% / 0.95) 0%, hsl(348 15% 8% / 0.97) 50%, hsl(350 12% 7% / 0.95) 100%)",
+        }}
+      >
+        {/* Paper texture */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        {/* Past show: aged effects */}
+        {!isUpcoming && (
+          <>
+            {/* Coffee stain */}
+            <div
+              className="pointer-events-none absolute top-[15%] right-[10%] w-16 h-14 rounded-full opacity-[0.04]"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 45% 50%, hsl(30 40% 30%) 0%, hsl(25 30% 20% / 0.5) 40%, transparent 70%)",
+              }}
+            />
+            {/* Fold crease */}
+            <div
+              className="pointer-events-none absolute top-0 bottom-0 left-[48%] w-px opacity-[0.06]"
+              style={{
+                background: "linear-gradient(to bottom, transparent 10%, hsl(0 0% 40%) 30%, hsl(0 0% 40%) 70%, transparent 90%)",
+              }}
+            />
+          </>
+        )}
+
+        {/* Upcoming: shimmer sweep */}
+        {isUpcoming && (
+          <motion.div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(110deg, transparent 30%, hsl(38 60% 60% / 0.04) 45%, hsl(38 70% 65% / 0.06) 50%, hsl(38 60% 60% / 0.04) 55%, transparent 70%)",
+            }}
+            animate={{ x: ["-100%", "200%"] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 4 }}
+          />
+        )}
+
+        {/* Gold inset border for upcoming */}
+        {isUpcoming && (
+          <div className="absolute inset-3 border border-gold/[0.06] pointer-events-none" />
+        )}
 
         {/* Content */}
-        <div className="relative z-[3] p-6 sm:p-8 md:p-10">
-          {/* Featured wax seal */}
-          {show.featured && (
-            <motion.div
-              className="absolute -top-1 -right-1 sm:top-2 sm:right-2 z-10"
-              animate={{ rotate: [0, 2, -2, 1, 0] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="relative w-14 h-14 sm:w-16 sm:h-16">
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    background:
-                      "radial-gradient(circle at 35% 35%, hsl(350 50% 30%) 0%, hsl(350 45% 22%) 50%, hsl(350 40% 16%) 100%)",
-                    boxShadow: "0 2px 8px hsl(0 0% 0% / 0.4), inset 0 1px 2px hsl(350 30% 40% / 0.3)",
-                  }}
-                />
-                <span className="absolute inset-0 flex items-center justify-center font-hand text-gold/70 text-lg sm:text-xl">
-                  D
-                </span>
-              </div>
-            </motion.div>
+        <div className="relative z-10 p-5 sm:p-7">
+          {/* Wax seal for upcoming */}
+          {isUpcoming && (
+            <div className="absolute -top-1 -right-1 w-10 h-10 sm:w-11 sm:h-11">
+              <div
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background:
+                    "radial-gradient(circle at 38% 35%, hsl(350 50% 30%) 0%, hsl(350 42% 20%) 60%, hsl(350 38% 15%) 100%)",
+                  boxShadow: "0 2px 6px hsl(0 0% 0% / 0.4), inset 0 1px 2px hsl(350 30% 40% / 0.25)",
+                }}
+              />
+              <span className="absolute inset-0 flex items-center justify-center font-hand text-gold/55 text-base">
+                D
+              </span>
+            </div>
           )}
 
-          {/* Date presentation */}
-          <div className="text-center mb-6 sm:mb-8">
-            <motion.span
-              className="block text-gold/40 text-[10px] tracking-[0.4em] uppercase font-light"
-              animate={show.featured ? { opacity: [0.4, 0.7, 0.4] } : {}}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
+          {/* Date */}
+          <div className="mb-4">
+            <span className="block text-gold/30 text-[9px] tracking-[0.35em] uppercase font-light">
               {show.day}
-            </motion.span>
+            </span>
             <span
-              className="block text-editorial-display text-ivory text-5xl sm:text-7xl leading-none mt-2"
+              className={`block text-editorial-display leading-none mt-1 ${
+                isUpcoming ? "text-ivory text-4xl" : "text-ivory/60 text-3xl"
+              }`}
               style={{
-                textShadow: show.featured
-                  ? "0 0 30px hsl(38 70% 50% / 0.15), 0 2px 12px hsl(0 0% 0% / 0.4)"
-                  : "0 2px 12px hsl(0 0% 0% / 0.4)",
+                textShadow: isUpcoming
+                  ? "0 0 20px hsl(38 60% 50% / 0.1)"
+                  : "none",
               }}
             >
               {show.dateNum}
             </span>
-            <span className="block text-ivory/25 text-xs tracking-[0.3em] uppercase mt-2 font-light">
+            <span className={`block text-xs tracking-[0.2em] uppercase mt-1 font-light ${isUpcoming ? "text-ivory/30" : "text-ivory/15"}`}>
               {show.month} {show.year}
             </span>
           </div>
 
-          {/* Gold ornamental line */}
-          <div className="flex items-center justify-center gap-2 mb-6 sm:mb-8">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent to-gold/15" />
-            <svg className="w-3 h-3 text-gold/20" viewBox="0 0 12 12" fill="currentColor" aria-hidden>
-              <path d="M6 0l1.5 4.5H12L8.25 7.5 9.75 12 6 9 2.25 12 3.75 7.5 0 4.5h4.5z" />
-            </svg>
-            <div className="flex-1 h-px bg-gradient-to-l from-transparent to-gold/15" />
-          </div>
+          {/* Thin gold line */}
+          <div className={`w-12 h-px mb-4 ${isUpcoming ? "bg-gold/15" : "bg-ivory/[0.06]"}`} />
 
           {/* Title */}
           <h3
-            className="text-editorial-display text-ivory text-xl sm:text-2xl md:text-3xl text-center mb-6 leading-tight"
-            style={{ textShadow: "0 2px 16px hsl(0 0% 0% / 0.5)" }}
+            className={`font-serif text-base sm:text-lg leading-snug mb-3 ${
+              isUpcoming ? "text-ivory/85" : "text-ivory/45"
+            }`}
           >
             {show.title}
           </h3>
 
-          {/* Venue & city */}
-          <div className="text-center space-y-2 mb-6">
-            <div className="flex items-center justify-center gap-2 text-ivory/50">
-              <MapPin className="w-3.5 h-3.5 text-gold/40" />
-              <span className="font-serif text-sm tracking-wider">{show.venue}</span>
-            </div>
-            <span className="block text-ivory/25 text-xs tracking-[0.2em] uppercase">{show.city}</span>
-            <div className="flex items-center justify-center gap-2 text-ivory/30">
-              <Clock className="w-3 h-3 text-gold/30" />
-              <span className="text-xs tracking-wider">{show.time}</span>
-            </div>
-          </div>
-
-          {/* Diary note */}
-          {show.diary && (
-            <div className="mb-8 text-center">
-              <p className="font-hand text-gold/30 text-lg sm:text-xl leading-relaxed max-w-xs mx-auto">
-                &ldquo;{show.diary}&rdquo;
-              </p>
-            </div>
-          )}
-
-          {/* Ticket button */}
-          <div className="text-center">
-            <a
-              href={show.ticketUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`group/btn inline-flex items-center gap-3 px-8 py-3.5 text-xs tracking-[0.25em] uppercase transition-all duration-500 ${
-                show.featured
-                  ? "border border-gold/40 bg-gold/[0.08] text-gold hover:bg-gold/15 hover:border-gold/60 hover:shadow-[0_0_30px_hsl(38_60%_40%/0.15)]"
-                  : "border border-ivory/15 text-ivory/60 hover:border-gold/30 hover:text-gold hover:bg-gold/[0.04]"
-              }`}
-            >
-              <Ticket className="w-4 h-4 transition-transform duration-300 group-hover/btn:rotate-12" />
-              <span>Get Tickets</span>
-            </a>
-          </div>
-        </div>
-
-        {/* Aged edge effect */}
-        <div
-          className="pointer-events-none absolute inset-0 z-[2]"
-          style={{
-            boxShadow:
-              "inset 0 0 60px hsl(350 25% 6% / 0.4), inset 0 0 120px hsl(350 20% 5% / 0.2)",
-          }}
-        />
-      </motion.div>
-
-      {/* Pin / tack */}
-      <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20">
-        <div
-          className="w-3 h-3 rounded-full"
-          style={{
-            background: "radial-gradient(circle at 35% 35%, hsl(38 60% 65%) 0%, hsl(38 50% 40%) 100%)",
-            boxShadow: "0 2px 4px hsl(0 0% 0% / 0.4)",
-          }}
-        />
-      </div>
-    </motion.div>
-  );
-}
-
-/* ────────────────────────── INVITATION (featured) ────────────────────────── */
-
-function FeaturedInvitation({ show }: { show: (typeof SHOWS)[number] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-      className="relative max-w-xl mx-auto"
-    >
-      {/* Envelope shadow */}
-      <div className="absolute inset-0 translate-y-4 bg-black/20 blur-2xl rounded-sm" />
-
-      <div
-        className="relative overflow-hidden border border-gold/20"
-        style={{
-          background:
-            "linear-gradient(160deg, hsl(38 20% 14% / 0.9) 0%, hsl(35 18% 10% / 0.95) 50%, hsl(350 15% 9% / 0.9) 100%)",
-        }}
-      >
-        {/* Cream paper texture */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          }}
-        />
-
-        {/* Ribbon */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 sm:w-10 z-10">
-          <div className="w-full h-16 sm:h-20 bg-gradient-to-b from-[hsl(350_45%_25%)] via-[hsl(350_40%_20%)] to-[hsl(350_35%_18%)] shadow-[0_2px_8px_hsl(0_0%_0%/0.3)]" />
-          <div className="w-0 h-0 mx-auto border-l-[16px] sm:border-l-[20px] border-r-[16px] sm:border-r-[20px] border-t-[10px] sm:border-t-[12px] border-l-[hsl(350_45%_25%)] border-r-[hsl(350_45%_25%)] border-t-[hsl(350_40%_20%)] border-b-0 border-b-transparent" style={{ borderBottomColor: 'transparent' }} />
-        </div>
-
-        {/* Wax seal */}
-        <motion.div
-          className="absolute top-10 sm:top-12 left-1/2 -translate-x-1/2 z-20"
-          animate={{ rotate: [0, 1, -1, 0.5, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="relative w-12 h-12 sm:w-14 sm:h-14">
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background:
-                  "radial-gradient(circle at 40% 35%, hsl(350 50% 32%) 0%, hsl(350 45% 24%) 40%, hsl(350 40% 18%) 100%)",
-                boxShadow:
-                  "0 3px 10px hsl(0 0% 0% / 0.5), inset 0 1px 3px hsl(350 30% 45% / 0.3), inset 0 -1px 2px hsl(0 0% 0% / 0.2)",
-              }}
-            />
-            <span className="absolute inset-0 flex items-center justify-center font-hand text-gold/60 text-xl sm:text-2xl">
-              D
+          {/* Venue */}
+          <div className="flex items-center gap-1.5 mb-1">
+            <MapPin className={`w-3 h-3 shrink-0 ${isUpcoming ? "text-gold/30" : "text-ivory/15"}`} />
+            <span className={`text-xs tracking-wider ${isUpcoming ? "text-ivory/40" : "text-ivory/20"}`}>
+              {show.venue}
             </span>
           </div>
-        </motion.div>
-
-        {/* Content */}
-        <div className="relative z-[3] px-6 pt-28 pb-8 sm:px-10 sm:pt-32 sm:pb-10 text-center">
-          <span className="block text-gold/30 text-[9px] tracking-[0.5em] uppercase mb-6 font-light">
-            You are cordially invited
+          <span className={`block text-[10px] tracking-[0.2em] uppercase ml-[18px] ${isUpcoming ? "text-ivory/20" : "text-ivory/10"}`}>
+            {show.city}
           </span>
 
-          <h3
-            className="font-hand text-gold/70 text-3xl sm:text-4xl mb-2"
-            style={{ textShadow: "0 0 20px hsl(38 60% 50% / 0.1)" }}
-          >
-            {show.title}
-          </h3>
-
-          <div className="flex items-center justify-center gap-2 my-6">
-            <div className="flex-1 max-w-16 h-px bg-gradient-to-r from-transparent to-gold/20" />
-            <span className="text-gold/25 text-lg">&#10043;</span>
-            <div className="flex-1 max-w-16 h-px bg-gradient-to-l from-transparent to-gold/20" />
-          </div>
-
-          <div className="space-y-3 mb-8">
-            <p className="text-editorial-display text-ivory/80 text-xl sm:text-2xl">
-              {show.dateNum} {show.month} {show.year}
-            </p>
-            <p className="font-serif text-ivory/45 text-sm tracking-wider">{show.venue}</p>
-            <p className="text-ivory/25 text-xs tracking-[0.3em] uppercase">{show.city}</p>
-            <p className="text-ivory/30 text-xs tracking-wider">{show.time}</p>
-          </div>
-
-          {show.diary && (
-            <p className="font-serif text-ivory/25 text-sm italic leading-relaxed max-w-sm mx-auto mb-8">
-              &ldquo;{show.diary}&rdquo;
-            </p>
+          {/* Status stamp for past shows */}
+          {show.stamp && (
+            <div className="absolute bottom-4 right-4 rotate-[-8deg]">
+              <span
+                className="inline-block border-2 border-[hsl(350_40%_30%/0.4)] text-[hsl(350_40%_35%/0.35)] text-[10px] tracking-[0.3em] uppercase px-3 py-1 font-serif font-light"
+                style={{ textShadow: "0 0 4px hsl(350 30% 20% / 0.2)" }}
+              >
+                {show.stamp}
+              </span>
+            </div>
           )}
 
-          <a
-            href={show.ticketUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 border border-gold/30 bg-gold/[0.06] px-10 py-4 text-xs tracking-[0.3em] uppercase text-gold transition-all duration-500 hover:bg-gold/15 hover:border-gold/50 hover:shadow-[0_0_40px_hsl(38_60%_40%/0.12)]"
-          >
-            <Ticket className="w-4 h-4" />
-            Reserve Your Place
-          </a>
+          {/* Upcoming: subtle prompt */}
+          {isUpcoming && (
+            <div className="mt-5 flex items-center gap-1.5">
+              <Ticket className="w-3 h-3 text-gold/25" />
+              <span className="text-gold/25 text-[9px] tracking-[0.25em] uppercase font-light">
+                Tap to open
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Aged vignette */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            boxShadow: "inset 0 0 80px hsl(350 20% 6% / 0.5), inset 0 0 160px hsl(350 15% 4% / 0.3)",
+            boxShadow: isUpcoming
+              ? "inset 0 0 40px hsl(38 15% 8% / 0.3), inset 0 0 80px hsl(350 20% 5% / 0.15)"
+              : "inset 0 0 50px hsl(350 20% 5% / 0.5), inset 0 0 100px hsl(350 25% 4% / 0.3)",
           }}
         />
       </div>
-    </motion.div>
+    </motion.button>
   );
 }
 
-/* ────────────────────────── SOFFIT LIGHTS ────────────────────────── */
+/* ═══════════════════════════════ OPENED INVITATION ═══════════════════════════════ */
 
-const SOFFIT_COLORS = [
-  "hsl(38 75% 50%)",
-  "hsl(350 50% 40%)",
-  "hsl(38 65% 45%)",
-  "hsl(350 45% 35%)",
-  "hsl(30 60% 42%)",
-];
+function OpenedInvitation({
+  show,
+  onClose,
+}: {
+  show: Show;
+  onClose: () => void;
+}) {
+  const isUpcoming = show.status === "upcoming";
 
-function SoffitRig() {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+
   return (
-    <div className="pointer-events-none relative w-full max-w-2xl mx-auto h-40 sm:h-52 mt-16" aria-hidden>
-      {/* Truss */}
-      <div className="absolute top-0 left-[5%] right-[5%] h-1 bg-gradient-to-r from-transparent via-ivory/[0.06] to-transparent rounded-full" />
-
-      {SOFFIT_COLORS.map((color, i) => {
-        const xPos = 10 + i * 20;
-        return (
-          <motion.div
-            key={i}
-            className="absolute"
-            style={{ left: `${xPos}%`, top: 0 }}
-            animate={{ x: [0, (i % 2 ? 3 : -3), 0] }}
-            transition={{ duration: 6 + i, repeat: Infinity, ease: "easeInOut" }}
-          >
-            {/* Beam */}
-            <motion.div
-              className="absolute top-3 left-1/2 -translate-x-1/2 w-0 h-0"
-              style={{
-                borderLeft: "40px solid transparent",
-                borderRight: "40px solid transparent",
-                borderTop: `${140 + i * 10}px solid ${color.replace(")", " / 0.06)")}`,
-                filter: "blur(8px)",
-              }}
-              animate={{ opacity: [0.3, 0.7, 0.4, 0.6, 0.3] }}
-              transition={{ duration: 4 + i * 0.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-            />
-            {/* Fixture */}
-            <div
-              className="relative w-4 h-3 rounded-b-sm mx-auto"
-              style={{ background: "hsl(0 0% 20% / 0.6)" }}
-            />
-            {/* Lens glow */}
-            <motion.div
-              className="absolute top-2.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full"
-              style={{
-                background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-                boxShadow: `0 0 8px ${color.replace(")", " / 0.4)")}`,
-              }}
-              animate={{ opacity: [0.4, 0.9, 0.5, 0.8, 0.4], scale: [0.9, 1.2, 0.95, 1.1, 0.9] }}
-              transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-            />
-          </motion.div>
-        );
-      })}
-
-      {/* Floor reflection */}
+    <>
+      {/* Backdrop */}
       <motion.div
-        className="absolute bottom-0 left-[10%] right-[10%] h-px"
-        style={{
-          background:
-            "linear-gradient(to right, transparent, hsl(38 50% 45% / 0.15), hsl(350 40% 40% / 0.1), hsl(38 50% 45% / 0.15), transparent)",
-        }}
-        animate={{ opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="fixed inset-0 z-[100] bg-black/75 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4 }}
+        onClick={onClose}
       />
-    </div>
+
+      {/* Opened invitation */}
+      <motion.div
+        className="fixed inset-0 z-[101] flex items-center justify-center p-4 sm:p-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          className="relative w-full max-w-lg overflow-hidden border"
+          style={{
+            borderColor: isUpcoming ? "hsl(38 40% 35% / 0.2)" : "hsl(350 20% 20% / 0.15)",
+            background: isUpcoming
+              ? "linear-gradient(160deg, hsl(38 18% 13%) 0%, hsl(35 14% 10%) 40%, hsl(38 10% 8%) 100%)"
+              : "linear-gradient(160deg, hsl(350 16% 10%) 0%, hsl(348 14% 8%) 40%, hsl(350 12% 6%) 100%)",
+          }}
+          initial={{ scale: 0.85, y: 40, rotateX: 8 }}
+          animate={{ scale: 1, y: 0, rotateX: 0 }}
+          exit={{ scale: 0.88, y: 30, rotateX: 6 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Paper texture */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.02]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E")`,
+            }}
+          />
+
+          {/* Gold inset border */}
+          {isUpcoming && (
+            <>
+              <div className="absolute inset-3 border border-gold/[0.06] pointer-events-none z-[1]" />
+              <div className="absolute inset-4 border border-gold/[0.03] pointer-events-none z-[1]" />
+            </>
+          )}
+
+          {/* Corner ornaments */}
+          {isUpcoming &&
+            [
+              "top-3 left-3",
+              "top-3 right-3 -scale-x-100",
+              "bottom-3 left-3 -scale-y-100",
+              "bottom-3 right-3 -scale-x-100 -scale-y-100",
+            ].map((pos, ci) => (
+              <div key={ci} className={`absolute ${pos} pointer-events-none z-[1]`}>
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" className="text-gold/10">
+                  <path d="M0 0v8c0-2 2-4 4-4h4c-4 0-6 0-8-4z" fill="currentColor" />
+                </svg>
+              </div>
+            ))}
+
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-ivory/10 bg-black/20 text-ivory/50 backdrop-blur-sm transition-colors hover:bg-black/40 hover:text-ivory"
+            aria-label="Close"
+          >
+            <X className="h-4 w-4" />
+          </button>
+
+          {/* Content */}
+          <div className="relative z-10 p-8 sm:p-10 md:p-12">
+            {/* Wax seal */}
+            {isUpcoming && (
+              <div className="flex justify-center mb-6">
+                <div className="relative w-14 h-14">
+                  <div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 38% 35%, hsl(350 50% 32%) 0%, hsl(350 42% 22%) 50%, hsl(350 38% 16%) 100%)",
+                      boxShadow:
+                        "0 3px 10px hsl(0 0% 0% / 0.5), inset 0 1px 3px hsl(350 30% 45% / 0.3)",
+                    }}
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center font-hand text-gold/60 text-xl">
+                    D
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {isUpcoming && (
+              <p className="text-center text-gold/25 text-[9px] tracking-[0.5em] uppercase font-light mb-6">
+                You are cordially invited
+              </p>
+            )}
+
+            {/* Title */}
+            <h2
+              className={`text-center font-serif text-2xl sm:text-3xl leading-tight mb-2 ${
+                isUpcoming ? "text-ivory" : "text-ivory/60"
+              }`}
+              style={{
+                textShadow: isUpcoming
+                  ? "0 0 30px hsl(38 60% 50% / 0.1), 0 2px 12px hsl(0 0% 0% / 0.4)"
+                  : "0 2px 8px hsl(0 0% 0% / 0.3)",
+              }}
+            >
+              {show.title}
+            </h2>
+
+            {/* Ornamental divider */}
+            <div className="flex items-center justify-center gap-2 my-6">
+              <div className={`flex-1 max-w-14 h-px ${isUpcoming ? "bg-gold/15" : "bg-ivory/[0.06]"}`} />
+              <svg className={`w-3 h-3 ${isUpcoming ? "text-gold/20" : "text-ivory/10"}`} viewBox="0 0 12 12" fill="currentColor" aria-hidden>
+                <path d="M6 0l1.5 4.5H12L8.25 7.5 9.75 12 6 9 2.25 12 3.75 7.5 0 4.5h4.5z" />
+              </svg>
+              <div className={`flex-1 max-w-14 h-px ${isUpcoming ? "bg-gold/15" : "bg-ivory/[0.06]"}`} />
+            </div>
+
+            {/* Date, venue, details */}
+            <div className="text-center space-y-3 mb-8">
+              <p className={`text-editorial-display text-2xl ${isUpcoming ? "text-ivory/90" : "text-ivory/50"}`}>
+                {show.day}, {show.dateNum} {show.month} {show.year}
+              </p>
+              <div className="flex items-center justify-center gap-2">
+                <MapPin className={`w-3.5 h-3.5 ${isUpcoming ? "text-gold/35" : "text-ivory/15"}`} />
+                <span className={`font-serif text-sm tracking-wider ${isUpcoming ? "text-ivory/50" : "text-ivory/30"}`}>
+                  {show.venue}
+                </span>
+              </div>
+              <p className={`text-xs tracking-[0.25em] uppercase ${isUpcoming ? "text-ivory/25" : "text-ivory/12"}`}>
+                {show.city}
+              </p>
+              <div className="flex items-center justify-center gap-2">
+                <Clock className={`w-3 h-3 ${isUpcoming ? "text-gold/25" : "text-ivory/12"}`} />
+                <span className={`text-xs tracking-wider ${isUpcoming ? "text-ivory/30" : "text-ivory/15"}`}>
+                  {show.time}
+                </span>
+              </div>
+            </div>
+
+            {/* Guests */}
+            {show.guests && (
+              <div className="text-center mb-6">
+                <span className={`text-[9px] tracking-[0.35em] uppercase font-light ${isUpcoming ? "text-gold/25" : "text-ivory/15"}`}>
+                  Featuring
+                </span>
+                <p className={`font-serif text-sm mt-1 ${isUpcoming ? "text-ivory/40" : "text-ivory/20"}`}>
+                  {show.guests}
+                </p>
+              </div>
+            )}
+
+            {/* Diary note */}
+            {show.diary && (
+              <div className="text-center mb-8">
+                <p className={`font-hand text-lg sm:text-xl leading-relaxed max-w-sm mx-auto ${isUpcoming ? "text-gold/30" : "text-ivory/15"}`}>
+                  &ldquo;{show.diary}&rdquo;
+                </p>
+              </div>
+            )}
+
+            {/* Stamp for past */}
+            {show.stamp && (
+              <div className="flex justify-center mb-8">
+                <span
+                  className="inline-block border-2 border-[hsl(350_40%_30%/0.35)] text-[hsl(350_40%_35%/0.3)] text-sm tracking-[0.3em] uppercase px-5 py-2 font-serif font-light rotate-[-4deg]"
+                >
+                  {show.stamp}
+                </span>
+              </div>
+            )}
+
+            {/* Ticket button */}
+            {isUpcoming && (
+              <div className="text-center">
+                <a
+                  href={show.ticketUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 border border-gold/25 bg-gold/[0.06] px-10 py-4 text-xs tracking-[0.3em] uppercase text-gold transition-all duration-500 hover:bg-gold/12 hover:border-gold/45 hover:shadow-[0_0_40px_hsl(38_60%_40%/0.12)]"
+                >
+                  <Ticket className="w-4 h-4" />
+                  Get Tickets
+                </a>
+              </div>
+            )}
+          </div>
+
+          {/* Aged vignette */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              boxShadow:
+                "inset 0 0 60px hsl(350 20% 5% / 0.4), inset 0 0 120px hsl(350 15% 4% / 0.2)",
+            }}
+          />
+        </motion.div>
+      </motion.div>
+    </>
   );
 }
 
-/* ────────────────────────── PAGE ────────────────────────── */
+/* ═══════════════════════════════ MOBILE STACK ═══════════════════════════════ */
+
+function MobileCard({
+  show,
+  index,
+  onOpen,
+}: {
+  show: Show;
+  index: number;
+  onOpen: () => void;
+}) {
+  const isUpcoming = show.status === "upcoming";
+  const rotations = [-1.8, 2.2, -1, 1.6, -2.4, 0.8];
+  const rot = rotations[index % rotations.length];
+
+  return (
+    <motion.button
+      type="button"
+      onClick={onOpen}
+      className="relative block w-full text-left cursor-pointer outline-none group"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      style={{ rotate: `${rot}deg` }}
+      whileHover={{ rotate: 0, scale: 1.03 }}
+    >
+      {/* Shadow */}
+      <div className="absolute inset-0 translate-y-2 bg-black/20 blur-lg rounded-sm" />
+
+      {/* Pushpin */}
+      <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 z-20">
+        <div
+          className="w-3 h-3 rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle at 35% 30%, hsl(38 65% 68%) 0%, hsl(38 55% 45%) 50%, hsl(38 45% 32%) 100%)",
+            boxShadow: "0 2px 4px hsl(0 0% 0% / 0.4)",
+          }}
+        />
+      </div>
+
+      {/* Card */}
+      <div
+        className={`relative overflow-hidden border p-5 ${
+          isUpcoming ? "border-gold/12" : "border-ivory/[0.05]"
+        }`}
+        style={{
+          background: isUpcoming
+            ? "linear-gradient(145deg, hsl(38 18% 13% / 0.95), hsl(35 14% 10% / 0.97))"
+            : "linear-gradient(145deg, hsl(350 16% 10% / 0.95), hsl(348 14% 8% / 0.97))",
+        }}
+      >
+        {/* Paper texture */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        {/* Shimmer for upcoming */}
+        {isUpcoming && (
+          <motion.div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(110deg, transparent 30%, hsl(38 60% 60% / 0.04) 45%, hsl(38 70% 65% / 0.06) 50%, transparent 70%)",
+            }}
+            animate={{ x: ["-100%", "200%"] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 5 }}
+          />
+        )}
+
+        {/* Wax seal */}
+        {isUpcoming && (
+          <div className="absolute top-3 right-3 w-8 h-8">
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                background:
+                  "radial-gradient(circle at 38% 35%, hsl(350 50% 30%), hsl(350 42% 20%) 60%, hsl(350 38% 15%))",
+                boxShadow: "0 2px 4px hsl(0 0% 0% / 0.4)",
+              }}
+            />
+            <span className="absolute inset-0 flex items-center justify-center font-hand text-gold/55 text-xs">
+              D
+            </span>
+          </div>
+        )}
+
+        <div className="relative z-10">
+          <span className={`block text-[9px] tracking-[0.3em] uppercase font-light ${isUpcoming ? "text-gold/30" : "text-ivory/15"}`}>
+            {show.day}
+          </span>
+          <span className={`block text-editorial-display leading-none mt-1 ${isUpcoming ? "text-ivory text-3xl" : "text-ivory/50 text-2xl"}`}>
+            {show.dateNum}
+          </span>
+          <span className={`block text-[10px] tracking-[0.2em] uppercase mt-1 font-light ${isUpcoming ? "text-ivory/25" : "text-ivory/12"}`}>
+            {show.month} {show.year}
+          </span>
+
+          <div className={`w-8 h-px my-3 ${isUpcoming ? "bg-gold/12" : "bg-ivory/[0.05]"}`} />
+
+          <h3 className={`font-serif text-base leading-snug mb-2 ${isUpcoming ? "text-ivory/80" : "text-ivory/40"}`}>
+            {show.title}
+          </h3>
+
+          <div className="flex items-center gap-1.5">
+            <MapPin className={`w-3 h-3 ${isUpcoming ? "text-gold/25" : "text-ivory/10"}`} />
+            <span className={`text-xs tracking-wider ${isUpcoming ? "text-ivory/35" : "text-ivory/15"}`}>
+              {show.venue}, {show.city}
+            </span>
+          </div>
+
+          {show.stamp && (
+            <div className="absolute bottom-3 right-3 rotate-[-8deg]">
+              <span className="inline-block border-2 border-[hsl(350_40%_30%/0.3)] text-[hsl(350_40%_35%/0.25)] text-[9px] tracking-[0.25em] uppercase px-2 py-0.5 font-serif">
+                {show.stamp}
+              </span>
+            </div>
+          )}
+
+          {isUpcoming && (
+            <div className="mt-4 flex items-center gap-1.5">
+              <Ticket className="w-3 h-3 text-gold/20" />
+              <span className="text-gold/20 text-[8px] tracking-[0.25em] uppercase font-light">
+                Tap to open
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Vignette */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            boxShadow: isUpcoming
+              ? "inset 0 0 30px hsl(38 15% 8% / 0.3)"
+              : "inset 0 0 40px hsl(350 20% 5% / 0.5)",
+          }}
+        />
+      </div>
+    </motion.button>
+  );
+}
+
+/* ═══════════════════════════════ PAGE ═══════════════════════════════ */
 
 const LiveShows = () => {
-  const featuredShow = SHOWS.find((s) => s.featured);
-  const otherShows = SHOWS.filter((s) => !s.featured);
+  const [openShow, setOpenShow] = useState<Show | null>(null);
+  const close = useCallback(() => setOpenShow(null), []);
+
+  // Calculate wall height based on number of shows
+  const wallHeight = Math.max(600, SHOWS.length * 320);
 
   return (
     <main className="bg-night min-h-screen relative overflow-hidden">
-      <FilmGrain />
-      <LightLeaksOverlay />
-      <VelvetCurtains />
-      <BackstageSmoke />
-      <DustMotes />
+      <VelvetBackground />
+      <CandlelightAmbience />
+      <FloatingDust />
 
-      {/* Warm ambient background */}
-      <div className="pointer-events-none fixed inset-0 z-0" aria-hidden>
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% 30%, hsl(350 25% 9%) 0%, hsl(350 28% 5%) 100%)",
-          }}
-        />
+      {/* Film grain + light leaks */}
+      <div className="relative z-[3]">
+        <div className="film-grain pointer-events-none fixed inset-0 z-[3]" aria-hidden />
       </div>
+      <LightLeaksOverlay />
 
       <div className="relative z-10">
         {/* Back button */}
@@ -735,109 +803,123 @@ const LiveShows = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="fixed top-[max(1rem,env(safe-area-inset-top))] left-4 sm:left-8 z-50"
+          className="fixed top-[max(1rem,env(safe-area-inset-top))] left-4 sm:left-8 z-[60]"
         >
           <Link
             to="/"
-            className="inline-flex min-h-11 items-center gap-3 text-ivory/40 transition-colors hover:text-ivory group"
+            className="inline-flex min-h-11 items-center gap-3 text-ivory/35 transition-colors hover:text-ivory group"
           >
             <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
             <span className="text-sm tracking-widest uppercase">Back</span>
           </Link>
         </motion.div>
 
-        {/* ── HERO ── */}
-        <TheatreHero />
+        {/* Page header — subtle, not dominating */}
+        <div className="pt-24 sm:pt-28 pb-6 sm:pb-10 px-4 text-center">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, delay: 0.3 }}
+            className="text-gold/20 text-[9px] tracking-[0.5em] uppercase font-light mb-3"
+          >
+            Backstage
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="text-editorial-display text-ivory/80 mb-4"
+            style={{
+              fontSize: "clamp(1.8rem, 5vw, 3rem)",
+              lineHeight: 1.1,
+              textShadow: "0 0 40px hsl(38 50% 45% / 0.08), 0 2px 16px hsl(0 0% 0% / 0.5)",
+            }}
+          >
+            Live Shows
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.5 }}
+            className="font-serif text-ivory/20 text-sm italic max-w-md mx-auto"
+          >
+            Every performance tells a story. Every city becomes part of it.
+          </motion.p>
+        </div>
 
-        {/* ── FEATURED INVITATION ── */}
-        {featuredShow && (
-          <section className="relative px-4 sm:px-8 pb-20 sm:pb-28">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="text-center mb-10 sm:mb-14"
-            >
-              <span className="text-gold/30 text-[10px] tracking-[0.5em] uppercase font-light">
-                Next Performance
-              </span>
-            </motion.div>
-            <FeaturedInvitation show={featuredShow} />
-          </section>
-        )}
+        {/* ── DESKTOP: Scattered memory wall ── */}
+        <div
+          className="hidden md:block relative mx-auto max-w-5xl px-8"
+          style={{ height: `${wallHeight}px` }}
+        >
+          {SHOWS.map((show, i) => {
+            const p = PLACEMENTS[i % PLACEMENTS.length];
+            return (
+              <InvitationCard
+                key={show.id}
+                show={show}
+                placement={p}
+                onOpen={() => setOpenShow(show)}
+              />
+            );
+          })}
+        </div>
 
-        {/* ── BACKSTAGE WALL — OTHER SHOWS ── */}
-        {otherShows.length > 0 && (
-          <section className="relative px-4 sm:px-8 pb-16 sm:pb-24">
-            {/* Section divider */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="text-center mb-12 sm:mb-16"
-            >
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-16 h-px bg-gradient-to-r from-transparent to-gold/15" />
-                <span className="text-gold/25 text-[10px] tracking-[0.5em] uppercase font-light">
-                  Also Playing
-                </span>
-                <div className="w-16 h-px bg-gradient-to-l from-transparent to-gold/15" />
-              </div>
-            </motion.div>
+        {/* ── MOBILE: Stacked scrapbook ── */}
+        <div className="block md:hidden px-6 sm:px-10 space-y-8 pb-4">
+          {SHOWS.map((show, i) => (
+            <MobileCard
+              key={show.id}
+              show={show}
+              index={i}
+              onOpen={() => setOpenShow(show)}
+            />
+          ))}
+        </div>
 
-            <div className="max-w-md mx-auto space-y-8">
-              {otherShows.map((show, i) => (
-                <VintagePoster key={show.id} show={show} index={i} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* ── NEWSLETTER NUDGE ── */}
-        <motion.section
+        {/* Newsletter nudge */}
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2 }}
-          className="relative px-4 sm:px-8 pb-8 text-center"
+          className="text-center px-4 py-16 sm:py-20"
         >
-          <div className="max-w-md mx-auto">
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <div className="flex-1 max-w-12 h-px bg-gradient-to-r from-transparent to-gold/10" />
-              <svg className="w-3 h-3 text-gold/15" viewBox="0 0 12 12" fill="currentColor" aria-hidden>
-                <path d="M6 0l1.5 4.5H12L8.25 7.5 9.75 12 6 9 2.25 12 3.75 7.5 0 4.5h4.5z" />
-              </svg>
-              <div className="flex-1 max-w-12 h-px bg-gradient-to-l from-transparent to-gold/10" />
-            </div>
-            <p className="font-serif text-ivory/20 text-sm italic leading-relaxed mb-2">
-              More dates are being written into the story.
-            </p>
-            <p className="text-ivory/15 text-xs tracking-[0.15em] leading-relaxed">
-              Follow on socials or{" "}
-              <Link
-                to="/"
-                className="text-gold/30 hover:text-gold/60 underline underline-offset-4 decoration-gold/15 transition-colors"
-              >
-                subscribe to the newsletter
-              </Link>{" "}
-              to know first.
-            </p>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="w-8 h-px bg-gold/10" />
+            <svg className="w-2.5 h-2.5 text-gold/12" viewBox="0 0 12 12" fill="currentColor" aria-hidden>
+              <path d="M6 0l1.5 4.5H12L8.25 7.5 9.75 12 6 9 2.25 12 3.75 7.5 0 4.5h4.5z" />
+            </svg>
+            <div className="w-8 h-px bg-gold/10" />
           </div>
-        </motion.section>
+          <p className="font-serif text-ivory/15 text-sm italic mb-1">
+            More dates are being written into the story.
+          </p>
+          <p className="text-ivory/10 text-xs tracking-[0.15em]">
+            <Link
+              to="/"
+              className="text-gold/20 hover:text-gold/45 underline underline-offset-4 decoration-gold/10 transition-colors"
+            >
+              Subscribe
+            </Link>{" "}
+            to know first.
+          </p>
+        </motion.div>
 
-        {/* ── SOFFIT LIGHTS ── */}
-        <SoffitRig />
-
+        {/* Quiet sign-off */}
         <motion.p
-          className="text-center text-ivory/10 text-[10px] tracking-[0.5em] uppercase pb-12 mt-4"
-          animate={{ opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="text-center text-ivory/[0.06] text-[9px] tracking-[0.5em] uppercase pb-10"
+          animate={{ opacity: [0.06, 0.12, 0.06] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         >
           See you under the lights
         </motion.p>
       </div>
+
+      {/* Opened invitation overlay */}
+      <AnimatePresence>
+        {openShow && <OpenedInvitation show={openShow} onClose={close} />}
+      </AnimatePresence>
     </main>
   );
 };
