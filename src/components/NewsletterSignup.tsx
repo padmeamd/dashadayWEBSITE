@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { Mail } from "lucide-react";
 import { toast } from "sonner";
 
-const NEWSLETTER_INBOX = "dlaremetra@gmail.com";
+const NEWSLETTER_INBOX = "dashadaymanagement@gmail.com";
 const FORMSUBMIT_AJAX_URL = `https://formsubmit.co/ajax/${encodeURIComponent(NEWSLETTER_INBOX)}`;
 
 const NewsletterSignup = () => {

@@ -17,7 +17,7 @@ export const SOCIAL_LINKS = [
   },
   {
     label: "YouTube",
-    href: "https://www.youtube.com/c/DashaDayIsHere",
+    href: "https://www.youtube.com/channel/UC8WRkNqusG6IorUIzdeBl6w",
   },
   {
     label: "TikTok",

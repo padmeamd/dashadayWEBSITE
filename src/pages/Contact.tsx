@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import FilmGrain from "@/components/FilmGrain";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
 
-const CONTACT_INBOX = "dlaremetra@gmail.com";
+const CONTACT_INBOX = "dashadaymanagement@gmail.com";
 const FORMSUBMIT_AJAX_URL = `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_INBOX)}`;
 
 const Contact = () => {
@@ -211,7 +211,7 @@ const Contact = () => {
                     <span>@heydashaday</span>
                   </a>
                   <a
-                    href="https://youtube.com"
+                    href="https://www.youtube.com/channel/UC8WRkNqusG6IorUIzdeBl6w"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-4 text-ivory/70 hover:text-ivory transition-colors group"

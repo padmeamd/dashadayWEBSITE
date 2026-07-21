@@ -173,7 +173,7 @@ const Listen = () => {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/heydashaday/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-ivory/40 hover:text-gold transition-colors text-sm tracking-widest"
@@ -181,20 +181,20 @@ const Listen = () => {
               Instagram
             </a>
             <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-ivory/40 hover:text-gold transition-colors text-sm tracking-widest"
-            >
-              X
-            </a>
-            <a
-              href="https://tiktok.com"
+              href="https://www.tiktok.com/@dashadaymusic"
               target="_blank"
               rel="noopener noreferrer"
               className="text-ivory/40 hover:text-gold transition-colors text-sm tracking-widest"
             >
               TikTok
+            </a>
+            <a
+              href="https://www.youtube.com/channel/UC8WRkNqusG6IorUIzdeBl6w"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ivory/40 hover:text-gold transition-colors text-sm tracking-widest"
+            >
+              YouTube
             </a>
           </div>
         </motion.div>

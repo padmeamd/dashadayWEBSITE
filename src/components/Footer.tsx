@@ -7,10 +7,10 @@ const Footer = () => {
   const isInView = useInView(ref, { once: true });
 
   const socialLinks = [
-    { label: "Instagram", href: "#" },
-    { label: "TikTok", href: "#" },
-    { label: "Spotify", href: "#" },
-    { label: "Apple Music", href: "#" },
+    { label: "Instagram", href: "https://www.instagram.com/heydashaday/" },
+    { label: "TikTok", href: "https://www.tiktok.com/@dashadaymusic" },
+    { label: "Spotify", href: "https://open.spotify.com/artist/3XVaHujuNOBwtjM4XNpxRr" },
+    { label: "Apple Music", href: "https://music.apple.com/us/artist/dashaday/1529962263" },
   ];
 
   return (
@@ -35,6 +35,8 @@ const Footer = () => {
               <a
                 key={link.label}
                 href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="link-subtle inline-flex min-h-11 items-center text-xs tracking-[0.2em] uppercase text-ivory/40 hover:text-ivory transition-colors duration-500"
               >
                 {link.label}
