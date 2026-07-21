@@ -5,7 +5,6 @@ export type SiteNavItem =
 export const SITE_NAV_ITEMS: SiteNavItem[] = [
   { label: "Music", href: "#music", type: "section" },
   { label: "Videos", href: "#videos", type: "section" },
-  { label: "Lyrics", href: "#lyrics", type: "section" },
   { label: "Visuals", href: "#visuals", type: "section" },
   { label: "Live Shows", href: "/live", type: "route" },
   { label: "DAYD Media", href: "/dayd-media", type: "route" },
