@@ -4,13 +4,6 @@ import { MapPin, Calendar, ArrowRight } from "lucide-react";
 
 const SHOWS = [
   {
-    id: "jul-30",
-    dateNum: "30",
-    month: "Jul",
-    venue: "The Bread and Roses",
-    city: "London",
-  },
-  {
     id: "aug-2",
     dateNum: "2",
     month: "Aug",

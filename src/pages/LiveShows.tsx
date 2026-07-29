@@ -37,7 +37,8 @@ const SHOWS: Show[] = [
     city: "London",
     ticketUrl:
       "https://dice.fm/event/k6yglp-flamboyant-bone-gravity-riot-30th-jul-the-bread-and-roses-london-tickets",
-    status: "upcoming",
+    status: "past",
+    stamp: "Played",
     diary: "A warm pub stage, close enough to feel the crowd breathe with you.",
     guests: "Flamboyant Bone, Gravity Riot",
   },
