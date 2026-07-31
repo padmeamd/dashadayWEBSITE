@@ -6,7 +6,7 @@ const AboutStrip = () => {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section ref={ref} className="relative z-10 py-10 sm:py-14 overflow-hidden">
+    <section ref={ref} className="relative z-10 pt-10 sm:pt-14 pb-2 sm:pb-3 overflow-hidden">
       {/* Ambient glow */}
       <motion.div
         className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full"
