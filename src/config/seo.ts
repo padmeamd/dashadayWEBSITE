@@ -14,7 +14,7 @@ const defaultKeywords =
 export const HOME_SEO: PageSEOConfig = {
   title: "DashaDay Official Website | Cinematic Pop Artist & Songwriter",
   description:
-    "Official website of DashaDay — London-based cinematic pop artist and songwriter. Stream the debut album Things I Shouldn't Say, watch music videos, and get concert tickets.",
+    "Official website of DashaDay — London-based cinematic pop artist and songwriter. Stream the debut album Things I Shouldn't Say and watch music videos.",
   path: "/",
 };
 

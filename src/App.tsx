@@ -16,7 +16,6 @@ import NotFound from "./pages/NotFound";
 import Links from "./pages/Links";
 import LiveShows from "./pages/LiveShows";
 import SparklesCursor from "./components/SparklesCursor";
-import ConcertPopup from "./components/ConcertPopup";
 
 const queryClient = new QueryClient();
 
@@ -69,7 +68,6 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <SparklesCursor />
-      <ConcertPopup />
       <Toaster />
       <Sonner />
       <BrowserRouter>
