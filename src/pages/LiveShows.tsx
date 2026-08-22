@@ -24,42 +24,7 @@ type Show = {
   guests?: string;
 };
 
-const SHOWS: Show[] = [
-  {
-    id: "jul-30",
-    dateNum: "30",
-    month: "July",
-    year: "2026",
-    day: "Wednesday",
-    time: "Doors 7 PM",
-    title: "Flamboyant Bone + Gravity Riot",
-    venue: "The Bread and Roses",
-    city: "London",
-    ticketUrl:
-      "https://dice.fm/event/k6yglp-flamboyant-bone-gravity-riot-30th-jul-the-bread-and-roses-london-tickets",
-    status: "past",
-    stamp: "Played",
-    diary: "A warm pub stage, close enough to feel the crowd breathe with you.",
-    guests: "Flamboyant Bone, Gravity Riot",
-  },
-  {
-    id: "aug-2",
-    dateNum: "2",
-    month: "August",
-    year: "2026",
-    day: "Saturday",
-    time: "Doors 7 PM",
-    title: "DashaDay: Pre-Birthday Celebration",
-    venue: "Aces & Eights Saloon Bar",
-    city: "London",
-    ticketUrl:
-      "https://www.bandsintown.com/t/108619704?app_id=50017ce9c97df54ca7dfca64854274b1&came_from=267&utm_medium=api&utm_source=public_api&utm_campaign=ticket",
-    status: "upcoming",
-    diary:
-      "The night before everything changes. A celebration of the songs, the stories, and the people who made it all matter.",
-    guests: "Live band: Gravity Riot",
-  },
-];
+const SHOWS: Show[] = [];
 
 /* ═══════════════════════════ ATMOSPHERE ═══════════════════════════ */
 
