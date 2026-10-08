@@ -196,7 +196,11 @@ const main = async () => {
     }
     html = addJsonLd(html, blocks);
 
-    const target = isHome ? join(dist, "index.html") : join(dist, route.slice(1), "index.html");
+    // "<route>.html", not "<route>/index.html": Cloudflare Pages serves the
+    // former at /links and the latter at /links/, 308-redirecting /links to
+    // it. Every internal link, canonical and sitemap entry here is
+    // slash-free, so the flat filename is the one that matches.
+    const target = isHome ? join(dist, "index.html") : join(dist, `${route.slice(1)}.html`);
     mkdirSync(dirname(target), { recursive: true });
     writeFileSync(target, html);
     written += 1;
