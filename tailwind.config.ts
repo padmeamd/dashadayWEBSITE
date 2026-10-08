@@ -37,6 +37,12 @@ export default {
           soft: "hsl(var(--night-soft))",
           card: "hsl(var(--night-card))",
         },
+        burgundy: {
+          DEFAULT: "hsl(var(--burgundy))",
+          deep: "hsl(var(--burgundy-deep))",
+        },
+        ash: "hsl(var(--ash))",
+        charcoal: "hsl(var(--charcoal))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -113,6 +119,7 @@ export default {
       },
       transitionDuration: {
         "1200": "1200ms",
+        "1800": "1800ms",
         "2000": "2000ms",
       },
     },

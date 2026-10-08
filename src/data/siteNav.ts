@@ -3,6 +3,7 @@ export type SiteNavItem =
   | { label: string; href: string; type: "route" };
 
 export const SITE_NAV_ITEMS: SiteNavItem[] = [
+  { label: "The Series", href: "#the-series", type: "section" },
   { label: "Music", href: "#music", type: "section" },
   { label: "Videos", href: "#videos", type: "section" },
   { label: "Visuals", href: "#visuals", type: "section" },

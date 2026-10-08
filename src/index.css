@@ -33,6 +33,12 @@
     --night-soft: 0 0% 8%;
     --night-card: 0 0% 6%;
 
+    /* Gothic / dark-academia accents (Things I Shouldn't Say) */
+    --burgundy: 348 34% 24%;
+    --burgundy-deep: 348 38% 12%;
+    --ash: 220 7% 64%;
+    --charcoal: 240 4% 7%;
+
     /* System mappings */
     --card: 0 0% 6%;
     --card-foreground: 40 20% 95%;

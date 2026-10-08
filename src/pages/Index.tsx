@@ -1,6 +1,7 @@
 import FilmGrain from "@/components/FilmGrain";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
 import HeroSection from "@/components/HeroSection";
+import SeriesSection from "@/components/series/SeriesSection";
 import AboutStrip from "@/components/AboutStrip";
 import NewAlbumSection from "@/components/NewAlbumSection";
 import FeaturedVideoSection from "@/components/FeaturedVideoSection";
@@ -26,6 +27,7 @@ const Index = () => {
       <FilmGrain />
       <LightLeaksOverlay />
       <HeroSection />
+      <SeriesSection />
       <AboutStrip />
       <NewAlbumSection />
       <FeaturedVideoSection />

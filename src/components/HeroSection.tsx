@@ -12,6 +12,7 @@ import {
 import { useRef, useMemo, useState, useCallback, useEffect, useId } from "react";
 import { Link } from "react-router-dom";
 import SiteHeader from "@/components/SiteHeader";
+import HeroSeriesTeaser from "@/components/series/HeroSeriesTeaser";
 import { HERO_HOTSPOTS, heroHotspotZIndex, resolveHeroHotspotStyle } from "@/data/heroHotspots";
 import { ChevronDown, Plus } from "lucide-react";
 
@@ -662,6 +663,12 @@ const HeroSection = () => {
           ))}
         </motion.div>
 
+        {/* "Your invitation to Alderwick" — slim plate on the right edge of the
+            scene, sitting in the gap between the dress and vinyl hotspots. */}
+        <div className="pointer-events-auto absolute right-5 top-1/2 z-[56] hidden w-44 -translate-y-1/2 lg:block xl:right-7 xl:w-52">
+          <HeroSeriesTeaser variant="rail" />
+        </div>
+
         <motion.div
           style={{ opacity: uiOpacity, y: uiY }}
           className="pointer-events-none absolute inset-x-0 bottom-0 z-[50] flex w-full flex-col items-stretch gap-3 px-3 pb-5 pb-safe pt-8 sm:items-center sm:gap-4 sm:px-6 sm:pb-10 sm:pt-12 md:grid md:grid-cols-3 md:items-end md:gap-4 md:px-12 md:pb-12 md:pt-14"
@@ -717,6 +724,18 @@ const HeroSection = () => {
         </motion.div>
 
       </section>
+
+      {/* Compact teaser beneath the hero on phones and tablets, doubling as the
+          transition into the series section. */}
+      <div
+        className="relative z-10 px-4 pb-6 pt-5 sm:px-6 sm:pb-8 lg:hidden"
+        style={{
+          background:
+            "linear-gradient(to bottom, hsl(350 28% 5%) 0%, hsl(var(--charcoal)) 100%)",
+        }}
+      >
+        <HeroSeriesTeaser variant="band" />
+      </div>
     </>
   );
 };

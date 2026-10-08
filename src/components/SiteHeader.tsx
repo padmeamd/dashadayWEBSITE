@@ -157,8 +157,8 @@ export function SiteHeader({ variant = "page" }: SiteHeaderProps) {
   const linkClass = cn(
     "font-serif font-light uppercase transition-colors duration-500 hover:text-ivory",
     isCinematic
-      ? "text-[14px] tracking-[0.24em] text-ivory/[0.88] md:text-[16px] md:tracking-[0.26em]"
-      : "text-[15px] tracking-[0.22em] text-ivory/70 md:text-[16px]"
+      ? "text-[14px] tracking-[0.24em] text-ivory/[0.88] md:text-[13px] md:tracking-[0.18em] lg:text-[14px] lg:tracking-[0.2em] xl:text-[16px] xl:tracking-[0.26em]"
+      : "text-[15px] tracking-[0.22em] text-ivory/70 md:text-[13px] md:tracking-[0.16em] lg:text-[14px] lg:tracking-[0.2em] xl:text-[16px]"
   );
   const glow = isCinematic
     ? "drop-shadow-[0_0_12px_hsl(38_55%_48%/0.18)] drop-shadow-[0_1px_8px_hsl(0_0%_0%/0.55)]"
@@ -202,7 +202,7 @@ export function SiteHeader({ variant = "page" }: SiteHeaderProps) {
             DashaDay
           </Link>
 
-          <nav className="hidden items-center gap-x-7 md:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-x-4 md:flex lg:gap-x-5 xl:gap-x-7" aria-label="Primary">
             {SITE_NAV_ITEMS.map((item) =>
               item.type === "section" ? (
                 <button
