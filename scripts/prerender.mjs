@@ -101,11 +101,7 @@ const main = async () => {
   const shell = readFileSync(join(dist, "index.html"), "utf8");
 
   const albumSlugs = ["things-i-shouldnt-say", "great-romance", "phobia", "work-of-art"];
-  const routes = [
-    ...Object.keys(ROUTE_SEO),
-    "/things-i-shouldnt-say",
-    ...albumSlugs.map((s) => `/album/${s}`),
-  ];
+  const routes = [...Object.keys(ROUTE_SEO), ...albumSlugs.map((s) => `/album/${s}`)];
 
   /* ── Structured data reused across pages ───────────────────────────────── */
 
