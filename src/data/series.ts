@@ -19,7 +19,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import { SOCIAL_LINKS } from "@/config/site";
+import { SITE_URL, SOCIAL_LINKS } from "@/config/site";
 
 /** Section anchor — used by the "The Series" nav item and the hero teaser. */
 export const SERIES_ANCHOR_ID = "the-series";
@@ -132,6 +132,16 @@ export type ReleaseMilestone = {
   note: string;
   /** Optional override; otherwise derived from `date`. */
   released?: boolean;
+  /**
+   * Set on milestones that put the episode in front of the general public.
+   * Only these are ever promoted by the new-episode popup — members-only
+   * premieres must stay `false`/absent so nothing unreleased is advertised.
+   */
+  isPublic?: boolean;
+  /** Extra wording for a partial release, e.g. "Part One". */
+  promoLabel?: string;
+  /** Where the popup sends viewers; defaults to the Telegram channel. */
+  watchHref?: string;
 };
 
 export type EpisodeStatus = "streaming" | "early-access" | "upcoming";
@@ -164,6 +174,7 @@ export const EPISODES: Episode[] = [
         date: "2026-10-05",
         label: "5 October 2026",
         note: "Full episode released",
+        isPublic: true,
       },
     ],
     cta: { label: "Watch Now", href: SERIES_LINKS.telegram },
@@ -183,11 +194,14 @@ export const EPISODES: Episode[] = [
         date: "2026-10-12",
         label: "12 October 2026",
         note: "Part One public release",
+        isPublic: true,
+        promoLabel: "Part One",
       },
       {
         date: "2026-10-15",
         label: "15 October 2026",
         note: "Full public premiere",
+        isPublic: true,
       },
     ],
     cta: { label: "Watch Early", href: SERIES_LINKS.membership },
@@ -199,7 +213,10 @@ export const EPISODES: Episode[] = [
    *   number: "03",
    *   status: "upcoming",
    *   statusLabel: "Coming Soon",
-   *   schedule: [{ date: "2026-10-22", label: "22 October 2026", note: "Members premiere" }],
+   *   schedule: [
+   *     { date: "2026-10-22", label: "22 October 2026", note: "Members premiere" },
+   *     { date: "2026-10-29", label: "29 October 2026", note: "Public premiere", isPublic: true },
+   *   ],
    *   cta: { label: "Watch Early", href: SERIES_LINKS.membership },
    * },
    */
@@ -283,4 +300,91 @@ export function isMilestoneReleased(milestone: ReleaseMilestone, today = new Dat
     today.getDate()
   ).padStart(2, "0")}`;
   return milestone.date <= localToday;
+}
+
+/* ── New-episode popup ────────────────────────────────────────────────────── */
+
+/**
+ * The homepage announcement. Everything about how it looks, what it says and
+ * how often it appears is set here.
+ *
+ * What it promotes is NOT set here — it is derived from EPISODES, so adding a
+ * chapter with an `isPublic` milestone is enough for the popup to start
+ * promoting it on that date. See `getLatestPublicRelease`.
+ *
+ * To preview it at any time, open the homepage with `?popup=1` — that ignores
+ * both the 7-day dismissal and the editor-preview check.
+ */
+export const EPISODE_POPUP = {
+  /** Flip to false to retire the popup without removing the code. */
+  enabled: true,
+  /** How long after the homepage settles before it appears. */
+  delayMs: 2000,
+  /** A dismissal silences this release for this many days. */
+  dismissDays: 7,
+  /** localStorage key holding `{ releaseId, dismissedAt }`. */
+  storageKey: "dashaday:episode-popup",
+  /** Banner image — any key of SERIES_STILLS. */
+  still: "arrival",
+  eyebrow: "An Original Series by Dasha Day",
+  title: SERIES.title,
+  badge: "New Episode",
+  description: "Your invitation to Alderwick awaits. Discover the mystery.",
+  primaryCta: { label: "Watch the New Episode", href: SERIES_LINKS.telegram } satisfies SeriesCta,
+  secondaryCta: {
+    label: "Explore the Series",
+    href: `${SITE_URL}/things-i-shouldnt-say`,
+  } satisfies SeriesCta,
+} as const;
+
+export type PublicRelease = {
+  /** Stable id for this exact release — also the dismissal key. */
+  id: string;
+  /** ISO UK release day. */
+  date: string;
+  episodeNumber: string;
+  /** What the popup calls it, e.g. "The Invitation" or "Episode 02 — Part One". */
+  title: string;
+  watchHref: string;
+};
+
+/**
+ * Today's date in the UK, as `YYYY-MM-DD`.
+ *
+ * Release dates are announced as UK dates, so every visitor must be judged
+ * against the London calendar — otherwise someone in Auckland would see a new
+ * episode advertised half a day early, and someone in Los Angeles half a day
+ * late.
+ */
+export function ukToday(now = new Date()): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/London" }).format(now);
+}
+
+/**
+ * The newest episode (or part) that is genuinely out in public, or null while
+ * nothing has been released yet. Members-only premieres are never returned, so
+ * the popup cannot advertise something the public cannot watch.
+ */
+export function getLatestPublicRelease(now = new Date()): PublicRelease | null {
+  const today = ukToday(now);
+  let latest: PublicRelease | null = null;
+
+  for (const episode of EPISODES) {
+    for (const milestone of episode.schedule) {
+      if (!milestone.isPublic || milestone.date > today) continue;
+
+      const base = episode.title ?? `Episode ${episode.number}`;
+      const candidate: PublicRelease = {
+        id: `${episode.id}@${milestone.date}`,
+        date: milestone.date,
+        episodeNumber: episode.number,
+        title: milestone.promoLabel ? `${base} — ${milestone.promoLabel}` : base,
+        watchHref: milestone.watchHref ?? EPISODE_POPUP.primaryCta.href,
+      };
+
+      if (!latest || candidate.date > latest.date) latest = candidate;
+    }
+  }
+
+  return latest;
 }

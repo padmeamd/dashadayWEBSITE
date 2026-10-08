@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import Links from "./pages/Links";
 import LiveShows from "./pages/LiveShows";
 import SparklesCursor from "./components/SparklesCursor";
+import SeriesRedirect from "./pages/SeriesRedirect";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,8 @@ function AppRoutes() {
             path="/merch"
             element={<SimpleCinematicPage title="Merch" subtitle="Wear the velvet night—coming soon." />}
           />
+          {/* Public-facing series URL — lands on the homepage section. */}
+          <Route path="/things-i-shouldnt-say" element={<SeriesRedirect />} />
           <Route path="/links" element={<Links />} />
           <Route path="/live" element={<LiveShows />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
