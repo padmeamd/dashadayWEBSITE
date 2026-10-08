@@ -388,3 +388,22 @@ export function getLatestPublicRelease(now = new Date()): PublicRelease | null {
 
   return latest;
 }
+
+/**
+ * Episodes that are genuinely out in public, each with the date it became
+ * available. Drives the search-engine structured data, so nothing unreleased
+ * is ever described as published.
+ */
+export function getPublishedEpisodes(now = new Date()): Array<{
+  episode: Episode;
+  datePublished: string;
+}> {
+  const today = ukToday(now);
+
+  return EPISODES.flatMap((episode) => {
+    const live = episode.schedule
+      .filter((m) => m.isPublic && m.date <= today)
+      .sort((a, b) => a.date.localeCompare(b.date));
+    return live.length ? [{ episode, datePublished: live[0].date }] : [];
+  });
+}

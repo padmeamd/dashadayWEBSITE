@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import SiteHeader from "@/components/SiteHeader";
+import Seo from "@/components/Seo";
 import Index from "./pages/Index";
 import Listen from "./pages/Listen";
 import AlbumDetail from "./pages/AlbumDetail";
@@ -26,6 +27,7 @@ function AppRoutes() {
 
   return (
     <>
+      <Seo />
       {!isHome ? <SiteHeader variant="page" /> : null}
       <div
         className={

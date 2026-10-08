@@ -3,6 +3,7 @@ import LightLeaksOverlay from "@/components/LightLeaksOverlay";
 import HeroSection from "@/components/HeroSection";
 import SeriesSection from "@/components/series/SeriesSection";
 import NewEpisodePopup from "@/components/series/NewEpisodePopup";
+import SeriesStructuredData from "@/components/series/SeriesStructuredData";
 import AboutStrip from "@/components/AboutStrip";
 import NewAlbumSection from "@/components/NewAlbumSection";
 import FeaturedVideoSection from "@/components/FeaturedVideoSection";
@@ -25,6 +26,7 @@ const SectionBlend = ({ from = "night", to = "night" }: { from?: string; to?: st
 const Index = () => {
   return (
     <main className="bg-night min-h-screen overflow-x-hidden">
+      <SeriesStructuredData />
       <NewEpisodePopup />
       <FilmGrain />
       <LightLeaksOverlay />

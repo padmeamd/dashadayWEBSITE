@@ -9,12 +9,13 @@ export type PageSEOConfig = {
 };
 
 const defaultKeywords =
-  "DashaDay, pop artist, songwriter, cinematic pop, London musician, Things I Shouldn't Say, music videos, alternative pop";
+  "DashaDay, pop artist, songwriter, cinematic pop, London musician, Things I Shouldn't Say, music videos, alternative pop, " +
+  "Things I Shouldn't Say series, Alderwick University, dark academia series, gothic romance series, AI film series";
 
 export const HOME_SEO: PageSEOConfig = {
-  title: "DashaDay Official Website | Cinematic Pop Artist & Songwriter",
+  title: "DashaDay | Cinematic Pop Artist & Creator of Things I Shouldn't Say",
   description:
-    "Official website of DashaDay — London-based cinematic pop artist and songwriter. Stream the debut album Things I Shouldn't Say and watch music videos.",
+    "Official website of DashaDay — London-based cinematic pop artist, songwriter and filmmaker. Watch the original dark academia series Things I Shouldn't Say and stream the album of the same name.",
   path: "/",
 };
 
@@ -56,6 +57,20 @@ export const ROUTE_SEO: Record<string, PageSEOConfig> = {
     description:
       "Learn about DashaDay — London-based pop artist, songwriter, and developer creating cinematic music and immersive digital experiences.",
     path: "/about",
+    // Placeholder page ("coming soon") — thin content, so it stays unindexed
+    // until it has something to say.
+    noindex: true,
+  },
+  "/links": {
+    title: "All Links | DashaDay",
+    description:
+      "Every DashaDay link in one place — streaming, music videos, the series Things I Shouldn't Say, and social profiles.",
+    path: "/links",
+  },
+  "/live": {
+    title: "Live Shows | DashaDay",
+    description: "Live performances and upcoming shows from DashaDay.",
+    path: "/live",
   },
   "/merch": {
     title: "Merch | DashaDay",
@@ -71,16 +86,30 @@ export const ROUTE_SEO: Record<string, PageSEOConfig> = {
   },
 };
 
+/**
+ * Proper titles for the released albums. Deriving them from the slug drops
+ * punctuation — "things-i-shouldnt-say" became "Things I Shouldnt Say", which
+ * misses the apostrophe people actually search for.
+ */
+const ALBUM_TITLES: Record<string, string> = {
+  "things-i-shouldnt-say": "Things I Shouldn't Say",
+  "great-romance": "Great Romance",
+  phobia: "Phobia",
+  "work-of-art": "Work of Art",
+};
+
 export function getSEOForPath(pathname: string): PageSEOConfig & { keywords: string } {
   if (pathname.startsWith("/album/")) {
     const slug = pathname.replace("/album/", "");
-    const title = slug
-      .split("-")
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" ");
+    const title =
+      ALBUM_TITLES[slug] ??
+      slug
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
     return {
-      title: `${title} | DashaDay`,
-      description: `Stream ${title} by DashaDay on your favorite platform.`,
+      title: `${title} — Album by DashaDay`,
+      description: `Listen to ${title} by DashaDay on Spotify, Apple Music, YouTube Music and more.`,
       path: pathname,
       keywords: defaultKeywords,
     };
