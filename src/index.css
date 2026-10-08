@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
+/* Web fonts are requested from index.html instead of @import here: an
+   @import hides them behind the CSS bundle, costing an extra round trip
+   before the browser even learns they exist. */
 
 @font-face {
   font-family: "Moralana DEMO";
