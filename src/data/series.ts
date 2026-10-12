@@ -28,6 +28,8 @@ export const SERIES_ANCHOR_ID = "the-series";
 export const SERIES_LINKS = {
   /** Telegram channel — full episodes + updates. */
   telegram: "https://t.me/daydmedia",
+  /** Episode One, free and in full on YouTube, in English. */
+  youtubeEpisodeOne: "https://youtu.be/pbTrzJmW4Kw",
   /** Members' community — early access + behind the scenes. */
   membership: "https://buymeacoffee.com/daydmedia",
   /** AI filmmaking guide. */
@@ -104,7 +106,13 @@ export const SERIES = {
     { label: "Setting", value: "Alderwick University, England, 1890s" },
     { label: "Inspired by", value: "The album Things I Shouldn't Say" },
   ],
-  primaryCta: { label: "Watch the Series", href: SERIES_LINKS.telegram } satisfies SeriesCta,
+  primaryCta: {
+    label: "Watch Episode One",
+    href: SERIES_LINKS.youtubeEpisodeOne,
+  } satisfies SeriesCta,
+  /** Printed under the buttons so the offer is unmistakable. */
+  watchNote:
+    "Episode One — The Invitation is out now on YouTube: the full episode, in English, free to watch.",
   secondaryCta: {
     label: "Enter the Alderwick Society",
     href: SERIES_LINKS.membership,
@@ -156,6 +164,8 @@ export type Episode = {
   status: EpisodeStatus;
   statusLabel: string;
   description?: string;
+  /** Short availability note: runtime, language, where to watch. */
+  availability?: string;
   schedule: ReleaseMilestone[];
   cta: SeriesCta;
 };
@@ -166,9 +176,10 @@ export const EPISODES: Episode[] = [
     number: "01",
     title: "The Invitation",
     status: "streaming",
-    statusLabel: "Now Streaming",
+    statusLabel: "Now Streaming on YouTube",
     description:
       "Dasha arrives at Alderwick University for the first time, unaware that her invitation will lead her into a world of ancient secrets, unexpected connections, and a mysterious legend.",
+    availability: "Full episode · 9 minutes · in English · free on YouTube",
     schedule: [
       {
         date: "2026-10-05",
@@ -176,8 +187,15 @@ export const EPISODES: Episode[] = [
         note: "Full episode released",
         isPublic: true,
       },
+      {
+        date: "2026-10-12",
+        label: "12 October 2026",
+        note: "Now on YouTube — full episode, in English",
+        isPublic: true,
+        watchHref: SERIES_LINKS.youtubeEpisodeOne,
+      },
     ],
-    cta: { label: "Watch Now", href: SERIES_LINKS.telegram },
+    cta: { label: "Watch on YouTube", href: SERIES_LINKS.youtubeEpisodeOne },
   },
   {
     id: "ep-02",
@@ -194,8 +212,9 @@ export const EPISODES: Episode[] = [
         date: "2026-10-12",
         label: "12 October 2026",
         note: "Part One public release",
-        isPublic: true,
-        promoLabel: "Part One",
+        // `isPublic` deliberately absent: Part One could not be confirmed as
+        // out anywhere public, so nothing promotes it yet. Add the flag back
+        // (with promoLabel: "Part One") the moment it is live.
       },
       {
         date: "2026-10-15",
@@ -272,7 +291,7 @@ export const FOLLOW = {
     {
       name: "youtube",
       label: "YouTube",
-      description: "Watch upcoming public releases",
+      description: "Watch full episodes in English, starting with The Invitation",
       href: SERIES_LINKS.youtube,
     },
   ] satisfies FollowChannel[],
@@ -346,6 +365,8 @@ export type PublicRelease = {
   /** What the popup calls it, e.g. "The Invitation" or "Episode 02 — Part One". */
   title: string;
   watchHref: string;
+  /** Runtime / language / platform, when the episode declares one. */
+  availability?: string;
 };
 
 /**
@@ -380,6 +401,7 @@ export function getLatestPublicRelease(now = new Date()): PublicRelease | null {
         episodeNumber: episode.number,
         title: milestone.promoLabel ? `${base} — ${milestone.promoLabel}` : base,
         watchHref: milestone.watchHref ?? EPISODE_POPUP.primaryCta.href,
+        availability: episode.availability,
       };
 
       if (!latest || candidate.date > latest.date) latest = candidate;
@@ -397,6 +419,7 @@ export function getLatestPublicRelease(now = new Date()): PublicRelease | null {
 export function getPublishedEpisodes(now = new Date()): Array<{
   episode: Episode;
   datePublished: string;
+  watchHref: string;
 }> {
   const today = ukToday(now);
 
@@ -404,6 +427,16 @@ export function getPublishedEpisodes(now = new Date()): Array<{
     const live = episode.schedule
       .filter((m) => m.isPublic && m.date <= today)
       .sort((a, b) => a.date.localeCompare(b.date));
-    return live.length ? [{ episode, datePublished: live[0].date }] : [];
+    if (!live.length) return [];
+    // Earliest public date is when it came out; the most recent milestone
+    // holds the best place to watch it today.
+    const newest = live[live.length - 1];
+    return [
+      {
+        episode,
+        datePublished: live[0].date,
+        watchHref: newest.watchHref ?? episode.cta.href,
+      },
+    ];
   });
 }

@@ -198,6 +198,11 @@ const SeriesSection = () => (
                 {SERIES.secondaryCta.label}
               </SeriesButton>
             </div>
+
+            <p className="mt-5 flex max-w-prose items-start gap-2.5 font-sans text-[12.5px] font-light leading-relaxed text-gold/80 sm:text-[13px]">
+              <span aria-hidden className="mt-[0.45rem] h-1 w-1 shrink-0 rotate-45 bg-gold/70" />
+              {SERIES.watchNote}
+            </p>
           </div>
         </Reveal>
         {/* Production slate — closes the composition under the smaller frame */}

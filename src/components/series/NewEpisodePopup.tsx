@@ -243,6 +243,12 @@ const NewEpisodePopup = () => {
               &ldquo;{EPISODE_POPUP.description}&rdquo;
             </p>
 
+            {release.availability ? (
+              <p className="mt-3 font-sans text-[10.5px] uppercase tracking-[0.18em] text-gold/75">
+                {release.availability}
+              </p>
+            ) : null}
+
             <a
               href={release.watchHref}
               target="_blank"

@@ -124,14 +124,35 @@ const main = async () => {
     sameAs: [series.SERIES_LINKS.telegram],
     // Only episodes already out in public — listing an unreleased one would
     // advertise it as available.
-    episode: published.map(({ episode, datePublished }) => ({
+    episode: published.map(({ episode, datePublished, watchHref }) => ({
       "@type": "TVEpisode",
       episodeNumber: Number(episode.number),
       ...(episode.title ? { name: episode.title } : {}),
       ...(episode.description ? { description: episode.description } : {}),
       datePublished,
-      url: series.SERIES_LINKS.telegram,
+      url: watchHref,
     })),
+  };
+
+  /**
+   * Episode One is a real, watchable video, so it is also described as a
+   * VideoObject — that is the shape Google needs for video rich results.
+   * Declared alongside the series rather than inside it.
+   */
+  const episodeOneVideo = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: "The Invitation | Things I Shouldn't Say — Episode 1",
+    description: series.EPISODES[0].description,
+    thumbnailUrl: ["https://i.ytimg.com/vi/pbTrzJmW4Kw/maxresdefault.jpg"],
+    uploadDate: "2026-10-12",
+    duration: "PT9M5S",
+    inLanguage: "en",
+    contentUrl: series.SERIES_LINKS.youtubeEpisodeOne,
+    embedUrl: "https://www.youtube.com/embed/pbTrzJmW4Kw",
+    isFamilyFriendly: true,
+    publisher: { "@type": "Organization", name: "DashaDay", url: SITE_URL },
+    partOfSeries: { "@type": "TVSeries", name: series.SERIES.title, url: `${SITE_URL}/#${series.SERIES_ANCHOR_ID}` },
   };
 
   const breadcrumb = (name, path) => ({
@@ -182,7 +203,10 @@ const main = async () => {
     });
 
     const blocks = [];
-    if (isHome) blocks.push({ id: "series-structured-data", data: seriesLd });
+    if (isHome) {
+      blocks.push({ id: "series-structured-data", data: seriesLd });
+      blocks.push({ data: episodeOneVideo });
+    }
     if (!isHome && route !== "/things-i-shouldnt-say") {
       blocks.push({ data: breadcrumb(seo.title.split("|")[0].split("—")[0].trim(), seo.path ?? route) });
     }

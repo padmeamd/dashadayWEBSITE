@@ -50,13 +50,13 @@ const SeriesStructuredData = () => {
       },
       numberOfEpisodes: EPISODES.length,
       sameAs: [SERIES_LINKS.telegram],
-      episode: published.map(({ episode, datePublished }) => ({
+      episode: published.map(({ episode, datePublished, watchHref }) => ({
         "@type": "TVEpisode",
         episodeNumber: Number(episode.number),
         ...(episode.title ? { name: episode.title } : {}),
         ...(episode.description ? { description: episode.description } : {}),
         datePublished,
-        url: SERIES_LINKS.telegram,
+        url: watchHref,
       })),
     };
 

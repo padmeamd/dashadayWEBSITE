@@ -77,6 +77,12 @@ const ChapterRow = ({ episode }: { episode: Episode }) => {
               {episode.description}
             </p>
           ) : null}
+
+          {episode.availability ? (
+            <p className="mt-3 font-sans text-[11px] uppercase tracking-[0.18em] text-gold/70 sm:text-[11.5px]">
+              {episode.availability}
+            </p>
+          ) : null}
         </div>
 
         {/* Dated milestones */}
