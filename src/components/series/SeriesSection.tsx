@@ -2,7 +2,6 @@ import { ArrowUpRight, Instagram, Send, Youtube } from "lucide-react";
 import {
   EPISODES,
   FOLLOW,
-  GUIDE,
   MEMBERSHIP,
   SCHEDULE,
   SERIES,
@@ -11,6 +10,7 @@ import {
   type FollowChannel,
 } from "@/data/series";
 import ChapterRow from "./ChapterRow";
+import GuidePanel from "./GuidePanel";
 import CinematicPlate from "./CinematicPlate";
 import Ornament from "./Ornament";
 import Reveal from "./Reveal";
@@ -358,29 +358,10 @@ const SeriesSection = () => (
       </Reveal>
 
       {/* ─── BEHIND THE MAGIC ───────────────────────────────────────────── */}
-      <Reveal className="mt-10 pb-16 sm:mt-12 sm:pb-20 md:pb-28" y={12}>
-        <div className="flex flex-col gap-6 border-t border-ivory/[0.08] pt-9 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
-          <div className="max-w-xl">
-            <h3 className="font-serif text-[12px] uppercase tracking-[0.3em] text-gold/85 sm:text-[13px] sm:tracking-[0.34em]">
-              {GUIDE.heading}
-            </h3>
-            <p className="mt-4 font-serif text-[1.2rem] font-light italic leading-snug text-ivory/90 sm:text-[1.4rem]">
-              {GUIDE.question}
-            </p>
-            <p className="mt-4 font-sans text-[14.5px] font-light leading-relaxed text-ivory/70 sm:text-[15.5px]">
-              Get my filmmaking guide,{" "}
-              <em className="not-italic text-ivory/95">{GUIDE.guideTitle}</em>. {GUIDE.subtitle}.
-            </p>
-          </div>
-          <SeriesButton
-            href={GUIDE.cta.href}
-            variant="primary"
-            className="shrink-0 self-start sm:self-auto"
-          >
-            {GUIDE.cta.label}
-          </SeriesButton>
-        </div>
+      <Reveal className="mt-12 pb-16 sm:mt-14 sm:pb-20 md:pb-28" y={16}>
+        <GuidePanel />
       </Reveal>
+
     </div>
   </section>
 );
