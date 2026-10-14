@@ -238,7 +238,7 @@ const SeriesSection = () => (
           <h3 className="font-serif text-[clamp(1.5rem,4.8vw,2.4rem)] font-light uppercase leading-none tracking-[0.18em] text-ivory/90">
             {SCHEDULE.heading}
           </h3>
-          <p className="font-sans text-[12px] font-light leading-relaxed text-ash/85 sm:text-right sm:text-[13px]">
+          <p className="font-sans text-[13px] font-light leading-relaxed text-ivory/70 sm:text-right sm:text-[14px]">
             {SCHEDULE.subheading}
           </p>
         </div>
@@ -288,7 +288,7 @@ const SeriesSection = () => (
               {MEMBERSHIP.benefits.map((benefit) => (
                 <li
                   key={benefit}
-                  className="flex items-center gap-2.5 font-sans text-[11.5px] font-light tracking-wide text-ash/85"
+                  className="flex items-center gap-2.5 font-sans text-[13px] font-light tracking-wide text-ivory/75 sm:text-[13.5px]"
                 >
                   <span aria-hidden className="h-1 w-1 shrink-0 rotate-45 bg-gold/70" />
                   {benefit}
@@ -341,7 +341,7 @@ const SeriesSection = () => (
                     <span className="block font-serif text-[12px] uppercase tracking-[0.26em] text-ivory/85 transition-colors duration-500 group-hover/follow:text-ivory">
                       {channel.label}
                     </span>
-                    <span className="mt-1 block font-sans text-[11.5px] font-light leading-snug text-ash/75">
+                    <span className="mt-1.5 block font-sans text-[12.5px] font-light leading-snug text-ivory/60 sm:text-[13px]">
                       {channel.description}
                     </span>
                   </span>
@@ -359,23 +359,22 @@ const SeriesSection = () => (
 
       {/* ─── BEHIND THE MAGIC ───────────────────────────────────────────── */}
       <Reveal className="mt-10 pb-16 sm:mt-12 sm:pb-20 md:pb-28" y={12}>
-        <div className="flex flex-col gap-5 border-t border-ivory/[0.08] pt-8 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+        <div className="flex flex-col gap-6 border-t border-ivory/[0.08] pt-9 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
           <div className="max-w-xl">
-            <h3 className="font-serif text-[10.5px] uppercase tracking-[0.34em] text-gold/65">
+            <h3 className="font-serif text-[12px] uppercase tracking-[0.3em] text-gold/85 sm:text-[13px] sm:tracking-[0.34em]">
               {GUIDE.heading}
             </h3>
-            <p className="mt-3 font-serif text-[0.98rem] font-light italic leading-snug text-ivory/75">
+            <p className="mt-4 font-serif text-[1.2rem] font-light italic leading-snug text-ivory/90 sm:text-[1.4rem]">
               {GUIDE.question}
             </p>
-            <p className="mt-2 font-sans text-[12.5px] font-light leading-relaxed text-ash/80">
+            <p className="mt-4 font-sans text-[14.5px] font-light leading-relaxed text-ivory/70 sm:text-[15.5px]">
               Get my filmmaking guide,{" "}
-              <em className="not-italic text-ivory/70">{GUIDE.guideTitle}</em> — {GUIDE.subtitle.toLowerCase()}.
+              <em className="not-italic text-ivory/95">{GUIDE.guideTitle}</em>. {GUIDE.subtitle}.
             </p>
           </div>
           <SeriesButton
             href={GUIDE.cta.href}
-            variant="ghost"
-            size="sm"
+            variant="primary"
             className="shrink-0 self-start sm:self-auto"
           >
             {GUIDE.cta.label}

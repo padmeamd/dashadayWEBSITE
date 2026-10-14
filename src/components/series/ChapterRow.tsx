@@ -73,7 +73,7 @@ const ChapterRow = ({ episode }: { episode: Episode }) => {
           </div>
 
           {episode.description ? (
-            <p className="mt-3 max-w-prose font-sans text-[13.5px] font-light leading-relaxed text-ivory/60 sm:text-sm">
+            <p className="mt-3 max-w-prose font-sans text-[14px] font-light leading-relaxed text-ivory/70 sm:text-[14.5px]">
               {episode.description}
             </p>
           ) : null}
@@ -109,7 +109,7 @@ const ChapterRow = ({ episode }: { episode: Episode }) => {
                     >
                       {milestone.label}
                     </time>
-                    <span className="ml-2 font-sans text-[11.5px] font-light text-ash/80 sm:text-xs">
+                    <span className="ml-2 font-sans text-[12.5px] font-light text-ivory/65 sm:text-[13px]">
                       {milestone.note}
                       <span className="sr-only">{released ? " — released" : " — upcoming premiere"}</span>
                     </span>
