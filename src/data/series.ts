@@ -112,7 +112,7 @@ export const SERIES = {
   } satisfies SeriesCta,
   /** Printed under the buttons so the offer is unmistakable. */
   watchNote:
-    "Episode One — The Invitation is out now on YouTube: the full episode, in English, free to watch.",
+    "Episode One — The Invitation is out now on YouTube: the full episode, in English, free to watch. Episode Two is on Telegram.",
   secondaryCta: {
     label: "Enter the Alderwick Society",
     href: SERIES_LINKS.membership,
@@ -200,8 +200,12 @@ export const EPISODES: Episode[] = [
   {
     id: "ep-02",
     number: "02",
-    status: "early-access",
-    statusLabel: "Members Early Access Available",
+    status: "streaming",
+    statusLabel: "Now on Telegram",
+    // Episode Two is watchable on Telegram only — it is not on YouTube, so
+    // every link for it points at the channel rather than the video site.
+    // No `availability` line: the status and the button already say it, and
+    // its runtime and language are not confirmed.
     schedule: [
       {
         date: "2026-10-05",
@@ -211,19 +215,20 @@ export const EPISODES: Episode[] = [
       {
         date: "2026-10-12",
         label: "12 October 2026",
-        note: "Part One public release",
-        // `isPublic` deliberately absent: Part One could not be confirmed as
-        // out anywhere public, so nothing promotes it yet. Add the flag back
-        // (with promoLabel: "Part One") the moment it is live.
+        note: "Part One — public on Telegram",
+        isPublic: true,
+        promoLabel: "Part One",
+        watchHref: SERIES_LINKS.telegram,
       },
       {
         date: "2026-10-15",
         label: "15 October 2026",
-        note: "Full public premiere",
+        note: "Full public premiere on Telegram",
         isPublic: true,
+        watchHref: SERIES_LINKS.telegram,
       },
     ],
-    cta: { label: "Watch Early", href: SERIES_LINKS.membership },
+    cta: { label: "Watch on Telegram", href: SERIES_LINKS.telegram },
   },
   /**
    * Add future chapters here, e.g.:
@@ -303,7 +308,9 @@ export const GUIDE = {
   heading: "Behind the Magic",
   question: "Ever wondered how an entire cinematic series can be created with AI?",
   guideTitle: "Create Your Own Film with AI",
-  cta: { label: "Explore the Guide", href: SERIES_LINKS.guide } satisfies SeriesCta,
+  /** Straight from the guide's own page — no price here, it varies by tier. */
+  subtitle: "A step-by-step guide to creating a realistic AI film or mini-series",
+  cta: { label: "Get the Guide", href: SERIES_LINKS.guide } satisfies SeriesCta,
 } as const;
 
 /* ── Helpers ──────────────────────────────────────────────────────────────── */
@@ -404,6 +411,9 @@ export function getLatestPublicRelease(now = new Date()): PublicRelease | null {
         availability: episode.availability,
       };
 
+      // Strictly greater, so when two releases share a day the earlier entry
+      // in EPISODES keeps the slot. That is deliberate: it leaves the choice
+      // of which one to headline in the hands of whoever orders this list.
       if (!latest || candidate.date > latest.date) latest = candidate;
     }
   }

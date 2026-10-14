@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import FilmGrain from "@/components/FilmGrain";
+import { GUIDE, SERIES, SERIES_LINKS } from "@/data/series";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
 
 const PLATFORMS = [
@@ -261,6 +262,100 @@ const Links = () => {
                   </svg>
                 </motion.a>
               ))}
+            </div>
+          </motion.div>
+
+          {/* Divider */}
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ delay: 1.0, duration: 0.8 }}
+            className="w-16 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent mx-auto mb-8"
+          />
+
+          {/* The series and the guide — the two things that are not streaming
+              platforms, each with its own direct link. */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.05 }}
+          >
+            <p className="text-gold/60 text-[10px] tracking-[0.4em] uppercase mb-4 text-center font-light">
+              Watch &amp; Create
+            </p>
+
+            <div className="space-y-2.5 mb-8">
+              <motion.a
+                href={SERIES_LINKS.youtubeEpisodeOne}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1.1 }}
+                className="group relative flex items-center gap-4 rounded-xl border border-ivory/[0.08] bg-white/[0.02] px-5 py-4 transition-all duration-300 hover:border-gold/40 hover:bg-white/[0.04] hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-gold/[0.12] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="relative text-ivory/40 group-hover:text-gold transition-colors duration-300">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z" />
+                  </svg>
+                </span>
+                <div className="relative flex-1 min-w-0">
+                  <span className="block text-ivory/80 group-hover:text-ivory text-sm tracking-wider transition-colors duration-300">
+                    Watch {SERIES.title}
+                  </span>
+                  <span className="block text-ivory/25 group-hover:text-ivory/40 text-xs tracking-wide transition-colors duration-300">
+                    Episode One, free on YouTube
+                  </span>
+                </div>
+                <svg
+                  className="relative w-3.5 h-3.5 text-ivory/15 group-hover:text-ivory/40 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </motion.a>
+
+              <motion.a
+                href={GUIDE.cta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1.18 }}
+                className="group relative flex items-center gap-4 rounded-xl border border-gold/25 bg-gold/[0.04] px-5 py-4 transition-all duration-300 hover:border-gold/50 hover:bg-gold/[0.08] hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span className="relative text-gold/60 group-hover:text-gold transition-colors duration-300">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  </svg>
+                </span>
+                <div className="relative flex-1 min-w-0">
+                  <span className="block text-ivory/90 group-hover:text-ivory text-sm tracking-wider transition-colors duration-300">
+                    {GUIDE.guideTitle}
+                  </span>
+                  <span className="block text-ivory/30 group-hover:text-ivory/50 text-xs tracking-wide transition-colors duration-300">
+                    {GUIDE.subtitle}
+                  </span>
+                </div>
+                <svg
+                  className="relative w-3.5 h-3.5 text-gold/30 group-hover:text-gold/60 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </motion.a>
             </div>
           </motion.div>
 

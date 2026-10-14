@@ -368,9 +368,8 @@ const SeriesSection = () => (
               {GUIDE.question}
             </p>
             <p className="mt-2 font-sans text-[12.5px] font-light leading-relaxed text-ash/80">
-              Discover my filmmaking guide,{" "}
-              <em className="not-italic text-ivory/70">{GUIDE.guideTitle}</em>, and explore the creative
-              process behind the series.
+              Get my filmmaking guide,{" "}
+              <em className="not-italic text-ivory/70">{GUIDE.guideTitle}</em> — {GUIDE.subtitle.toLowerCase()}.
             </p>
           </div>
           <SeriesButton
