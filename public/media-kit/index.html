@@ -49,6 +49,7 @@
     --accent-soft: #b2778c;
     --accent-glow: #efdfe5;
     --sage: #8fa495;
+    --espresso: #3b2e26;   /* warmer than the page ink; the hero only */
     --gilt: #b08f55;        /* antique gold, for rules and index marks only */         /* one quiet second note, for the share bars */
     --rule: rgba(156, 95, 118, 0.28);
     --rule-faint: rgba(56, 45, 51, 0.12);
@@ -186,294 +187,199 @@
   .label-dim { color: var(--ink-faint); }
 
   /* ─────────────────────────────────────────────────────────────────────
-     Hero — an editorial opening spread. The type column and the picture
-     column share grid tracks so the name can sit over the photograph's
-     edge, and every rule, number and caption is a real element rather
-     than decoration baked into an image.
+     Hero — type on the left, photograph on the right, nothing laid over
+     her face. The only blend is a short one at the picture's left edge,
+     where it meets the ivory ground.
      ───────────────────────────────────────────────────────────────────── */
   .hero {
     position: relative;
-    padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(2.5rem, 6vw, 4.5rem);
+    padding: clamp(1.25rem, 3vw, 2.5rem) 0 clamp(3rem, 7vw, 5rem);
   }
 
-  /* The reading column is 60rem; the opening spread breaks out of it. */
-  @media (min-width: 72rem) {
-    .hero { margin-inline: clamp(-5rem, -4vw, -2rem); }
+  @media (min-width: 74rem) {
+    .hero { margin-inline: clamp(-4rem, -3vw, -1.5rem); }
   }
 
-  .hero-type { position: relative; z-index: 2; max-width: 34rem; }
+  .hero-grid {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+  }
 
-  @media (min-width: 58rem) {
-    .hero-type { max-width: 30rem; }
+  @media (min-width: 60rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+      grid-template-rows: auto auto;
+      align-items: center;
+      column-gap: clamp(2rem, 4vw, 3.5rem);
+    }
+    .hero-type { grid-column: 1; grid-row: 1; }
+    .hero-actions { grid-column: 1; grid-row: 2; align-self: start; }
+    .hero-photo { grid-column: 2; grid-row: 1 / 3; }
   }
 
   .hero-label {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    font-size: 0.72rem;
+    margin: 0 0 clamp(1rem, 2.5vw, 1.6rem);
+    font-size: 0.74rem;
     font-weight: 500;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--gilt);
-    margin: 0 0 1.4rem;
-  }
-
-  .hero-label::before {
-    content: "";
-    width: clamp(1.5rem, 4vw, 3rem);
-    height: 1px;
-    background: var(--gilt);
-    opacity: 0.7;
+    color: var(--accent);
   }
 
   .hero-name {
     margin: 0;
-    font-weight: 400;
-    line-height: 0.82;
-    color: var(--ink);
-  }
-
-  .hero-name .line {
-    display: block;
     font-family: "Moralana", var(--serif);
-    font-size: clamp(3.6rem, 12vw, 8.5rem);
-  }
-
-  /* The surname steps right and carries the rule — the asymmetry is the point. */
-  .hero-name .two {
-    margin-left: clamp(1.5rem, 7vw, 5rem);
-    position: relative;
-  }
-
-  .hero-name .two::before {
-    content: "";
-    position: absolute;
-    left: clamp(-3.2rem, -5vw, -1.2rem);
-    top: 54%;
-    width: clamp(1rem, 4vw, 3rem);
-    height: 1px;
-    background: var(--gilt);
-    opacity: 0.8;
+    font-weight: 400;
+    font-size: clamp(2.9rem, 6.4vw, 5rem);
+    line-height: 1.04;
+    letter-spacing: 0.01em;
+    color: var(--espresso);
+    text-wrap: balance;
   }
 
   .hero-roles {
-    margin: 1.6rem 0 0;
-    font-size: 0.8rem;
-    letter-spacing: 0.24em;
+    margin: clamp(1rem, 2.4vw, 1.5rem) 0 0;
+    font-size: 0.86rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-soft);
   }
 
   .hero-statement {
-    margin: 1.5rem 0 0;
-    max-width: 24rem;
+    margin: clamp(1.4rem, 3vw, 2rem) 0 0;
+    max-width: 26rem;
     font-family: var(--serif);
-    font-style: italic;
-    font-size: clamp(1.2rem, 2.6vw, 1.5rem);
-    line-height: 1.45;
-    color: var(--ink);
+    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+    line-height: 1.5;
+    color: var(--espresso);
     text-wrap: pretty;
   }
 
-  .hero-meta {
-    margin: 2rem 0 0;
-    display: grid;
-    gap: 0.55rem;
-    border-top: 1px solid var(--rule-faint);
-    padding-top: 1.2rem;
-    max-width: 26rem;
-  }
-
   .hero-where {
-    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: clamp(1.4rem, 3vw, 2rem) 0 0;
     font-size: 0.78rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  .hero-cities {
-    margin: 0;
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-faint);
+  }
+
+  /* The single gold note on the page. */
+  .hero-where::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gilt);
   }
 
   .hero-actions {
-    margin: 2rem 0 0;
+    margin: clamp(1.75rem, 3.5vw, 2.5rem) 0 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 1.25rem 2rem;
     align-items: center;
+    gap: 0.9rem 1.3rem;
   }
 
-  .hero-actions a {
+  .hero-actions .primary {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    font-size: 0.8rem;
-    letter-spacing: 0.2em;
+    padding: 0.95rem 1.7rem;
+    background: var(--accent);
+    color: #fdfbfa;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--ink);
-    padding-bottom: 0.45rem;
-    border-bottom: 1px solid var(--gilt);
+    border-radius: 2px;
+    transition: background 200ms ease, transform 200ms ease;
+  }
+
+  .hero-actions .primary:hover { background: #8a4f66; transform: translateY(-1px); }
+
+  .hero-actions .secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-soft);
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
     transition: color 200ms ease, border-color 200ms ease;
   }
 
-  .hero-actions a .arrow { transition: transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .hero-actions a:hover { color: var(--accent); border-bottom-color: var(--accent); }
-  .hero-actions a.down:hover .arrow { transform: translateY(4px); }
-  .hero-actions a.out:hover .arrow { transform: translate(3px, -3px); }
+  .hero-actions .secondary:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .hero-actions .arrow { transition: transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .hero-actions .secondary:hover .arrow { transform: translateY(3px); }
 
-  .hero-actions a.ghost {
-    color: var(--ink-soft);
-    border-bottom-color: var(--rule);
-  }
-
-  /* ── the plate: one photograph filling the rectangle, type laid over it ─ */
-  .hero-frame {
+  /* ── the photograph ─────────────────────────────────────────────────── */
+  .hero-photo {
     position: relative;
-    isolation: isolate;
+    margin: 0;
+    border-radius: 2px;
     overflow: hidden;
-    border-radius: var(--r-lg);
-    border: 1px solid var(--rule);
-    min-height: clamp(26rem, 52vw, 36rem);
-    display: flex;
-    align-items: flex-end;
-    padding: clamp(1.5rem, 4vw, 3.25rem);
-    box-shadow: 0 28px 64px rgba(56, 45, 51, 0.16);
   }
 
-  /* The offset gilt rule that breaks the rectangle's edge. */
-  .hero-frame::after {
-    content: "";
-    position: absolute;
-    inset: clamp(0.55rem, 1.4vw, 1rem);
-    border: 1px solid rgba(176, 143, 85, 0.35);
-    border-radius: calc(var(--r-lg) - 6px);
-    pointer-events: none;
-    z-index: 3;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
+  .hero-photo img {
+    display: block;
     width: 100%;
     height: 100%;
+    aspect-ratio: 5 / 4;
     object-fit: cover;
-    object-position: 72% 28%;
-    z-index: -2;
+    object-position: 58% 26%;
   }
 
-  /* Cream from the left so the type reads, clearing by the time it meets her. */
-  .hero-veil {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      linear-gradient(100deg,
-        rgba(250, 246, 242, 0.96) 0%,
-        rgba(250, 246, 242, 0.88) 28%,
-        rgba(250, 246, 242, 0.45) 52%,
-        rgba(250, 246, 242, 0.08) 74%,
-        rgba(250, 246, 242, 0) 100%);
-  }
-
-  /* Editorial marks in the corners of the plate. */
-  .hero-index,
-  .hero-rail {
-    position: absolute;
-    z-index: 4;
-    font-size: 0.66rem;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--gilt);
-  }
-
-  .hero-index {
-    top: clamp(1.4rem, 3.2vw, 2.4rem);
-    right: clamp(1.4rem, 3.2vw, 2.4rem);
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .hero-index b { font-weight: 500; font-variant-numeric: tabular-nums; }
-
-  .hero-index::before {
+  /* A short dissolve where the picture meets the page — nothing across her. */
+  .hero-photo::after {
     content: "";
-    width: clamp(1.2rem, 3vw, 2.4rem);
-    height: 1px;
-    background: currentColor;
-    opacity: 0.7;
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 22%;
+    background: linear-gradient(to right, var(--paper) 0%, rgba(250, 246, 242, 0.55) 45%, rgba(250, 246, 242, 0) 100%);
+    pointer-events: none;
   }
 
-  /* A thin vertical label down the left edge of the plate. */
-  .hero-rail {
-    left: clamp(1.2rem, 2.6vw, 1.9rem);
-    top: 50%;
-    transform: translateY(-50%) rotate(180deg);
-    writing-mode: vertical-rl;
-    color: var(--ink-faint);
-    letter-spacing: 0.34em;
-    font-size: 0.6rem;
+  @media (min-width: 60rem) {
+    /* The type may lean onto the picture's quiet left edge, never further. */
+    .hero-photo { margin-left: clamp(-3.5rem, -3vw, -1.5rem); }
+    .hero-photo img { aspect-ratio: 4 / 5; max-height: 38rem; }
+    .hero-type, .hero-actions { position: relative; z-index: 2; }
   }
 
-  @media (max-width: 58rem) {
-    .hero-rail { display: none; }
-    /* No fixed ratio here: the plate grows with the type instead of cropping
-       it, and the top padding keeps her face clear of the first line. */
-    .hero-frame {
-      aspect-ratio: auto;
-      min-height: min(130vw, 34rem);
-      padding-top: min(58vw, 15rem);
-      align-items: flex-end;
-    }
-    .hero-bg { object-position: 62% 18%; }
-    .hero-veil {
-      background:
-        linear-gradient(to top,
-          rgba(250, 246, 242, 0.97) 0%,
-          rgba(250, 246, 242, 0.9) 34%,
-          rgba(250, 246, 242, 0.42) 58%,
-          rgba(250, 246, 242, 0.05) 82%);
-    }
-  }
-
-  @media (max-width: 30rem) {
-    .hero-frame { padding-top: min(66vw, 13rem); }
-    .hero-statement { font-size: 1.12rem; }
+  @media (max-width: 60rem) {
+    .hero-type { order: 1; }
+    .hero-photo { order: 2; }
+    .hero-actions { order: 3; }
+    .hero-photo img { aspect-ratio: 4 / 3; object-position: 58% 22%; }
+    .hero-photo::after { width: 14%; }
+    .hero-actions .primary { flex: 1 1 auto; justify-content: center; }
   }
 
   /* ── the load sequence ──────────────────────────────────────────────── */
   .hero-label,
-  .hero-name .one,
-  .hero-name .two,
+  .hero-name,
   .hero-roles,
   .hero-statement,
-  .hero-meta,
-  .hero-actions,
-  .hero-index,
-  .hero-rail { animation: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .hero-where,
+  .hero-actions { animation: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 
-  .hero-label { animation-delay: 180ms; }
-  .hero-name .one { animation-delay: 280ms; }
-  .hero-name .two { animation-delay: 380ms; }
-  .hero-roles { animation-delay: 500ms; }
-  .hero-statement { animation-delay: 580ms; }
-  .hero-meta { animation-delay: 660ms; }
-  .hero-actions { animation-delay: 740ms; }
-  .hero-index { animation-delay: 820ms; }
-  .hero-rail { animation-delay: 900ms; }
+  .hero-photo img { animation: plate 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 
-  /* The photograph itself eases in rather than snapping. */
-  .hero-bg { animation: plate 1200ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .hero-label { animation-delay: 140ms; }
+  .hero-name { animation-delay: 240ms; }
+  .hero-roles { animation-delay: 380ms; }
+  .hero-statement { animation-delay: 470ms; }
+  .hero-where { animation-delay: 560ms; }
+  .hero-actions { animation-delay: 650ms; }
 
   @keyframes plate {
-    from { opacity: 0; transform: scale(1.04); }
+    from { opacity: 0; transform: scale(1.03); }
     to { opacity: 1; transform: none; }
   }
 
@@ -1073,9 +979,13 @@
     .hero-statement,
     .hero-meta,
     .hero-actions,
-    .hero-index,
-    .hero-rail,
-    .hero-bg { animation: none; }
+    .hero-label,
+    .hero-name,
+    .hero-roles,
+    .hero-statement,
+    .hero-where,
+    .hero-actions,
+    .hero-photo img { animation: none; }
 
     .reveal { opacity: 1; transform: none; transition: none; }
     .markets .bar i { transition: none; }
@@ -1102,34 +1012,22 @@
 
 <div class="sheet">
   <header class="hero">
-    <div class="hero-frame">
-      <img class="hero-bg" src="/image/media-kit/hero-bg.jpg" width="1600" height="1151" fetchpriority="high" alt="Portrait of Dasha Day" />
-      <span class="hero-veil" aria-hidden="true"></span>
-
-      <p class="hero-index"><b>01</b> Film · Music · Fashion</p>
-      <p class="hero-rail" aria-hidden="true">The art of being seen</p>
-
+    <div class="hero-grid">
       <div class="hero-type">
-        <p class="hero-label">The creative portfolio of</p>
-
-        <h1 class="hero-name">
-          <span class="line one">Dasha</span>
-          <span class="line two">Day</span>
-        </h1>
-
-        <p class="hero-roles">Digital Creator · Filmmaker · Musician</p>
-
+        <p class="hero-label">Media kit</p>
+        <h1 class="hero-name">Dasha Day</h1>
+        <p class="hero-roles">Digital creator · Filmmaker · Musician</p>
         <p class="hero-statement">Turning places, moments and ideas into stories worth watching.</p>
+        <p class="hero-where">Currently creating in London</p>
+      </div>
 
-        <div class="hero-meta">
-          <p class="hero-where">Currently creating in London</p>
-          <p class="hero-cities">London · Dubai · Los Angeles · Moscow</p>
-        </div>
+      <figure class="hero-photo">
+        <img src="/image/media-kit/hero-bg.jpg" width="1600" height="1151" fetchpriority="high" alt="Portrait of Dasha Day" />
+      </figure>
 
-        <div class="hero-actions">
-          <a class="down" href="#work">Explore my work <span class="arrow" aria-hidden="true">↓</span></a>
-          <a class="ghost out" href="#contact">Let's collaborate <span class="arrow" aria-hidden="true">↗</span></a>
-        </div>
+      <div class="hero-actions">
+        <a class="primary" href="#contact">Let's collaborate</a>
+        <a class="secondary" href="#work">Explore my work <span class="arrow" aria-hidden="true">↓</span></a>
       </div>
     </div>
   </header>
