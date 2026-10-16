@@ -51,6 +51,9 @@
     --sage: #8fa495;         /* one quiet second note, for the share bars */
     --rule: rgba(156, 95, 118, 0.28);
     --rule-faint: rgba(56, 45, 51, 0.12);
+    --r-lg: 22px;
+    --r-md: 15px;
+    --r-sm: 10px;
     --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
     --sans: Inter, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   }
@@ -78,6 +81,7 @@
      at the homepage because the anchors live there, not here. */
   .topbar {
     position: sticky;
+    overflow: hidden;
     top: 0;
     z-index: 10;
     background: rgba(250, 246, 242, 0.88);
@@ -116,6 +120,21 @@
   }
 
   .topbar nav::-webkit-scrollbar { display: none; }
+
+  /* On a phone the links run past the edge; this fades the cut so it reads as
+     "there is more" rather than "the text is clipped". */
+  .topbar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2.5rem;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(250, 246, 242, 0), rgba(250, 246, 242, 0.95));
+  }
+
+  @media (min-width: 62rem) { .topbar::after { display: none; } }
 
   .topbar nav a {
     font-size: 0.74rem;
@@ -157,6 +176,7 @@
   /* ── Masthead: an engraved invitation, because the series opens with one ── */
   .masthead {
     border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
     padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem);
     text-align: center;
     position: relative;
@@ -197,6 +217,7 @@
     object-fit: cover;
     object-position: 50% 28%;
     border: 1px solid var(--rule);
+    border-radius: var(--r-md);
     margin-bottom: 1.75rem;
     box-shadow: 0 16px 40px rgba(56, 45, 51, 0.18);
     object-position: 50% 18%;
@@ -212,8 +233,8 @@
     background: var(--rule);
     opacity: 0.5;
   }
-  .masthead::before { top: 0.5rem; }
-  .masthead::after { bottom: 0.5rem; }
+  .masthead::before { top: 0.6rem; }
+  .masthead::after { bottom: 0.6rem; }
 
   .wordmark {
     font-family: "Moralana", var(--serif);
@@ -309,6 +330,8 @@
 
   /* ── The ledger of numbers ── */
   .ledger {
+    border-radius: var(--r-md);
+    overflow: hidden;
     margin-top: 2rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -428,18 +451,21 @@
 
   .markets .bar {
     grid-column: 1 / -1;
-    height: 3px;
+    height: 4px;
+    border-radius: 999px;
     background: var(--rule-faint);
     position: relative;
+    overflow: hidden;
   }
 
   .markets .bar i {
     position: absolute;
     inset: 0 auto 0 0;
+    border-radius: 999px;
     background: var(--sage);
   }
 
-  .traits { margin: 2rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-faint); border: 1px solid var(--rule-faint); }
+  .traits { border-radius: var(--r-md); overflow: hidden; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-faint); border: 1px solid var(--rule-faint); }
 
   @media (max-width: 34rem) { .traits { grid-template-columns: 1fr; } }
 
@@ -479,8 +505,10 @@
     text-decoration: none;
     color: inherit;
     border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    overflow: hidden;
     background: var(--panel);
-    transition: border-color 180ms ease, transform 180ms ease;
+    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
   }
 
   .work a:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(56, 45, 51, 0.1); }
@@ -544,7 +572,7 @@
 
   @media (min-width: 40rem) { .strip { grid-template-columns: repeat(5, 1fr); } }
 
-  .strip a { display: block; border: 1px solid var(--rule-faint); transition: border-color 160ms ease; }
+  .strip a { display: block; border: 1px solid var(--rule-faint); border-radius: var(--r-sm); overflow: hidden; transition: border-color 160ms ease; }
   .strip a:hover { border-color: var(--accent-soft); }
   .strip img { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; }
 
@@ -576,7 +604,7 @@
 
   .facts .val { color: var(--ink); }
 
-  .offers { margin: 2rem 0 0; padding: 0; list-style: none; display: grid; gap: 1px; background: var(--rule-faint); border: 1px solid var(--rule-faint); }
+  .offers { border-radius: var(--r-md); overflow: hidden; margin: 2rem 0 0; padding: 0; list-style: none; display: grid; gap: 1px; background: var(--rule-faint); border: 1px solid var(--rule-faint); }
 
   .offers li { background: var(--panel); padding: 1.4rem clamp(1.1rem, 3vw, 1.75rem); }
 
@@ -596,7 +624,8 @@
 
   .albums a {
     border: 1px solid var(--rule);
-    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    padding: 0.55rem 1.1rem;
     font-family: var(--serif);
     font-size: 1.05rem;
     color: var(--ink);
@@ -618,6 +647,7 @@
   .contact {
     margin-top: clamp(3.5rem, 9vw, 6rem);
     border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
     padding: clamp(2rem, 6vw, 3.25rem);
     text-align: center;
   }
