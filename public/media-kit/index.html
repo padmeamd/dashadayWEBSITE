@@ -270,8 +270,29 @@
   /* ── Thesis ── */
   .thesis {
     margin: clamp(3rem, 8vw, 5rem) auto 0;
-    max-width: 34rem;
+    max-width: 48rem;
   }
+
+  /* Two columns rather than one long measure: the block loses half its height
+     while each line stays near 70 characters. */
+  .thesis-cols {
+    margin-top: 1.1rem;
+  }
+
+  @media (min-width: 58rem) {
+    .thesis-cols {
+      column-count: 2;
+      column-gap: 3rem;
+    }
+  }
+
+  .thesis-cols .body {
+    break-inside: avoid;
+    margin-top: 0;
+    margin-bottom: 1.1rem;
+  }
+
+  .thesis .lead { max-width: 38rem; }
 
   .thesis p {
     font-family: var(--serif);
@@ -299,7 +320,7 @@
   .thesis .body strong { color: var(--ink); font-weight: 600; }
 
   .thesis .closing {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--rule);
     font-family: var(--serif);
@@ -849,6 +870,7 @@
     <p class="label label-dim">About me</p>
     <p class="lead">I'm Dasha Day, an international digital creator, filmmaker and independent musician with a passion for cinematic storytelling and creating content that leaves a lasting impression.</p>
 
+    <div class="thesis-cols">
     <p class="body">I'm currently creating in <strong>London</strong>, with previous work filmed for brands and businesses across <strong>Dubai, Los Angeles and Moscow</strong>, bringing together cinematic visuals, authentic storytelling and a distinctive creative perspective.</p>
 
     <p class="body">My work spans <strong>travel, lifestyle, luxury hospitality, fashion, entertainment and music</strong>. From boutique hotels and extraordinary destinations to restaurants, immersive experiences and cultural venues, I specialise in transforming places, products and experiences into captivating visual stories that inspire audiences to explore, discover and engage.</p>
@@ -860,6 +882,7 @@
     <p class="body">I'm also the creator of <em>Things I Shouldn't Say</em>, an original AI-powered cinematic mystery series inspired by my music, combining filmmaking, storytelling and emerging technology to bring an entirely fictional universe to life.</p>
 
     <p class="body">With a background in filmmaking, technology and digital media, I bring both artistic vision and a strategic approach to every collaboration. Whether I'm capturing the atmosphere of a historic hotel, showcasing a unique experience or bringing a creative concept to life, my goal is always the same: to make people feel something.</p>
+    </div>
 
     <p class="closing">I don't just create content. I create stories people want to watch.</p>
   </div>
