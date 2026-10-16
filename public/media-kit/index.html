@@ -150,6 +150,11 @@
 
   .topbar nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
+  .topbar nav a[aria-current="page"] {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
   @media (max-width: 40rem) {
     .topbar-inner { gap: 1rem; }
     .topbar .home { font-size: 1.05rem; }
@@ -821,9 +826,8 @@
       <a href="/#the-series">The Series</a>
       <a href="/#music">Music</a>
       <a href="/#videos">Videos</a>
-      <a href="/#visuals">Visuals</a>
-      <a href="/live">Live Shows</a>
       <a href="/dayd-media">DAYD Media</a>
+      <a href="/media-kit/" aria-current="page">Media Kit</a>
       <a href="/links">Links</a>
       <a href="/contact">Contact</a>
     </nav>

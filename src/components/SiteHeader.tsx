@@ -117,6 +117,10 @@ function MobileNavMenu({
                     >
                       {item.label}
                     </button>
+                  ) : item.type === "external" ? (
+                    <a href={item.href} className={itemClass} onClick={onClose}>
+                      {item.label}
+                    </a>
                   ) : (
                     <Link to={item.href} className={itemClass} onClick={onClose}>
                       {item.label}
@@ -213,6 +217,10 @@ export function SiteHeader({ variant = "page" }: SiteHeaderProps) {
                 >
                   {item.label}
                 </button>
+              ) : item.type === "external" ? (
+                <a key={item.label} href={item.href} className={cn(linkClass, glow, "uppercase")}>
+                  {item.label}
+                </a>
               ) : (
                 <Link key={item.label} to={item.href} className={cn(linkClass, glow, "uppercase")}>
                   {item.label}
