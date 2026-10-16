@@ -48,7 +48,8 @@
     --accent: #9c5f76;       /* dusty rose, dark enough to carry links and figures */
     --accent-soft: #b2778c;
     --accent-glow: #efdfe5;
-    --sage: #8fa495;         /* one quiet second note, for the share bars */
+    --sage: #8fa495;
+    --gilt: #b08f55;        /* antique gold, for rules and index marks only */         /* one quiet second note, for the share bars */
     --rule: rgba(156, 95, 118, 0.28);
     --rule-faint: rgba(56, 45, 51, 0.12);
     --r-lg: 22px;
@@ -60,9 +61,15 @@
 
   * { box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
   body {
     margin: 0;
-    /* A single long wash: blush at the masthead, beige by the contact block.
+    /* A single long wash: blush at the hero, beige by the contact block.
        No stop is strong enough to fight the type sitting on top of it. */
     background:
       radial-gradient(120% 50% at 50% 0%, #fbf3ea 0%, rgba(251, 243, 234, 0) 55%),
@@ -178,93 +185,296 @@
 
   .label-dim { color: var(--ink-faint); }
 
-  /* ── Masthead: an engraved invitation, because the series opens with one ── */
-  .masthead {
-    border: 1px solid var(--rule);
-    border-radius: var(--r-lg);
-    padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem);
-    text-align: center;
+  /* ─────────────────────────────────────────────────────────────────────
+     Hero — an editorial opening spread. The type column and the picture
+     column share grid tracks so the name can sit over the photograph's
+     edge, and every rule, number and caption is a real element rather
+     than decoration baked into an image.
+     ───────────────────────────────────────────────────────────────────── */
+  .hero {
     position: relative;
-    overflow: hidden;
-    isolation: isolate;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: rise 900ms ease-out both;
-    isolation: isolate;
+    padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(2.5rem, 6vw, 4.5rem);
   }
 
-  /* The same photograph twice: sharp as a plate, and blurred behind it so the
-     masthead carries the colour of the room she was shot in. */
-  .masthead .backdrop {
+  /* The reading column is 60rem; the opening spread breaks out of it. */
+  @media (min-width: 72rem) {
+    .hero { margin-inline: clamp(-5rem, -4vw, -2rem); }
+  }
+
+  .hero-type { position: relative; z-index: 2; max-width: 34rem; }
+
+  @media (min-width: 58rem) {
+    .hero-type { max-width: 30rem; }
+  }
+
+  .hero-label {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gilt);
+    margin: 0 0 1.4rem;
+  }
+
+  .hero-label::before {
+    content: "";
+    width: clamp(1.5rem, 4vw, 3rem);
+    height: 1px;
+    background: var(--gilt);
+    opacity: 0.7;
+  }
+
+  .hero-name {
+    margin: 0;
+    font-weight: 400;
+    line-height: 0.82;
+    color: var(--ink);
+  }
+
+  .hero-name .line {
+    display: block;
+    font-family: "Moralana", var(--serif);
+    font-size: clamp(3.6rem, 12vw, 8.5rem);
+  }
+
+  /* The surname steps right and carries the rule — the asymmetry is the point. */
+  .hero-name .two {
+    margin-left: clamp(1.5rem, 7vw, 5rem);
+    position: relative;
+  }
+
+  .hero-name .two::before {
+    content: "";
+    position: absolute;
+    left: clamp(-3.2rem, -5vw, -1.2rem);
+    top: 54%;
+    width: clamp(1rem, 4vw, 3rem);
+    height: 1px;
+    background: var(--gilt);
+    opacity: 0.8;
+  }
+
+  .hero-roles {
+    margin: 1.6rem 0 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .hero-statement {
+    margin: 1.5rem 0 0;
+    max-width: 24rem;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+    line-height: 1.45;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  .hero-meta {
+    margin: 2rem 0 0;
+    display: grid;
+    gap: 0.55rem;
+    border-top: 1px solid var(--rule-faint);
+    padding-top: 1.2rem;
+    max-width: 26rem;
+  }
+
+  .hero-where {
+    margin: 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hero-cities {
+    margin: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .hero-actions {
+    margin: 2rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 2rem;
+    align-items: center;
+  }
+
+  .hero-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--gilt);
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+
+  .hero-actions a .arrow { transition: transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .hero-actions a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .hero-actions a.down:hover .arrow { transform: translateY(4px); }
+  .hero-actions a.out:hover .arrow { transform: translate(3px, -3px); }
+
+  .hero-actions a.ghost {
+    color: var(--ink-soft);
+    border-bottom-color: var(--rule);
+  }
+
+  /* ── the plate: one photograph filling the rectangle, type laid over it ─ */
+  .hero-frame {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--rule);
+    min-height: clamp(26rem, 52vw, 36rem);
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(1.5rem, 4vw, 3.25rem);
+    box-shadow: 0 28px 64px rgba(56, 45, 51, 0.16);
+  }
+
+  /* The offset gilt rule that breaks the rectangle's edge. */
+  .hero-frame::after {
+    content: "";
+    position: absolute;
+    inset: clamp(0.55rem, 1.4vw, 1rem);
+    border: 1px solid rgba(176, 143, 85, 0.35);
+    border-radius: calc(var(--r-lg) - 6px);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .hero-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 30%;
+    object-position: 72% 28%;
     z-index: -2;
-    transform: scale(1.08);
   }
 
-  .masthead .scrim {
+  /* Cream from the left so the type reads, clearing by the time it meets her. */
+  .hero-veil {
     position: absolute;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(120% 90% at 50% 18%, rgba(250, 245, 238, 0.46) 0%, rgba(250, 245, 238, 0.85) 68%),
-      linear-gradient(to bottom, rgba(250, 245, 238, 0.7), rgba(250, 245, 238, 0.95));
+      linear-gradient(100deg,
+        rgba(250, 246, 242, 0.96) 0%,
+        rgba(250, 246, 242, 0.88) 28%,
+        rgba(250, 246, 242, 0.45) 52%,
+        rgba(250, 246, 242, 0.08) 74%,
+        rgba(250, 246, 242, 0) 100%);
   }
 
-  .masthead .portrait {
-    width: clamp(8.5rem, 26vw, 12rem);
-    height: clamp(8.5rem, 26vw, 12rem);
-    object-fit: cover;
-    object-position: 50% 28%;
-    border: 1px solid var(--rule);
-    border-radius: var(--r-md);
-    margin-bottom: 1.75rem;
-    box-shadow: 0 16px 40px rgba(56, 45, 51, 0.18);
-    object-position: 50% 18%;
-  }
-
-  .masthead::before,
-  .masthead::after {
-    content: "";
+  /* Editorial marks in the corners of the plate. */
+  .hero-index,
+  .hero-rail {
     position: absolute;
-    left: 1rem;
-    right: 1rem;
-    height: 1px;
-    background: var(--rule);
-    opacity: 0.5;
-  }
-  .masthead::before { top: 0.6rem; }
-  .masthead::after { bottom: 0.6rem; }
-
-  .wordmark {
-    font-family: "Moralana", var(--serif);
-    font-size: clamp(3.2rem, 13vw, 6.5rem);
-    line-height: 0.95;
-    margin: 1.25rem 0 0.75rem;
-    color: var(--ink);
-    font-weight: 400;
-    text-wrap: balance;
-  }
-
-  .role {
-    font-family: var(--serif);
-    font-size: clamp(1.05rem, 2.6vw, 1.4rem);
-    font-style: italic;
-    color: var(--accent-soft);
-    margin: 0;
-  }
-
-  .seat {
-    margin: 1.5rem 0 0;
-    font-size: 0.82rem;
-    letter-spacing: 0.2em;
+    z-index: 4;
+    font-size: 0.66rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
+    color: var(--gilt);
+  }
+
+  .hero-index {
+    top: clamp(1.4rem, 3.2vw, 2.4rem);
+    right: clamp(1.4rem, 3.2vw, 2.4rem);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hero-index b { font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  .hero-index::before {
+    content: "";
+    width: clamp(1.2rem, 3vw, 2.4rem);
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+
+  /* A thin vertical label down the left edge of the plate. */
+  .hero-rail {
+    left: clamp(1.2rem, 2.6vw, 1.9rem);
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
     color: var(--ink-faint);
+    letter-spacing: 0.34em;
+    font-size: 0.6rem;
+  }
+
+  @media (max-width: 58rem) {
+    .hero-rail { display: none; }
+    /* No fixed ratio here: the plate grows with the type instead of cropping
+       it, and the top padding keeps her face clear of the first line. */
+    .hero-frame {
+      aspect-ratio: auto;
+      min-height: min(130vw, 34rem);
+      padding-top: min(58vw, 15rem);
+      align-items: flex-end;
+    }
+    .hero-bg { object-position: 62% 18%; }
+    .hero-veil {
+      background:
+        linear-gradient(to top,
+          rgba(250, 246, 242, 0.97) 0%,
+          rgba(250, 246, 242, 0.9) 34%,
+          rgba(250, 246, 242, 0.42) 58%,
+          rgba(250, 246, 242, 0.05) 82%);
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .hero-frame { padding-top: min(66vw, 13rem); }
+    .hero-statement { font-size: 1.12rem; }
+  }
+
+  /* ── the load sequence ──────────────────────────────────────────────── */
+  .hero-label,
+  .hero-name .one,
+  .hero-name .two,
+  .hero-roles,
+  .hero-statement,
+  .hero-meta,
+  .hero-actions,
+  .hero-index,
+  .hero-rail { animation: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+  .hero-label { animation-delay: 180ms; }
+  .hero-name .one { animation-delay: 280ms; }
+  .hero-name .two { animation-delay: 380ms; }
+  .hero-roles { animation-delay: 500ms; }
+  .hero-statement { animation-delay: 580ms; }
+  .hero-meta { animation-delay: 660ms; }
+  .hero-actions { animation-delay: 740ms; }
+  .hero-index { animation-delay: 820ms; }
+  .hero-rail { animation-delay: 900ms; }
+
+  /* The photograph itself eases in rather than snapping. */
+  .hero-bg { animation: plate 1200ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+  @keyframes plate {
+    from { opacity: 0; transform: scale(1.04); }
+    to { opacity: 1; transform: none; }
   }
 
   /* ── Thesis ── */
@@ -779,26 +989,6 @@
   .markets .bar i { width: 0 !important; transition: width 900ms cubic-bezier(0.2, 0.7, 0.2, 1) 180ms; }
   .markets li.seen .bar i { width: var(--share) !important; }
 
-  /* The masthead opens as a sequence rather than all at once. */
-  .masthead .portrait { animation: plate 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-  .masthead .label { animation: rise 900ms ease-out 240ms both; }
-  .masthead .wordmark { animation: rise 1000ms cubic-bezier(0.2, 0.7, 0.2, 1) 360ms both; }
-  .masthead .role { animation: rise 900ms ease-out 520ms both; }
-  .masthead .seat { animation: rise 900ms ease-out 660ms both; }
-
-  /* A very slow drift keeps the blurred room alive without drawing the eye. */
-  .masthead .backdrop { animation: drift 28s ease-in-out infinite alternate; }
-
-  @keyframes plate {
-    from { opacity: 0; transform: translateY(26px) scale(0.96); }
-    to { opacity: 1; transform: none; }
-  }
-
-  @keyframes drift {
-    from { transform: scale(1.08) translate3d(0, 0, 0); }
-    to { transform: scale(1.16) translate3d(0, -2%, 0); }
-  }
-
 
   /* ── Light leaks: three warm blooms that drift as the page scrolls ─────── */
   .leaks {
@@ -876,13 +1066,16 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .masthead,
-    .masthead .portrait,
-    .masthead .label,
-    .masthead .wordmark,
-    .masthead .role,
-    .masthead .seat,
-    .masthead .backdrop { animation: none; }
+    .hero-label,
+    .hero-name .one,
+    .hero-name .two,
+    .hero-roles,
+    .hero-statement,
+    .hero-meta,
+    .hero-actions,
+    .hero-index,
+    .hero-rail,
+    .hero-bg { animation: none; }
 
     .reveal { opacity: 1; transform: none; transition: none; }
     .markets .bar i { transition: none; }
@@ -908,14 +1101,37 @@
 </header>
 
 <div class="sheet">
-  <header class="masthead">
-    <img class="backdrop" width="420" height="491" aria-hidden="true" src="/image/media-kit/mainblur.jpg" alt="" aria-hidden="true" />
-    <span class="scrim" aria-hidden="true"></span>
-    <img class="portrait" width="600" height="701" fetchpriority="high" src="/image/media-kit/mainplate.jpg" alt="Portrait of Dasha Day" />
-    <p class="label">Press &amp; Partnerships</p>
-    <h1 class="wordmark">Dasha Day</h1>
-    <p class="role">Digital content creator. Filmmaker. Musician. Software engineer.</p>
-    <p class="seat">London</p>
+  <header class="hero">
+    <div class="hero-frame">
+      <img class="hero-bg" src="/image/media-kit/hero-bg.jpg" width="1600" height="1151" fetchpriority="high" alt="Portrait of Dasha Day" />
+      <span class="hero-veil" aria-hidden="true"></span>
+
+      <p class="hero-index"><b>01</b> Film · Music · Fashion</p>
+      <p class="hero-rail" aria-hidden="true">The art of being seen</p>
+
+      <div class="hero-type">
+        <p class="hero-label">The creative portfolio of</p>
+
+        <h1 class="hero-name">
+          <span class="line one">Dasha</span>
+          <span class="line two">Day</span>
+        </h1>
+
+        <p class="hero-roles">Digital Creator · Filmmaker · Musician</p>
+
+        <p class="hero-statement">Turning places, moments and ideas into stories worth watching.</p>
+
+        <div class="hero-meta">
+          <p class="hero-where">Currently creating in London</p>
+          <p class="hero-cities">London · Dubai · Los Angeles · Moscow</p>
+        </div>
+
+        <div class="hero-actions">
+          <a class="down" href="#work">Explore my work <span class="arrow" aria-hidden="true">↓</span></a>
+          <a class="ghost out" href="#contact">Let's collaborate <span class="arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
   </header>
 
   <div class="thesis">
@@ -1001,7 +1217,7 @@
     <p class="note">Demographics, markets and language are Instagram Insights figures for @heydashaday — they describe that audience, not the combined following across platforms. Engagement pulled from the Instagram Graph API on 16 October 2026; across the last ninety days, 642,525 likes over 456 posts. Reach and view figures available on request.</p>
   </section>
 
-  <section>
+  <section id="work">
     <div class="head"><p class="label">Selected work</p>
       <h2>Brands I have filmed for</h2>
     </div>
@@ -1343,7 +1559,7 @@
     </ul>
   </section>
 
-  <div class="contact">
+  <div class="contact" id="contact">
     <p class="label">Enquiries</p>
     <a class="mail" href="mailto:dashadaymanagement@gmail.com">dashadaymanagement@gmail.com</a>
     <p class="note">London · available for travel</p>
