@@ -721,6 +721,77 @@
     to { transform: scale(1.16) translate3d(0, -2%, 0); }
   }
 
+
+  /* ── Light leaks: three warm blooms that drift as the page scrolls ─────── */
+  .leaks {
+    position: fixed;
+    inset: -20vh -10vw;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .leaks span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    will-change: transform, opacity;
+    transition: opacity 600ms ease;
+  }
+
+  .leaks .a {
+    top: -8%;
+    left: -6%;
+    width: 46vw;
+    height: 46vw;
+    background: radial-gradient(circle, rgba(201, 150, 120, 0.3) 0%, rgba(201, 150, 120, 0.1) 42%, transparent 70%);
+  }
+
+  .leaks .b {
+    top: 28%;
+    right: -12%;
+    width: 54vw;
+    height: 54vw;
+    background: radial-gradient(circle, rgba(196, 140, 160, 0.26) 0%, rgba(214, 180, 150, 0.08) 38%, transparent 68%);
+  }
+
+  .leaks .c {
+    bottom: -14%;
+    left: 18%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(222, 196, 160, 0.3) 0%, rgba(222, 196, 160, 0.08) 40%, transparent 70%);
+  }
+
+  /* ── Sparkles: they follow a real cursor, so never on touch ───────────── */
+  .sparkles {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .sparkles i {
+    position: absolute;
+    display: block;
+    animation: sparkle 900ms ease-out forwards;
+    will-change: transform, opacity;
+  }
+
+  @keyframes sparkle {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(0deg); }
+    30% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(60deg); }
+    100% {
+      opacity: 0;
+      transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.25) rotate(160deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .leaks, .sparkles { display: none; }
+  }
+
   @keyframes rise {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: none; }
@@ -739,6 +810,9 @@
     .markets .bar i { transition: none; }
   }
 </style>
+
+<div class="leaks" aria-hidden="true"><span class="a"></span><span class="b"></span><span class="c"></span></div>
+<div class="sparkles" aria-hidden="true" id="sparkles"></div>
 
 <header class="topbar">
   <div class="topbar-inner">
@@ -1192,6 +1266,71 @@
     }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
 
     targets.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+<script>
+  (function () {
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    /* ---- light leaks drift with the scroll, and brighten slightly mid-page */
+    var leaks = document.querySelector(".leaks");
+    if (leaks) {
+      var blooms = leaks.querySelectorAll("span");
+      var ticking = false;
+      var drift = function () {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var p = max > 0 ? window.scrollY / max : 0;
+        blooms[0].style.transform = "translate3d(" + p * 90 + "px," + p * -140 + "px,0) scale(" + (1 + p * 0.12) + ")";
+        blooms[1].style.transform = "translate3d(" + p * -120 + "px," + p * -60 + "px,0) scale(" + (1.08 - p * 0.1) + ")";
+        blooms[2].style.transform = "translate3d(" + p * 60 + "px," + p * -180 + "px,0) scale(" + (0.95 + p * 0.18) + ")";
+        leaks.style.opacity = String(0.75 + Math.sin(p * Math.PI) * 0.25);
+        ticking = false;
+      };
+      window.addEventListener("scroll", function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(drift);
+      }, { passive: true });
+      drift();
+    }
+
+    /* ---- sparkles, only where there is an actual pointer to follow -------- */
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+
+    var layer = document.getElementById("sparkles");
+    var colours = ["hsl(345 48% 72%)", "hsl(28 65% 76%)", "hsl(43 72% 78%)", "hsl(20 30% 93%)", "hsl(352 35% 80%)"];
+    var lastSpawn = 0;
+    var lastX = -999;
+    var lastY = -999;
+
+    document.addEventListener("mousemove", function (e) {
+      var now = Date.now();
+      if (now - lastSpawn < 38) return;
+      var dx = e.clientX - lastX;
+      var dy = e.clientY - lastY;
+      if (dx * dx + dy * dy < 36) return;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      lastSpawn = now;
+
+      var size = 5 + Math.random() * 9;
+      var colour = colours[(Math.random() * colours.length) | 0];
+      var spark = document.createElement("i");
+      spark.style.left = (e.clientX + (Math.random() - 0.5) * 12) + "px";
+      spark.style.top = (e.clientY + (Math.random() - 0.5) * 12) + "px";
+      spark.style.width = size + "px";
+      spark.style.height = size + "px";
+      spark.style.setProperty("--dx", ((Math.random() - 0.5) * 30) + "px");
+      spark.style.setProperty("--dy", (10 + Math.random() * 26) + "px");
+      spark.innerHTML =
+        '<svg viewBox="0 0 20 20" width="100%" height="100%" aria-hidden="true">' +
+        '<path d="M10 1L11.5 8.5L19 10L11.5 11.5L10 19L8.5 11.5L1 10L8.5 8.5Z" fill="' + colour +
+        '" style="filter:drop-shadow(0 0 3px ' + colour + ')"/></svg>';
+      layer.appendChild(spark);
+      spark.addEventListener("animationend", function () { spark.remove(); });
+    }, { passive: true });
   })();
 </script>
 
