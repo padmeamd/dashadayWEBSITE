@@ -2,13 +2,14 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 /**
- * About the artist — one framed plate rather than five paragraphs.
+ * About the artist.
  *
- * The bio used to run five columns of prose, which nobody reads on a phone.
- * The figures carry what the prose used to argue, so the text around them can
- * stay short, and the photograph does the rest.
+ * The photograph is never filtered or retouched — it reads dark only where the
+ * scrim sits, so the scrim stops before her face rather than covering the whole
+ * plate. Everything on the left half is type; the right half is hers.
  */
 
+/** Edit the numbers here; nothing downstream hardcodes them. */
 const FIGURES = [
   { value: "172", label: "Countries reached" },
   { value: "2.7M+", label: "Streams worldwide" },
@@ -29,78 +30,82 @@ const AboutStrip = () => {
     <section ref={ref} className="relative z-10 px-5 pt-12 pb-4 sm:px-8 sm:pt-16 sm:pb-6">
       <motion.div
         {...rise(0)}
-        className="relative mx-auto max-w-4xl overflow-hidden rounded-sm border border-ivory/10"
+        className="relative mx-auto max-w-5xl overflow-hidden rounded-sm border border-ivory/10"
       >
-        {/* The photograph sits behind everything, pushed right so the type has
-            the quiet half of the frame to itself. */}
         <img
           src="/image/about-artist.jpg"
-          alt="DashaDay"
+          alt="Dasha Day"
           width={1280}
           height={1497}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover object-[78%_22%]"
+          className="absolute inset-0 h-full w-full object-cover object-[64%_30%]"
         />
 
+        {/* Two scrims instead of one blanket: a horizontal one that has faded
+            out well before her face, and a faint floor so the lower type keeps
+            its footing. */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-[linear-gradient(100deg,hsl(0_0%_4%/0.97)_0%,hsl(0_0%_4%/0.93)_38%,hsl(0_0%_4%/0.72)_62%,hsl(0_0%_4%/0.35)_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(102deg,hsl(0_0%_4%/0.95)_0%,hsl(0_0%_4%/0.9)_34%,hsl(0_0%_4%/0.55)_52%,hsl(0_0%_4%/0.12)_66%,transparent_78%)]"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(to_top,hsl(0_0%_4%/0.55),transparent)] md:hidden"
         />
 
-        <div className="relative px-6 py-10 sm:px-12 sm:py-14 md:max-w-[68%]">
+        <div className="relative px-6 py-11 sm:px-12 sm:py-16 md:max-w-[60%] md:py-20">
           <motion.p
             {...rise(0.12)}
-            className="text-[10px] font-light uppercase tracking-[0.4em] text-gold/45"
+            className="text-[10px] font-light uppercase tracking-[0.42em] text-gold/50"
           >
             About the Artist
           </motion.p>
 
           <motion.h2
             {...rise(0.2)}
-            className="mt-3 font-serif text-3xl text-ivory sm:text-4xl"
+            className="mt-4 font-serif text-4xl leading-[1.05] text-ivory sm:text-5xl"
           >
-            DashaDay
+            Dasha Day
           </motion.h2>
 
           <motion.p
             {...rise(0.3)}
-            className="mt-5 max-w-lg font-serif text-base leading-relaxed text-ivory/70 sm:text-lg"
+            className="mt-6 font-serif text-lg leading-relaxed text-ivory/85 sm:text-xl"
           >
-            A London-based alt-pop artist, originally from Russia, writing songs that
-            live somewhere between heartbreak and dark humour — intimate one moment,
-            theatrical the next.
+            Independent alt-pop artist, songwriter and storyteller turning complicated
+            emotions into cinematic worlds.
           </motion.p>
 
-          <motion.div {...rise(0.4)} className="mt-8 flex flex-wrap gap-x-7 gap-y-5 sm:gap-x-9">
+          <motion.div {...rise(0.4)} className="mt-7 space-y-4">
+            <p className="text-sm leading-relaxed text-ivory/60">
+              Blending intimate songwriting, sharp wit and theatrical storytelling,
+              Dasha Day creates music about love, heartbreak, desire and everything
+              people are afraid to say out loud.
+            </p>
+            <p className="text-sm leading-relaxed text-ivory/60">
+              Her 19-track album{" "}
+              <span className="italic text-ivory/80">Things I Shouldn't Say</span>{" "}
+              extends beyond music into an original cinematic mystery series, bringing
+              her songs, characters and stories into one interconnected universe.
+            </p>
+          </motion.div>
+
+          <motion.div
+            {...rise(0.5)}
+            className="mt-10 flex flex-wrap gap-x-8 gap-y-5 border-t border-ivory/10 pt-7"
+          >
             {FIGURES.map((figure) => (
               <div key={figure.label}>
-                <p className="font-serif text-2xl text-gold/80 sm:text-3xl tabular-nums">
+                <p className="font-serif text-2xl tabular-nums text-gold/85 sm:text-[1.75rem]">
                   {figure.value}
                 </p>
-                <p className="mt-1 whitespace-nowrap text-[10px] uppercase tracking-[0.14em] text-ivory/40">
+                <p className="mt-1 whitespace-nowrap text-[10px] uppercase tracking-[0.13em] text-ivory/45">
                   {figure.label}
                 </p>
               </div>
             ))}
           </motion.div>
-
-          <motion.p
-            {...rise(0.5)}
-            className="mt-8 max-w-lg text-sm leading-relaxed text-ivory/55"
-          >
-            Her debut album <span className="italic text-ivory/75">Things I Shouldn't Say</span>{" "}
-            explores love, identity and the things people wish they had never said. She
-            performs across London with live vocals, keys and cinematic visuals, and works
-            as a software engineer alongside her music.
-          </motion.p>
-
-          <motion.p
-            {...rise(0.58)}
-            className="mt-5 text-[11px] uppercase tracking-[0.18em] text-ivory/35"
-          >
-            For listeners of Lana Del Rey · RAYE · Olivia Rodrigo
-          </motion.p>
         </div>
       </motion.div>
     </section>
