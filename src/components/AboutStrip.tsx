@@ -1,123 +1,108 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
+/**
+ * About the artist — one framed plate rather than five paragraphs.
+ *
+ * The bio used to run five columns of prose, which nobody reads on a phone.
+ * The figures carry what the prose used to argue, so the text around them can
+ * stay short, and the photograph does the rest.
+ */
+
+const FIGURES = [
+  { value: "172", label: "Countries reached" },
+  { value: "2.7M+", label: "Streams worldwide" },
+  { value: "30K+", label: "Monthly listeners" },
+];
+
 const AboutStrip = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  const rise = (delay: number) => ({
+    initial: { opacity: 0, y: 14 },
+    animate: isInView ? { opacity: 1, y: 0 } : {},
+    transition: { duration: 0.75, delay, ease: [0.2, 0.7, 0.2, 1] as const },
+  });
 
   return (
-    <section ref={ref} className="relative z-10 pt-10 sm:pt-14 pb-2 sm:pb-3 overflow-hidden">
-      {/* Ambient glow */}
+    <section ref={ref} className="relative z-10 px-5 pt-12 pb-4 sm:px-8 sm:pt-16 sm:pb-6">
       <motion.div
-        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, hsl(350 35% 15% / 0.12) 0%, hsl(38 25% 12% / 0.06) 50%, transparent 70%)",
-        }}
-        animate={{ opacity: [0.4, 0.7, 0.4], scale: [1, 1.03, 1] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      />
+        {...rise(0)}
+        className="relative mx-auto max-w-4xl overflow-hidden rounded-sm border border-ivory/10"
+      >
+        {/* The photograph sits behind everything, pushed right so the type has
+            the quiet half of the frame to itself. */}
+        <img
+          src="/image/about-artist.jpg"
+          alt="DashaDay"
+          width={1280}
+          height={1497}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover object-[78%_22%]"
+        />
 
-      <div className="relative max-w-2xl mx-auto px-6 sm:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-6 sm:mb-8"
-        >
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <div className="w-10 sm:w-16 h-px bg-gradient-to-r from-transparent to-gold/20" />
-            <svg
-              className="w-3.5 h-3.5 text-gold/30"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              aria-hidden
-            >
-              <path d="M8 0l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" />
-            </svg>
-            <div className="w-10 sm:w-16 h-px bg-gradient-to-l from-transparent to-gold/20" />
-          </div>
-          <h2 className="text-center font-serif text-2xl sm:text-3xl text-ivory/90 mb-1">
-            DashaDay
-          </h2>
-          <p className="text-center text-gold/35 text-[10px] tracking-[0.4em] uppercase font-light">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[linear-gradient(100deg,hsl(0_0%_4%/0.97)_0%,hsl(0_0%_4%/0.93)_38%,hsl(0_0%_4%/0.72)_62%,hsl(0_0%_4%/0.35)_100%)]"
+        />
+
+        <div className="relative px-6 py-10 sm:px-12 sm:py-14 md:max-w-[68%]">
+          <motion.p
+            {...rise(0.12)}
+            className="text-[10px] font-light uppercase tracking-[0.4em] text-gold/45"
+          >
             About the Artist
-          </p>
-        </motion.div>
+          </motion.p>
 
-        {/* Body */}
-        <div className="space-y-4">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="font-serif text-sm sm:text-base text-ivory/55 leading-relaxed"
+          <motion.h2
+            {...rise(0.2)}
+            className="mt-3 font-serif text-3xl text-ivory sm:text-4xl"
           >
-            <span className="text-ivory/80 font-medium">DashaDay</span> is a
-            London-based alt-pop artist blending cinematic storytelling with
-            emotionally charged songwriting. Originally from Russia, she writes
-            music that lives somewhere between heartbreak and dark humor, turning
-            messy emotions into anthems that feel both intimate and theatrical.
+            DashaDay
+          </motion.h2>
+
+          <motion.p
+            {...rise(0.3)}
+            className="mt-5 max-w-lg font-serif text-base leading-relaxed text-ivory/70 sm:text-lg"
+          >
+            A London-based alt-pop artist, originally from Russia, writing songs that
+            live somewhere between heartbreak and dark humour — intimate one moment,
+            theatrical the next.
+          </motion.p>
+
+          <motion.div {...rise(0.4)} className="mt-8 flex flex-wrap gap-x-7 gap-y-5 sm:gap-x-9">
+            {FIGURES.map((figure) => (
+              <div key={figure.label}>
+                <p className="font-serif text-2xl text-gold/80 sm:text-3xl tabular-nums">
+                  {figure.value}
+                </p>
+                <p className="mt-1 whitespace-nowrap text-[10px] uppercase tracking-[0.14em] text-ivory/40">
+                  {figure.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.p
+            {...rise(0.5)}
+            className="mt-8 max-w-lg text-sm leading-relaxed text-ivory/55"
+          >
+            Her debut album <span className="italic text-ivory/75">Things I Shouldn't Say</span>{" "}
+            explores love, identity and the things people wish they had never said. She
+            performs across London with live vocals, keys and cinematic visuals, and works
+            as a software engineer alongside her music.
           </motion.p>
 
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.35 }}
-            className="font-serif text-sm sm:text-base text-ivory/55 leading-relaxed"
+            {...rise(0.58)}
+            className="mt-5 text-[11px] uppercase tracking-[0.18em] text-ivory/35"
           >
-            Her music has reached listeners in{" "}
-            <span className="text-ivory/75">172 countries</span>, accumulating{" "}
-            <span className="text-ivory/75">more than 2.7 million streams</span>{" "}
-            across platforms. With over{" "}
-            <span className="text-ivory/75">30,000 monthly Spotify listeners</span>,
-            DashaDay has built a growing international audience through
-            independently released music that combines vulnerable lyrics,
-            cinematic production, and memorable pop hooks.
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="font-serif text-sm sm:text-base text-ivory/55 leading-relaxed"
-          >
-            Inspired by artists such as Lana Del Rey, RAYE, Olivia Rodrigo, Lady
-            Gaga, and Conan Gray, DashaDay creates songs that explore love,
-            identity, self-destruction, nostalgia, and the things people wish
-            they had never said. Her debut album,{" "}
-            <span className="italic text-ivory/70">Things I Shouldn't Say</span>,
-            captures these themes through honest songwriting and dramatic,
-            atmospheric production.
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.65 }}
-            className="font-serif text-sm sm:text-base text-ivory/55 leading-relaxed"
-          >
-            Beyond the studio, DashaDay has established herself as an engaging
-            live performer, bringing her music to audiences across London with
-            intimate, emotionally driven shows that combine live vocals,
-            keyboards, and cinematic visuals.
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.8 }}
-            className="font-serif text-sm sm:text-base text-ivory/55 leading-relaxed"
-          >
-            Alongside her music career, DashaDay is also a software engineer,
-            bringing a unique blend of technical precision and artistic creativity
-            to everything she creates. Whether on stage or in the studio, her
-            goal remains the same: to tell stories that stay with people long
-            after the final note.
+            For listeners of Lana Del Rey · RAYE · Olivia Rodrigo
           </motion.p>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
