@@ -205,12 +205,7 @@
    pixel of the red lettering is darker than in the original. The page just
    draws it. */
 .alderwick .aw-title-art {
-  -webkit-mask-image: linear-gradient(104deg, transparent 0%, #000 34%, #000 100%);
-  mask-image: linear-gradient(104deg, transparent 0%, #000 34%, #000 100%);
-  -webkit-mask-size: 300% 100%;
-  mask-size: 300% 100%;
-  -webkit-mask-position: 100% 0;
-  mask-position: 100% 0;
+  transform-origin: 50% 50%;
 }
 
 /* Her portrait fades into the dark at the chest rather than ending on a cut. */
@@ -249,20 +244,32 @@
     50% { transform: translate3d(0, -2.5px, 0); }
   }
 
+  /* A dissolve, not a wipe: first a red glow somewhere in the fog, then the
+     glow tightens until it turns out to have been letters all along. The
+     brightness lift early on is what sells it as light through mist rather
+     than as an image fading up. */
   @keyframes aw-title-emerge {
-    from {
+    0% {
       opacity: 0;
-      filter: blur(12px);
-      transform: scale(1.06);
-      -webkit-mask-position: 0% 0;
-      mask-position: 0% 0;
+      filter: blur(26px) brightness(1.7) saturate(0.8);
+      transform: scale(1.075);
     }
-    to {
+    22% {
+      opacity: 0.3;
+      filter: blur(19px) brightness(1.6) saturate(0.85);
+    }
+    52% {
+      opacity: 0.62;
+      filter: blur(10px) brightness(1.35) saturate(0.95);
+    }
+    78% {
+      opacity: 0.88;
+      filter: blur(3.5px) brightness(1.14) saturate(1);
+    }
+    100% {
       opacity: 1;
-      filter: blur(0);
+      filter: blur(0) brightness(1) saturate(1);
       transform: scale(1);
-      -webkit-mask-position: 100% 0;
-      mask-position: 100% 0;
     }
   }
 
@@ -271,21 +278,31 @@
     50% { transform: scale(1.008); }
   }
 
+  /* Fog has to cross the frame to read as weather. These layers travel in
+     opposing directions at unrelated speeds, which is what makes the overlap
+     thicken and thin without any layer changing shape. */
   @keyframes aw-fog-a {
-    0%   { transform: translate3d(-3%, 0, 0) scale(1); }
-    50%  { transform: translate3d(4%, -1.5%, 0) scale(1.06); }
-    100% { transform: translate3d(-3%, 0, 0) scale(1); }
+    0%   { transform: translate3d(-9%, -1%, 0) scale(1); }
+    50%  { transform: translate3d(9%, 2.5%, 0) scale(1.12); }
+    100% { transform: translate3d(-9%, -1%, 0) scale(1); }
   }
 
   @keyframes aw-fog-b {
-    0%   { transform: translate3d(5%, 1%, 0) scale(1.04); }
-    50%  { transform: translate3d(-4%, -1%, 0) scale(1); }
-    100% { transform: translate3d(5%, 1%, 0) scale(1.04); }
+    0%   { transform: translate3d(11%, 2%, 0) scale(1.08); }
+    50%  { transform: translate3d(-10%, -2.5%, 0) scale(1); }
+    100% { transform: translate3d(11%, 2%, 0) scale(1.08); }
   }
 
   @keyframes aw-fog-c {
-    0%   { transform: translate3d(-2%, 0, 0); }
-    100% { transform: translate3d(6%, -1%, 0); }
+    0%   { transform: translate3d(-7%, 1%, 0) scale(1.04); }
+    100% { transform: translate3d(13%, -2%, 0) scale(1); }
+  }
+
+  /* Density: banks do not only move past, they thicken and clear. Applied to
+     the painted rect so it multiplies with each layer's own opacity. */
+  @keyframes aw-fog-density {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.5; }
   }
 
   /* Grain has to jitter to read as grain; eight steps a second is enough. */
@@ -313,16 +330,22 @@
   }
 
   .alderwick .aw-title-art {
-    animation: aw-title-emerge 2.5s cubic-bezier(0.24, 0.62, 0.2, 1) 1s both;
+    animation: aw-title-emerge 3.4s cubic-bezier(0.3, 0.55, 0.2, 1) 0.9s both;
+    will-change: opacity, filter, transform;
   }
 
   .alderwick .aw-title-breathe {
     animation: aw-title-breathe 21s ease-in-out 3.6s infinite;
   }
 
-  .alderwick .aw-fog-a { animation: aw-fog-a 95s ease-in-out infinite; }
-  .alderwick .aw-fog-b { animation: aw-fog-b 128s ease-in-out infinite; }
-  .alderwick .aw-fog-c { animation: aw-fog-c 170s linear infinite alternate; }
+  .alderwick .aw-fog-a { animation: aw-fog-a 44s ease-in-out infinite; }
+  .alderwick .aw-fog-b { animation: aw-fog-b 31s ease-in-out infinite; }
+  .alderwick .aw-fog-c { animation: aw-fog-c 57s linear infinite alternate; }
+
+  /* Unrelated periods, so the three never fall into step. */
+  .alderwick .aw-fog-a rect { animation: aw-fog-density 19s ease-in-out infinite; }
+  .alderwick .aw-fog-b rect { animation: aw-fog-density 27s ease-in-out 4s infinite; }
+  .alderwick .aw-fog-c rect { animation: aw-fog-density 23s ease-in-out 9s infinite; }
 
   .alderwick .aw-film { animation: aw-film-jitter 0.75s steps(1, end) infinite; }
 }
