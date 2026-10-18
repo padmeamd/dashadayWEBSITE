@@ -7,6 +7,7 @@ import Seo from "@/components/Seo";
 import Crest from "@/components/alderwick/Crest";
 import Invitation from "@/components/alderwick/Invitation";
 import Plate from "@/components/alderwick/Plate";
+import Societies from "@/components/alderwick/Societies";
 import { CHARACTERS, VESPER_CLUES, type Character } from "@/data/alderwick";
 import {
   EPISODES,
@@ -128,6 +129,8 @@ const SeriesPage = () => {
           </div>
         </motion.div>
       </section>
+
+      <Societies />
 
       {/* ── The archive ───────────────────────────────────────────────── */}
       <section id="archives" className="relative px-5 py-20 sm:px-8 sm:py-24" style={{ background: "var(--aw-walnut)" }}>
