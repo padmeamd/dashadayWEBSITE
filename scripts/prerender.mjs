@@ -182,7 +182,7 @@ const main = async () => {
 
     // The series URL is a redirect into the homepage section, so it points its
     // canonical there rather than competing with it.
-    const canonical = route === "/things-i-shouldnt-say" ? `${SITE_URL}/` : canonicalUrl(seo.path ?? route);
+    const canonical = canonicalUrl(seo.path ?? route);
 
     const image = isHome || route === "/things-i-shouldnt-say"
       ? `${SITE_URL}${series.SERIES_STILLS.hall.src}`
@@ -207,7 +207,7 @@ const main = async () => {
       blocks.push({ id: "series-structured-data", data: seriesLd });
       blocks.push({ data: episodeOneVideo });
     }
-    if (!isHome && route !== "/things-i-shouldnt-say") {
+    if (!isHome) {
       blocks.push({ data: breadcrumb(seo.title.split("|")[0].split("—")[0].trim(), seo.path ?? route) });
     }
     if (route.startsWith("/album/")) {

@@ -450,3 +450,39 @@ export function getPublishedEpisodes(now = new Date()): Array<{
     ];
   });
 }
+
+/**
+ * UPDATES — the running log on /things-i-shouldnt-say.
+ *
+ * Newest first. Add an entry whenever something happens: an episode lands, a
+ * date moves, behind-the-scenes goes out. `link` is optional; when present the
+ * card becomes clickable.
+ */
+export type SeriesUpdate = {
+  date: string;        // ISO day, for <time> and sorting
+  label: string;       // what the reader sees
+  title: string;
+  body: string;
+  link?: SeriesCta;
+};
+
+export const SERIES_UPDATES: SeriesUpdate[] = [
+  {
+    date: "2026-10-12",
+    label: "12 October 2026",
+    title: "Chapter Two is out",
+    body:
+      "The second chapter is up on Telegram, where public episodes land first. " +
+      "Members see each one before its public release.",
+    link: { label: "Watch on Telegram", href: SERIES_LINKS.telegram },
+  },
+  {
+    date: "2026-10-05",
+    label: "5 October 2026",
+    title: "Chapter One: The Invitation",
+    body:
+      "Dasha arrives at Alderwick for the first time. The full episode is free " +
+      "and in English on YouTube.",
+    link: { label: "Watch on YouTube", href: SERIES_LINKS.youtubeEpisodeOne },
+  },
+];
