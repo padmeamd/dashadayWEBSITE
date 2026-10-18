@@ -1,3 +1,5 @@
+import { SERIES_ROUTE } from "@/data/series";
+
 export type SiteNavItem =
   | { label: string; href: string; type: "section" }
   | { label: string; href: string; type: "route" }
@@ -5,7 +7,7 @@ export type SiteNavItem =
   | { label: string; href: string; type: "external" };
 
 export const SITE_NAV_ITEMS: SiteNavItem[] = [
-  { label: "The Series", href: "#the-series", type: "section" },
+  { label: "The Series", href: SERIES_ROUTE, type: "route" },
   { label: "Music", href: "#music", type: "section" },
   { label: "Videos", href: "#videos", type: "section" },
   { label: "DAYD Media", href: "/dayd-media", type: "route" },

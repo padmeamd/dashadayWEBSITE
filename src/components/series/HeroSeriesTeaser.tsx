@@ -1,35 +1,12 @@
-import { useCallback, type MouseEvent } from "react";
+import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { HERO_TEASER, SERIES_ANCHOR_ID, SERIES_STILLS } from "@/data/series";
+import { HERO_TEASER, SERIES_ROUTE, SERIES_STILLS } from "@/data/series";
 import { cn } from "@/lib/utils";
-
-/** Clears the fixed site header so the series heading is never tucked under it. */
-const HEADER_OFFSET = 80;
 
 const still = SERIES_STILLS[HERO_TEASER.still];
 
-/**
- * Smoothly walks the page down to the series section. Falls back to an instant
- * jump when the visitor prefers reduced motion, and leaves the browser's own
- * anchor behaviour in place if the section is somehow absent.
- */
-function useScrollToSeries() {
-  const reduceMotion = useReducedMotion();
-
-  return useCallback(
-    (event: MouseEvent<HTMLAnchorElement>) => {
-      const target = document.getElementById(SERIES_ANCHOR_ID);
-      if (!target) return;
-      event.preventDefault();
-      const top = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-      window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
-      // Keep the hash in sync without a second jump.
-      window.history.replaceState(null, "", `#${SERIES_ANCHOR_ID}`);
-    },
-    [reduceMotion]
-  );
-}
+const MotionLink = motion.create(Link);
 
 type Variant = "rail" | "band";
 
@@ -39,12 +16,11 @@ type Variant = "rail" | "band";
  *
  * `rail` is the slim vertical plate that sits in the hero scene on large
  * screens; `band` is the compact horizontal strip shown below the hero on
- * phones and tablets. Both are a single link, keyboard reachable, and scroll
- * to the existing #the-series section rather than navigating away.
+ * phones and tablets. Both are a single link, keyboard reachable, and open
+ * the series' own page.
  */
 const HeroSeriesTeaser = ({ variant }: { variant: Variant }) => {
   const reduceMotion = useReducedMotion();
-  const onClick = useScrollToSeries();
   const isRail = variant === "rail";
 
   const label = (
@@ -124,9 +100,8 @@ const HeroSeriesTeaser = ({ variant }: { variant: Variant }) => {
     "focus-visible:ring-offset-[hsl(350_28%_5%)]";
 
   return (
-    <motion.a
-      href={`#${SERIES_ANCHOR_ID}`}
-      onClick={onClick}
+    <MotionLink
+      to={SERIES_ROUTE}
       aria-label={`${HERO_TEASER.cta} — ${HERO_TEASER.title}, ${HERO_TEASER.label}`}
       initial={reduceMotion ? false : { opacity: 0, y: isRail ? 16 : 12 }}
       animate={{ opacity: 1, y: 0 }}
@@ -160,7 +135,7 @@ const HeroSeriesTeaser = ({ variant }: { variant: Variant }) => {
           </span>
         </>
       )}
-    </motion.a>
+    </MotionLink>
   );
 };
 

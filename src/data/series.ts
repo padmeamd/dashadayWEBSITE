@@ -21,7 +21,10 @@
 
 import { SITE_URL, SOCIAL_LINKS } from "@/config/site";
 
-/** Section anchor — used by the "The Series" nav item and the hero teaser. */
+/** The series' own page. Everything that says "the series" leads here. */
+export const SERIES_ROUTE = "/things-i-shouldnt-say";
+
+/** Section anchor for the series block that still sits on the homepage. */
 export const SERIES_ANCHOR_ID = "the-series";
 
 /** Where every CTA points. Change a URL once and it updates everywhere. */
@@ -359,7 +362,7 @@ export const EPISODE_POPUP = {
   primaryCta: { label: "Watch the New Episode", href: SERIES_LINKS.telegram } satisfies SeriesCta,
   secondaryCta: {
     label: "Explore the Series",
-    href: `${SITE_URL}/things-i-shouldnt-say`,
+    href: `${SITE_URL}${SERIES_ROUTE}`,
   } satisfies SeriesCta,
 } as const;
 
