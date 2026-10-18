@@ -118,3 +118,273 @@
 @media (prefers-reduced-motion: reduce) {
   .alderwick .aw-dust { animation: none; }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   The title sequence.
+
+   Everything below is the opening of the series page. The rule throughout:
+   the *resting* state is the finished composition, and motion is added only
+   where the visitor has not asked for stillness. So a reduced-motion visitor
+   sees the completed poster immediately rather than a half-played animation.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.alderwick .aw-hero {
+  --aw-hero-black: #080506;
+  --aw-hero-wine: #26070d;
+  /* The page sits below a fixed header and clears it with padding, so a hero
+     asking for a whole screen would hang exactly that far off the bottom.
+     Same expression as the wrapper's padding, subtracted. */
+  --aw-header: max(4.25rem, calc(3.5rem + env(safe-area-inset-top, 0px)));
+  min-height: calc(100svh - var(--aw-header));
+  background: var(--aw-hero-black);
+}
+
+@media (min-width: 768px) {
+  .alderwick .aw-hero {
+    --aw-header: max(5rem, calc(4rem + env(safe-area-inset-top, 0px)));
+  }
+}
+
+/* The hero has to end without an edge: its floor dissolves into the page so
+   the next section rises out of the same darkness rather than butting
+   against it. Sits above the picture, below the words. */
+.alderwick .aw-hero::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 47;
+  height: 24%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 0%, rgba(10, 9, 9, 0.72) 58%, var(--aw-black) 100%);
+}
+
+/* The ambient glow behind everything: a low ember, not a neon light. */
+.alderwick .aw-ember {
+  position: absolute;
+  inset: -15%;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 48% at 62% 38%, rgba(118, 20, 36, 0.38) 0%, rgba(38, 7, 13, 0.3) 45%, transparent 72%),
+    radial-gradient(42% 38% at 22% 62%, rgba(86, 16, 28, 0.22) 0%, transparent 70%);
+}
+
+/* Fog. The shapes come from one still turbulence texture; only the layers
+   move, so the browser rasterises the noise once and then animates on the
+   GPU. Animating the turbulence itself would repaint every frame. */
+.alderwick .aw-fog {
+  position: absolute;
+  inset: -40% -60%;
+  pointer-events: none;
+  width: 220%;
+  height: 180%;
+  will-change: transform;
+}
+
+/* 35mm grain: fine, monochrome, and barely there. */
+.alderwick .aw-film {
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  width: 200%;
+  height: 200%;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+}
+
+.alderwick .aw-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(110% 82% at 50% 44%, transparent 30%, rgba(8, 5, 6, 0.62) 68%, rgba(8, 5, 6, 0.97) 100%);
+}
+
+/* The artwork's black ground was keyed out of the asset itself, by alpha
+   taken from the strongest channel and the colour restored afterwards, so no
+   pixel of the red lettering is darker than in the original. The page just
+   draws it. */
+.alderwick .aw-title-art {
+  -webkit-mask-image: linear-gradient(104deg, transparent 0%, #000 34%, #000 100%);
+  mask-image: linear-gradient(104deg, transparent 0%, #000 34%, #000 100%);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+}
+
+/* Her portrait fades into the dark at the chest rather than ending on a cut. */
+.alderwick .aw-portrait-art {
+  -webkit-mask-image: linear-gradient(to bottom, #000 58%, rgba(0, 0, 0, 0.72) 78%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 58%, rgba(0, 0, 0, 0.72) 78%, transparent 99%);
+}
+
+/* The rim light is the portrait itself: the same silhouette, blurred and
+   warmed, sitting just behind her. It can only ever glow at her edges. */
+.alderwick .aw-rimlight {
+  filter: blur(19px) saturate(1.4) brightness(1.35) sepia(0.4) hue-rotate(-16deg);
+  opacity: 0.2;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes aw-ember-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* The ember is never quite steady. */
+  @keyframes aw-ember-breathe {
+    0%, 100% { opacity: 1; }
+    38% { opacity: 0.82; }
+    64% { opacity: 1.06; }
+  }
+
+  @keyframes aw-portrait-enter {
+    from { opacity: 0; transform: translate3d(0, 18px, 0) scale(1.035); }
+    to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  }
+
+  @keyframes aw-breathe {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(0, -2.5px, 0); }
+  }
+
+  @keyframes aw-title-emerge {
+    from {
+      opacity: 0;
+      filter: blur(12px);
+      transform: scale(1.06);
+      -webkit-mask-position: 0% 0;
+      mask-position: 0% 0;
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+      -webkit-mask-position: 100% 0;
+      mask-position: 100% 0;
+    }
+  }
+
+  @keyframes aw-title-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.008); }
+  }
+
+  @keyframes aw-fog-a {
+    0%   { transform: translate3d(-3%, 0, 0) scale(1); }
+    50%  { transform: translate3d(4%, -1.5%, 0) scale(1.06); }
+    100% { transform: translate3d(-3%, 0, 0) scale(1); }
+  }
+
+  @keyframes aw-fog-b {
+    0%   { transform: translate3d(5%, 1%, 0) scale(1.04); }
+    50%  { transform: translate3d(-4%, -1%, 0) scale(1); }
+    100% { transform: translate3d(5%, 1%, 0) scale(1.04); }
+  }
+
+  @keyframes aw-fog-c {
+    0%   { transform: translate3d(-2%, 0, 0); }
+    100% { transform: translate3d(6%, -1%, 0); }
+  }
+
+  /* Grain has to jitter to read as grain; eight steps a second is enough. */
+  @keyframes aw-film-jitter {
+    0%   { transform: translate3d(0, 0, 0); }
+    20%  { transform: translate3d(-1.5%, 1%, 0); }
+    40%  { transform: translate3d(1%, -1.5%, 0); }
+    60%  { transform: translate3d(-1%, -1%, 0); }
+    80%  { transform: translate3d(1.5%, 1.5%, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+  }
+
+  .alderwick .aw-ember {
+    animation:
+      aw-ember-in 0.4s ease-out both,
+      aw-ember-breathe 14s ease-in-out 0.4s infinite;
+  }
+
+  .alderwick .aw-portrait-enter {
+    animation: aw-portrait-enter 1.4s cubic-bezier(0.22, 0.68, 0.18, 1) 0.4s both;
+  }
+
+  .alderwick .aw-portrait-breathe {
+    animation: aw-breathe 9.5s ease-in-out 1.9s infinite;
+  }
+
+  .alderwick .aw-title-art {
+    animation: aw-title-emerge 2.5s cubic-bezier(0.24, 0.62, 0.2, 1) 1s both;
+  }
+
+  .alderwick .aw-title-breathe {
+    animation: aw-title-breathe 21s ease-in-out 3.6s infinite;
+  }
+
+  .alderwick .aw-fog-a { animation: aw-fog-a 95s ease-in-out infinite; }
+  .alderwick .aw-fog-b { animation: aw-fog-b 128s ease-in-out infinite; }
+  .alderwick .aw-fog-c { animation: aw-fog-c 170s linear infinite alternate; }
+
+  .alderwick .aw-film { animation: aw-film-jitter 0.75s steps(1, end) infinite; }
+}
+
+/* Premium does not mean loud: the buttons warm and settle, they do not jump. */
+.alderwick .aw-cta-solid {
+  background: var(--aw-oxblood);
+  color: var(--aw-ivory);
+  border: 1px solid transparent;
+  transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.alderwick .aw-cta-solid:hover {
+  background: #7a1430;
+  border-color: rgba(165, 138, 104, 0.45);
+  box-shadow: 0 0 34px rgba(122, 20, 48, 0.4);
+}
+
+.alderwick .aw-cta-ghost {
+  border: 1px solid var(--aw-rule-faint);
+  color: var(--aw-ivory);
+  transition: border-color 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+}
+
+.alderwick .aw-cta-ghost:hover {
+  border-color: rgba(165, 138, 104, 0.6);
+  background: rgba(101, 15, 37, 0.18);
+  color: var(--aw-ivory);
+}
+
+/* The key-art composition. Width alone is not enough to place these: on a
+   short, wide window a title sized only in vw grows down into the text. Each
+   piece is therefore capped against the viewport height as well. */
+@media (min-width: 1024px) {
+  .alderwick .aw-hero-title {
+    position: absolute;
+    top: 7vh;
+    left: 33%;
+    width: min(58vw, 96vh);
+    max-width: 1120px;
+  }
+
+  .alderwick .aw-hero-portrait {
+    position: absolute;
+    bottom: 0;
+    left: 1.5vw;
+    width: min(44vw, 87vh);
+    max-width: 720px;
+  }
+
+  .alderwick .aw-hero-words {
+    position: absolute;
+    right: 5vw;
+    bottom: 10vh;
+    width: 30rem;
+  }
+
+  .alderwick .aw-hero-cue {
+    position: absolute;
+    bottom: 3vh;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+}

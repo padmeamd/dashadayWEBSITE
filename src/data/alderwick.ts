@@ -17,7 +17,7 @@ export type Character = {
   id: string;
   name: string;
   role: string;
-  /** One line shown on the frame. */
+  /** One line shown on the frame. Empty where none has been written yet. */
   line: string;
   /** The dossier. Keep it free of anything that spoils a later chapter. */
   dossier: string;
@@ -28,12 +28,13 @@ export type Character = {
 export const CHARACTERS: Character[] = [
   {
     id: "dasha",
-    name: "Dasha",
+    name: "Dasha Day",
     role: "The visitor",
     line: "She came for one day.",
     dossier:
-      "A prospective student with a single day to decide whether Alderwick is hers. " +
-      "She arrives curious and leaves changed, carrying something she cannot yet explain.",
+      "A London musician, songwriter and poet, visiting Alderwick for a single day to " +
+      "decide whether she belongs there. Intelligent, independent, quick-witted and " +
+      "curious. Her arrival sets an extraordinary story in motion.",
     portrait: "/image/series/characters/dasha.jpg",
   },
   {
@@ -42,9 +43,21 @@ export const CHARACTERS: Character[] = [
     role: "The conductor",
     line: "He has something to say about everything.",
     dossier:
-      "Conducts the university orchestra and treats a campus tour as a duel. " +
-      "Infuriating, watchful, and harder to leave behind than she expects.",
+      "A charismatic and accomplished young conductor who leads Alderwick's university " +
+      "orchestra. Charming, cultured, confident and effortlessly witty. Behind his easy " +
+      "smile lies a deeper connection to the university's traditions.",
     portrait: "/image/series/characters/gregory.jpg",
+  },
+  {
+    id: "theo",
+    name: "Theo Ashbourne",
+    role: "Natural Sciences",
+    line: "He notices what other people walk past.",
+    dossier:
+      "A brilliant, observant Natural Sciences student. Intelligent, sharp-tongued and " +
+      "difficult to impress. He has little patience for appearances, and even less for " +
+      "people who accept everything they are told.",
+    portrait: "/image/series/characters/theo.jpg",
   },
   {
     id: "sam",
@@ -52,28 +65,20 @@ export const CHARACTERS: Character[] = [
     role: "The guide",
     line: "He shows visitors the parts they are meant to see.",
     dossier:
-      "Guides prospective students through Alderwick's halls and traditions. " +
-      "Warm, practised, and careful about which doors he opens.",
+      "A charming and sociable Alderwick student who guides prospective students around " +
+      "the university. Friendly, witty and effortlessly welcoming. He introduces Dasha to " +
+      "Alderwick and its traditions.",
     portrait: "/image/series/characters/sam.jpg",
   },
   {
-    id: "theo",
-    name: "Theo",
-    role: "The biologist",
-    line: "He notices what other people walk past.",
-    dossier:
-      "A biology student whose place in Alderwick's story is quieter than the rest, " +
-      "and no less consequential for it.",
-    portrait: "/image/series/characters/theo.jpg",
-  },
-  {
-    id: "violet",
-    name: "Violet",
-    role: "A new presence",
-    line: "Nobody can quite say when she arrived.",
-    dossier:
-      "New to Alderwick, or newly visible there. The difference matters more than it sounds.",
-    portrait: "/image/series/characters/violet.jpg",
+    id: "mina",
+    name: "Mina",
+    role: "Alderwick",
+    line: "",
+    // Her entry stays a portrait and a name until the bible's wording arrives.
+    // Writing a biography here would be inventing one.
+    dossier: "",
+    portrait: "/image/series/characters/mina.jpg",
   },
 ];
 
@@ -188,11 +193,7 @@ export const SOCIETIES: Society[] = [
  * the frame fills itself, no code change.
  */
 export const MISSING_ASSETS = [
-  "/image/series/characters/dasha.jpg — portrait, 4:5, ideally in costume",
-  "/image/series/characters/gregory.jpg — portrait, 4:5",
-  "/image/series/characters/sam.jpg — portrait, 4:5",
-  "/image/series/characters/theo.jpg — portrait, 4:5",
-  "/image/series/characters/violet.jpg — portrait, 4:5",
+  "Mina's biography — portrait and name are in place, the text is not",
   "/image/series/hero.jpg — the widest, most atmospheric frame you have, 16:9 or wider",
   "/image/series/episodes/ep-01.jpg, ep-02.jpg — one still per chapter, 16:9",
 ] as const;

@@ -7,8 +7,10 @@ import Seo from "@/components/Seo";
 import Crest from "@/components/alderwick/Crest";
 import Invitation from "@/components/alderwick/Invitation";
 import Plate from "@/components/alderwick/Plate";
+import Characters from "@/components/alderwick/Characters";
+import SeriesHero from "@/components/alderwick/SeriesHero";
 import Societies from "@/components/alderwick/Societies";
-import { CHARACTERS, VESPER_CLUES, type Character } from "@/data/alderwick";
+import { VESPER_CLUES } from "@/data/alderwick";
 import {
   EPISODES,
   MEMBERSHIP,
@@ -33,7 +35,6 @@ const Ornament = () => (
 );
 
 const SeriesPage = () => {
-  const [dossier, setDossier] = useState<Character | null>(null);
   const [clue, setClue] = useState(-1);
 
   return (
@@ -41,68 +42,7 @@ const SeriesPage = () => {
       <Seo />
       <Invitation />
 
-      {/* ── The gate ──────────────────────────────────────────────────── */}
-      <section className="relative flex min-h-[92vh] items-center justify-center overflow-hidden px-5 text-center">
-        <img
-          src="/image/series/hero.jpg"
-          alt=""
-          aria-hidden
-          onError={(e) => {
-            // Until the wide frame arrives, the hall carries the opening.
-            e.currentTarget.src = "/image/series/alderwick-hall.jpg";
-          }}
-          className="absolute inset-0 h-full w-full object-cover opacity-45"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(120% 90% at 50% 20%, rgba(10,9,9,0.35) 0%, rgba(10,9,9,0.82) 55%, #0a0909 100%)",
-          }}
-        />
-        <span className="aw-dust" aria-hidden />
-
-        <motion.div {...rise()} className="relative z-10 mx-auto max-w-3xl py-24">
-          <Crest className="mx-auto h-20 w-20 opacity-80" />
-          <p className="aw-label mt-7">An original series by Dasha Day</p>
-
-          <h1
-            className="aw-display mt-6 text-[clamp(2.6rem,9vw,5.6rem)] uppercase leading-[0.92]"
-            aria-label={SERIES.title}
-          >
-            {SERIES.titleLines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </h1>
-
-          <p
-            className="aw-display mx-auto mt-7 max-w-xl text-lg italic leading-relaxed sm:text-xl"
-            style={{ color: "var(--aw-ivory-soft)" }}
-          >
-            She came for one day. Some secrets were waiting for her.
-          </p>
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href={SERIES_LINKS.youtubeEpisodeOne}
-              className="aw-label px-7 py-3.5 transition-colors"
-              style={{ background: "var(--aw-oxblood)", color: "var(--aw-ivory)" }}
-            >
-              Watch the series
-            </a>
-            <a href="#archives" className="aw-label border-b pb-1" style={{ borderColor: "var(--aw-rule)" }}>
-              Explore Alderwick
-            </a>
-          </div>
-
-          <p className="mt-14 text-[11px] uppercase tracking-[0.3em]" style={{ color: "var(--aw-ivory-faint)" }}>
-            Your story begins here
-          </p>
-        </motion.div>
-      </section>
+      <SeriesHero />
 
       {/* ── The story ─────────────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
@@ -131,6 +71,7 @@ const SeriesPage = () => {
       </section>
 
       <Societies />
+      <Characters />
 
       {/* ── The archive ───────────────────────────────────────────────── */}
       <section id="archives" className="relative px-5 py-20 sm:px-8 sm:py-24" style={{ background: "var(--aw-walnut)" }}>
@@ -216,41 +157,6 @@ const SeriesPage = () => {
               )}
             </motion.article>
           ))}
-        </div>
-      </section>
-
-      {/* ── The corridor of portraits ─────────────────────────────────── */}
-      <section className="relative px-5 py-20 sm:px-8 sm:py-24" style={{ background: "var(--aw-walnut)" }}>
-        <div className="mx-auto max-w-5xl">
-          <motion.h2 {...rise()} className="aw-display text-center text-3xl uppercase tracking-[0.08em] sm:text-4xl">
-            Those you will meet
-          </motion.h2>
-
-          <div className="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
-            {CHARACTERS.map((person, n) => (
-              <motion.button
-                key={person.id}
-                {...rise(n * 0.04)}
-                type="button"
-                onClick={() => setDossier(person)}
-                className="group text-left"
-                aria-label={`Open the dossier for ${person.name}`}
-              >
-                <div className="relative overflow-hidden" style={{ border: "1px solid var(--aw-rule)" }}>
-                  <Plate
-                    src={person.portrait}
-                    alt={`Portrait of ${person.name}`}
-                    caption={person.name}
-                    className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
-                </div>
-                <p className="aw-display mt-3 text-lg">{person.name}</p>
-                <p className="text-[11px] uppercase tracking-[0.16em]" style={{ color: "var(--aw-ivory-faint)" }}>
-                  {person.role}
-                </p>
-              </motion.button>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -362,38 +268,6 @@ const SeriesPage = () => {
         </div>
       </section>
 
-      {/* ── A dossier, when a portrait is pressed ─────────────────────── */}
-      {dossier && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center px-5"
-          style={{ background: "rgba(10,9,9,0.9)" }}
-          onClick={() => setDossier(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${dossier.name} — dossier`}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45 }}
-            onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md p-8"
-            style={{ background: "var(--aw-walnut)", border: "1px solid var(--aw-rule)" }}
-          >
-            <p className="aw-label">{dossier.role}</p>
-            <h3 className="aw-display mt-2 text-3xl">{dossier.name}</h3>
-            <p className="aw-display mt-3 text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
-              {dossier.line}
-            </p>
-            <p className="mt-5 text-sm leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
-              {dossier.dossier}
-            </p>
-            <button type="button" onClick={() => setDossier(null)} className="aw-label mt-7">
-              Close
-            </button>
-          </motion.div>
-        </div>
-      )}
     </main>
   );
 };

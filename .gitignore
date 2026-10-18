@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Original artwork lives beside the components it feeds, but never ships and
+# never enters history: ~17MB of PNG that nothing imports. The web-sized
+# versions under public/image/series/ are what the site actually serves.
+src/components/alderwick/*.png
