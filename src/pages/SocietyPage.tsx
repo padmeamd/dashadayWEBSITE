@@ -37,7 +37,7 @@ const SocietyPage = () => {
 
   return (
     <main
-      className="alderwick relative min-h-screen overflow-x-hidden"
+      className="alderwick aw-page relative min-h-screen overflow-x-hidden"
       style={
         {
           background: palette.ground,

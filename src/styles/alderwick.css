@@ -437,3 +437,19 @@
   outline: 2px solid var(--aw-gold);
   outline-offset: 3px;
 }
+
+/* A page with its own ground has to start at the very top of the window. The
+   site wrapper clears the fixed header with padding, and that padding carries
+   the site's own black — which shows as a seam above any page that is not
+   black. Pull back by exactly that padding and re-apply it inside. */
+.alderwick.aw-page {
+  --aw-header: max(4.25rem, calc(3.5rem + env(safe-area-inset-top, 0px)));
+  margin-top: calc(-1 * var(--aw-header));
+  padding-top: var(--aw-header);
+}
+
+@media (min-width: 768px) {
+  .alderwick.aw-page {
+    --aw-header: max(5rem, calc(4rem + env(safe-area-inset-top, 0px)));
+  }
+}
