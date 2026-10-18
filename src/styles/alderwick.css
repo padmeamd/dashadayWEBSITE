@@ -411,3 +411,29 @@
     text-align: center;
   }
 }
+
+/* An answer in the sorting: a card that warms under the hand. Never a button
+   that jumps — the visitor is deciding something, not operating a machine. */
+.alderwick .aw-answer {
+  display: block;
+  color: var(--aw-ivory);
+  background: rgba(39, 32, 31, 0.32);
+  border: 1px solid var(--aw-rule-faint);
+  transition: border-color 0.45s ease, background-color 0.45s ease, transform 0.45s ease;
+}
+
+.alderwick .aw-answer:hover {
+  border-color: rgba(165, 138, 104, 0.5);
+  background: rgba(101, 15, 37, 0.16);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .alderwick .aw-answer:hover {
+    transform: translateX(3px);
+  }
+}
+
+.alderwick .aw-answer:focus-visible {
+  outline: 2px solid var(--aw-gold);
+  outline-offset: 3px;
+}

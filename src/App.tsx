@@ -18,6 +18,8 @@ import Links from "./pages/Links";
 import LiveShows from "./pages/LiveShows";
 import SparklesCursor from "./components/SparklesCursor";
 import SeriesPage from "./pages/SeriesPage";
+import SocietyPage from "./pages/SocietyPage";
+import SocietyQuizPage from "./pages/SocietyQuizPage";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +61,8 @@ function AppRoutes() {
           />
           {/* Public-facing series URL — lands on the homepage section. */}
           <Route path="/things-i-shouldnt-say" element={<SeriesPage />} />
+          <Route path="/things-i-shouldnt-say/societies/:slug" element={<SocietyPage />} />
+          <Route path="/things-i-shouldnt-say/discover-your-society" element={<SocietyQuizPage />} />
           <Route path="/links" element={<Links />} />
           <Route path="/live" element={<LiveShows />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

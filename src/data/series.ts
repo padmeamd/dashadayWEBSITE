@@ -24,6 +24,10 @@ import { SITE_URL, SOCIAL_LINKS } from "@/config/site";
 /** The series' own page. Everything that says "the series" leads here. */
 export const SERIES_ROUTE = "/things-i-shouldnt-say";
 
+/** The society archive, and the sorting it invites visitors into. */
+export const societyRoute = (slug: string) => `${SERIES_ROUTE}/societies/${slug}`;
+export const SOCIETY_QUIZ_ROUTE = `${SERIES_ROUTE}/discover-your-society`;
+
 /** Section anchor for the series block that still sits on the homepage. */
 export const SERIES_ANCHOR_ID = "the-series";
 

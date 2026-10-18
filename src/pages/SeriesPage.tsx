@@ -9,6 +9,7 @@ import Invitation from "@/components/alderwick/Invitation";
 import Plate from "@/components/alderwick/Plate";
 import Characters from "@/components/alderwick/Characters";
 import SeriesHero from "@/components/alderwick/SeriesHero";
+import LostSocieties from "@/components/alderwick/LostSocieties";
 import Societies from "@/components/alderwick/Societies";
 import { VESPER_CLUES } from "@/data/alderwick";
 import {
@@ -71,6 +72,7 @@ const SeriesPage = () => {
       </section>
 
       <Societies />
+      <LostSocieties />
       <Characters />
 
       {/* ── The archive ───────────────────────────────────────────────── */}

@@ -1,4 +1,5 @@
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/config/site";
+import { SOCIETIES } from "@/data/societies";
 
 export type PageSEOConfig = {
   title: string;
@@ -61,15 +62,29 @@ export const ROUTE_SEO: Record<string, PageSEOConfig> = {
     // until it has something to say.
     noindex: true,
   },
-  // Shareable address for the series. It lands on the homepage section, so
-  // the prerender points its canonical at "/" — no noindex, because a
-  // canonical already consolidates it and the two signals would conflict.
+  // The series' own page, and the archive that hangs beneath it.
   "/things-i-shouldnt-say": {
     title: "Things I Shouldn't Say — An Original Series by DashaDay",
     description:
       "A dark academia mystery set at Alderwick University, England, 1890s. Watch the original cinematic series Things I Shouldn't Say by DashaDay — new episodes every Thursday.",
     path: "/things-i-shouldnt-say",
   },
+  "/things-i-shouldnt-say/discover-your-society": {
+    title: "Which Alderwick Society Would Choose You? | Things I Shouldn't Say",
+    description:
+      "Twelve questions, and the societies of Alderwick University decide where you belong — Vesper, the Linnaean Circle, or the Aurelian Society. From the original series Things I Shouldn't Say by DashaDay.",
+    path: "/things-i-shouldnt-say/discover-your-society",
+  },
+  ...Object.fromEntries(
+    SOCIETIES.map((society) => [
+      `/things-i-shouldnt-say/societies/${society.slug}`,
+      {
+        title: society.seo.title,
+        description: society.seo.description,
+        path: `/things-i-shouldnt-say/societies/${society.slug}`,
+      } satisfies PageSEOConfig,
+    ]),
+  ),
   "/links": {
     title: "All Links | DashaDay",
     description:
