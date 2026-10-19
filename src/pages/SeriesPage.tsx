@@ -49,31 +49,28 @@ const SeriesPage = () => {
       <section className="relative mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
         <motion.div {...rise()}>
           <p className="aw-label">A university with secrets</p>
+          <h2 className="sr-only">The story</h2>
           <Ornament />
           <p className="aw-display text-2xl leading-[1.5] sm:text-[1.75rem]">
-            Dasha arrives at the prestigious Alderwick University for a single day, to decide
-            whether she belongs there.
+            Dasha arrives at Alderwick University for a single day, to decide whether she
+            belongs there.
           </p>
           <div className="mt-8 space-y-5 text-[1.02rem] leading-[1.8]" style={{ color: "var(--aw-ivory-soft)" }}>
             <p>
-              An unexpected connection with an enigmatic orchestra conductor changes everything.
+              An unexpected connection with the conductor of the university orchestra
+              complicates a visit that was meant to be simple.
             </p>
             <p>
-              As she explores the university, she discovers an unsettling ability — to witness
-              events happening elsewhere, at that very moment.
+              Then the visions begin — not memory, not premonition, but rooms she is not
+              standing in, unfolding while she watches.
             </p>
             <p>
-              And beneath Alderwick's ancient walls, a secret society called Vesper has been
-              waiting for her arrival. An old prophecy suggests she may either destroy it, or
-              begin something far greater.
+              Alderwick is older than its prospectus admits, and parts of its history have
+              been deliberately mislaid.
             </p>
           </div>
         </motion.div>
       </section>
-
-      <Societies />
-      <LostSocieties />
-      <Characters />
 
       {/* ── The archive ───────────────────────────────────────────────── */}
       <section id="archives" className="relative px-5 py-20 sm:px-8 sm:py-24" style={{ background: "var(--aw-walnut)" }}>
@@ -120,6 +117,12 @@ const SeriesPage = () => {
           </div>
         </div>
       </section>
+
+
+      <Characters />
+
+      <Societies />
+      <LostSocieties />
 
       {/* ── Whispers ──────────────────────────────────────────────────── */}
       <section id="whispers" className="relative mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">
@@ -247,11 +250,27 @@ const SeriesPage = () => {
 
         <Ornament />
 
+        {/* ── Behind the creation ─────────────────────────────────────
+            Who makes this, and how. Claims kept to what can be verified:
+            no budgets, no crew counts, no festivals. */}
         <motion.div {...rise(0.1)}>
-          <h2 className="aw-display text-2xl uppercase tracking-[0.08em]">{GUIDE.guideTitle}</h2>
-          <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
-            {GUIDE.subtitle}. The series is made independently, with AI filmmaking tools and
-            ordinary editing craft.
+          <p className="aw-label">Behind the creation</p>
+          <h2 className="aw-display mt-3 text-2xl uppercase tracking-[0.08em]">Dasha Day</h2>
+
+          <div className="mt-5 space-y-4 text-sm leading-[1.8]" style={{ color: "var(--aw-ivory-soft)" }}>
+            <p>
+              Alderwick is written, directed and scored by one person. Dasha Day builds the
+              story, the characters and the world, and composes the music the series is set to.
+            </p>
+            <p>
+              It is an independent production, made with AI filmmaking tools alongside ordinary
+              editing craft — the tools render the frames; the continuity, the performances on
+              the page and the shape of the mystery are authored.
+            </p>
+          </div>
+
+          <p className="mt-7 text-sm leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
+            <span className="aw-display italic">{GUIDE.guideTitle}</span> — {GUIDE.subtitle}.
           </p>
           <a
             href={GUIDE.cta.href}

@@ -104,7 +104,10 @@ export const SERIES = {
   intro: {
     heading: "Welcome to Alderwick",
     lead: "One invitation. An ancient university. A secret that was never meant to be discovered.",
-    body: "When Dasha arrives at Alderwick University, she expects an ordinary visit. Instead, she discovers a world of forbidden romance, ancient legends, and a secret society that has been waiting for her.",
+    // This paragraph is also the series' schema.org description, so a spoiler
+    // here does not stay on the page — it goes to search engines and link
+    // previews. It says what the first episode shows and no further.
+    body: "When Dasha arrives at Alderwick University, she expects an ordinary visit. Instead she finds a conductor she cannot account for, visions of rooms she is not standing in, and a university whose history has been carefully edited.",
   },
   /** Production slate printed beside the stills, like film-campaign credits. */
   credits: [

@@ -187,7 +187,15 @@ const SeriesHero = () => {
           className="aw-display text-lg italic leading-relaxed sm:text-xl"
           style={{ color: "var(--aw-ivory-soft)" }}
         >
-          She came for one day. Some secrets were waiting for her.
+          She came for one day. Some invitations are impossible to leave behind.
+        </motion.p>
+
+        <motion.p
+          {...word(2.75)}
+          className="mt-3 text-[11px] uppercase tracking-[0.26em]"
+          style={{ color: "var(--aw-ivory-faint)" }}
+        >
+          A Victorian mystery series · England, 1890s
         </motion.p>
 
         <motion.div
@@ -198,7 +206,7 @@ const SeriesHero = () => {
             href={SERIES_LINKS.youtubeEpisodeOne}
             className="aw-label aw-cta-solid w-full px-7 py-3.5 sm:w-auto"
           >
-            Watch the series
+            Watch episode one
           </a>
           <a href="#archives" className="aw-label aw-cta-ghost w-full px-6 py-3.5 sm:w-auto">
             Explore Alderwick

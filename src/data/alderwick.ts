@@ -63,7 +63,7 @@ export const CHARACTERS: Character[] = [
     id: "sam",
     name: "Sam",
     role: "The guide",
-    line: "He shows visitors the parts they are meant to see.",
+    line: "He knows the place better than its prospectus does.",
     dossier:
       "A charming and sociable Alderwick student who guides prospective students around " +
       "the university. Friendly, witty and effortlessly welcoming. He introduces Dasha to " +
