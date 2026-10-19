@@ -5,9 +5,10 @@
  * taste — what you do with a secret, a rule, a certainty you cannot prove —
  * because "do you prefer art or science" sorts nobody into anything.
  *
- * Several answers are deliberately worth something to two houses. A person
- * who keeps a secret in order to prevent harm is not purely one thing, and
- * the scoring should not pretend otherwise.
+ * Nearly every answer is worth something to two houses. That is deliberate
+ * twice over: a person who keeps a secret in order to prevent harm is not
+ * purely one thing, and an answer that visibly belongs to one society stops
+ * being a question and becomes a vote.
  *
  * Scoring lives here as a pure function so it can be read, changed and tested
  * without rendering anything.
@@ -67,7 +68,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     prompt: "An institution you admire has concealed part of its own history.",
     answers: [
       { id: "find-out", text: "Find out what, before deciding how to feel about it.", weights: { linnaean: 3, vesper: 1 } },
-      { id: "benefits", text: "Ask who the silence has been protecting.", weights: { vesper: 3 } },
+      { id: "benefits", text: "Ask who the silence has been protecting.", weights: { vesper: 2, linnaean: 1 } },
       { id: "unchanged", text: "It changes nothing about what the place built.", weights: { aurelian: 3 } },
       { id: "publicly", text: "Say so, publicly. The concealment is the harm.", weights: { aurelian: 2, linnaean: 2 } },
     ],
@@ -96,17 +97,18 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     prompt: "You realise you have been watched, carefully, for some time.",
     answers: [
       { id: "let-continue", text: "Let it continue. Whoever it is will reveal what they want.", weights: { vesper: 3 } },
-      { id: "confront", text: "Put yourself directly in front of them and ask.", weights: { aurelian: 3 } },
+      { id: "confront", text: "Put yourself directly in front of them and ask.", weights: { aurelian: 3, vesper: 1 } },
       { id: "when", text: "Work out when it began, and what changed just before.", weights: { linnaean: 3, vesper: 1 } },
     ],
   },
   {
     id: "room",
-    prompt: "A crowded room. What takes your attention first?",
+    prompt: "You are shown into a room that has, quite clearly, just been discussing you.",
     answers: [
-      { id: "silent", text: "The one person who has not spoken all evening.", weights: { vesper: 3 } },
-      { id: "listened", text: "The one everybody has stopped to listen to.", weights: { aurelian: 3 } },
-      { id: "unexplained", text: "The object in the room that nobody has explained.", weights: { linnaean: 3 } },
+      { id: "finish", text: "Ask them to finish the sentence they stopped.", weights: { aurelian: 3, vesper: 1 } },
+      { id: "better", text: "Give them something better to discuss.", weights: { aurelian: 3, vesper: 1 } },
+      { id: "who", text: "Work out which of them began it, and why today.", weights: { linnaean: 2, vesper: 1 } },
+      { id: "faces", text: "Behave as though you heard nothing. Remember every face.", weights: { vesper: 3 } },
     ],
   },
   {
@@ -115,7 +117,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     answers: [
       { id: "keep", text: "Keep it until the reason is found. It was written for something.", weights: { linnaean: 3 } },
       { id: "break", text: "Break it once, carefully, to see what it was protecting.", weights: { vesper: 3, linnaean: 1 } },
-      { id: "replace", text: "Replace it with a better one, and make the better one stick.", weights: { aurelian: 3 } },
+      { id: "replace", text: "Replace it with a better one, and make the better one stick.", weights: { aurelian: 3, linnaean: 1 } },
     ],
   },
   {
@@ -123,7 +125,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     prompt: "You are certain of something you cannot prove.",
     answers: [
       { id: "wait", text: "Wait. Certainty is not evidence.", weights: { linnaean: 3 } },
-      { id: "act", text: "Act on it quietly, and tell no one why.", weights: { vesper: 3 } },
+      { id: "act", text: "Act on it quietly, and tell no one why.", weights: { vesper: 2, aurelian: 1 } },
       { id: "aloud", text: "Say it aloud, and let it be argued with.", weights: { aurelian: 3, linnaean: 1 } },
     ],
   },
@@ -139,11 +141,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: "solved",
-    prompt: "You solve a mystery that nobody asked you to solve. What becomes of the answer?",
+    prompt: "Something you have discovered would humiliate a person who was once kind to you.",
     answers: [
-      { id: "keep-answer", text: "You keep it. Not every answer belongs to everyone.", weights: { vesper: 3 } },
-      { id: "record", text: "You write it down properly, so that it can be checked.", weights: { linnaean: 3 } },
-      { id: "make", text: "You make something out of it that people will remember.", weights: { aurelian: 3 } },
+      { id: "publish", text: "It stands regardless. Kindness is not a reason to be wrong.", weights: { linnaean: 3 } },
+      { id: "warn", text: "It stands — but they hear it from you first, and in private.", weights: { aurelian: 3, vesper: 1 } },
+      { id: "cost", text: "Hold it until you understand precisely what it would cost them.", weights: { vesper: 2, aurelian: 1 } },
+      { id: "bury", text: "Hold it. Not everything is improved by being known.", weights: { vesper: 3 } },
     ],
   },
 ];

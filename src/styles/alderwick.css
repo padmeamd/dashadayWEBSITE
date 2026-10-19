@@ -453,3 +453,100 @@
     --aw-header: max(5rem, calc(4rem + env(safe-area-inset-top, 0px)));
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   THE INITIATION.
+
+   The page darkens as Alderwick learns more about the visitor: --aw-depth
+   runs 0 → 1 across the twelve questions and nothing else on the page keeps
+   score visibly.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.alderwick .aw-initiation {
+  --aw-depth: 0;
+}
+
+.alderwick .aw-initiation-dark {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 60% at 50% 12%, rgba(101, 15, 37, calc(0.1 + var(--aw-depth) * 0.16)) 0%, transparent 68%),
+    radial-gradient(120% 100% at 50% 50%, transparent 20%, rgba(0, 0, 0, calc(var(--aw-depth) * 0.62)) 100%);
+  transition: background 1.6s ease;
+}
+
+/* A letter on the table: warm vellum, a double rule, light falling across it
+   from the upper left as though a candle were standing there. */
+.alderwick .aw-letter {
+  position: relative;
+  background:
+    radial-gradient(130% 90% at 18% 0%, rgba(165, 138, 104, 0.1) 0%, transparent 58%),
+    linear-gradient(170deg, #241d1b 0%, #15100f 100%);
+  border: 1px solid var(--aw-rule);
+  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.95);
+}
+
+.alderwick .aw-letter::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  pointer-events: none;
+  border: 1px solid var(--aw-rule-faint);
+}
+
+/* The lower-case roman beside each answer, in the archive's hand. */
+.alderwick .aw-answer-mark {
+  font-family: var(--aw-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  opacity: 0.55;
+  transition: opacity 0.45s ease;
+}
+
+.alderwick .aw-answer:hover .aw-answer-mark {
+  opacity: 1;
+}
+
+.alderwick .aw-field {
+  color: var(--aw-ivory);
+  background: rgba(10, 9, 9, 0.5);
+  border: 1px solid var(--aw-rule-faint);
+  font-family: var(--aw-display);
+  transition: border-color 0.4s ease;
+}
+
+.alderwick .aw-field::placeholder {
+  color: var(--aw-ivory-faint);
+  font-style: italic;
+}
+
+.alderwick .aw-field:focus {
+  outline: none;
+  border-color: var(--aw-gold);
+}
+
+/* A later hand, in the margin. */
+.alderwick .aw-marginalia {
+  font-family: var(--aw-display);
+  font-style: italic;
+  color: rgba(165, 138, 104, 0.82);
+  transform: rotate(-0.6deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* A candle does not pulse evenly; it gutters. */
+  @keyframes aw-candle {
+    0%, 100% { opacity: 1; }
+    17% { opacity: 0.93; }
+    31% { opacity: 1.02; }
+    48% { opacity: 0.9; }
+    63% { opacity: 1; }
+    81% { opacity: 0.95; }
+  }
+
+  .alderwick .aw-letter {
+    animation: aw-candle 7.5s ease-in-out infinite;
+  }
+}

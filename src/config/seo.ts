@@ -64,6 +64,7 @@ export const ROUTE_SEO: Record<string, PageSEOConfig> = {
   },
   // The series' own page, and the archive that hangs beneath it.
   "/things-i-shouldnt-say": {
+    ogImage: "/image/og/series.jpg",
     title: "Things I Shouldn't Say — An Original Series by DashaDay",
     description:
       "A dark academia mystery set at Alderwick University, England, 1890s. Watch the original cinematic series Things I Shouldn't Say by DashaDay — new episodes every Thursday.",
@@ -74,6 +75,7 @@ export const ROUTE_SEO: Record<string, PageSEOConfig> = {
     description:
       "Twelve questions, and the societies of Alderwick University decide where you belong — Vesper, the Linnaean Circle, or the Aurelian Society. From the original series Things I Shouldn't Say by DashaDay.",
     path: "/things-i-shouldnt-say/discover-your-society",
+    ogImage: "/image/og/societies.jpg",
   },
   ...Object.fromEntries(
     SOCIETIES.map((society) => [
@@ -82,6 +84,7 @@ export const ROUTE_SEO: Record<string, PageSEOConfig> = {
         title: society.seo.title,
         description: society.seo.description,
         path: `/things-i-shouldnt-say/societies/${society.slug}`,
+        ogImage: "/image/og/societies.jpg",
       } satisfies PageSEOConfig,
     ]),
   ),

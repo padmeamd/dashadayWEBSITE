@@ -53,6 +53,22 @@ export type Society = {
   hidden?: string;
   /** For the profile page's <title> and description. */
   seo: { title: string; description: string };
+  /**
+   * The sorting's verdict, in the society's own voice. Kept beside the
+   * society rather than in the quiz, because it is the house speaking.
+   */
+  verdict: {
+    /** Why this house, of the three, reached for this person. */
+    chosen: string;
+    /** One flaw, named precisely. Not a list — a sentence that lands. */
+    flaw: string;
+    /** The line left hanging. Intrigue, never revelation. */
+    closing: string;
+    /** The acceptance, as the certificate words it. */
+    acceptance: string;
+    /** A later hand, in the margin. Found by those who look. */
+    marginalia: string;
+  };
 };
 
 export const SOCIETIES: Society[] = [
@@ -112,6 +128,22 @@ export const SOCIETIES: Society[] = [
       description:
         "The Society of the Unseen. Once devoted to the mysteries of human perception, Vesper is now widely regarded as a vanished society — from Things I Shouldn't Say, an original series by DashaDay.",
     },
+    verdict: {
+      chosen:
+        "You were not chosen for what you know. You were chosen for what you noticed " +
+        "and did not mention — and for how comfortable the silence afterwards was.",
+      flaw:
+        "You will mistake knowing for protecting. The first time you keep a truth from " +
+        "someone for their own good, you will be certain you were right, and you may " +
+        "even have been.",
+      closing:
+        "Nothing in the archive says Vesper is still choosing. Nothing in the archive " +
+        "says it stopped.",
+      acceptance:
+        "has been found, by observation rather than application, to possess the quality " +
+        "the Society declines to name in writing.",
+      marginalia: "— and was not told how long they had been watched.",
+    },
   },
   {
     id: "linnaean",
@@ -167,6 +199,22 @@ export const SOCIETIES: Society[] = [
       title: "The Linnaean Circle — The Societies of Alderwick",
       description:
         "The Society of the Natural Order. Everything has a cause; everything has a consequence — the scholars of Alderwick University, from Things I Shouldn't Say by DashaDay.",
+    },
+    verdict: {
+      chosen:
+        "The Circle does not gather the clever; cleverness is common and arrives " +
+        "uninvited. It gathers those who can sit inside not knowing without hurrying to " +
+        "fill the gap with a story.",
+      flaw:
+        "Certainty will arrive one day dressed as evidence, and you will be too tired, " +
+        "or too pleased, to ask it for papers.",
+      closing:
+        "The Circle keeps its findings where they can be examined. It has been markedly " +
+        "less careful about who examines them.",
+      acceptance:
+        "has demonstrated the patience to withhold judgement, and is accordingly admitted " +
+        "to the study of causes and their consequences.",
+      marginalia: "— the Circle asked for evidence. It did not ask for consent.",
     },
   },
   {
@@ -224,6 +272,21 @@ export const SOCIETIES: Society[] = [
       title: "The Aurelian Society — The Societies of Alderwick",
       description:
         "The Society of the Golden Legacy. Alderwick's artists, poets and future leaders, who believe that to be remembered is to live forever — from Things I Shouldn't Say by DashaDay.",
+    },
+    verdict: {
+      chosen:
+        "The Society noticed that a room changes when you enter it — and, rather more " +
+        "to the point, that you already knew it did.",
+      flaw:
+        "You will take being admired for being known. The difference is invisible for " +
+        "years, and then it costs you one particular person.",
+      closing:
+        "Aurelian remembers everyone it gathers. You may find that is not always offered " +
+        "as a kindness.",
+      acceptance:
+        "is received into the Society's company of artists, scholars and future names, " +
+        "and is expected to leave something behind worth the remembering.",
+      marginalia: "— every name on this roll was promised it would be remembered.",
     },
   },
 ];
