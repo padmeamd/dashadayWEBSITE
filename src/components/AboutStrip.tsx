@@ -73,21 +73,32 @@ const AboutStrip = () => {
             {...rise(0.3)}
             className="mt-6 font-serif text-lg leading-relaxed text-ivory/85 sm:text-xl"
           >
-            Independent alt-pop artist, songwriter and storyteller turning complicated
+            Independent alt-pop artist, songwriter and filmmaker turning complicated
             emotions into cinematic worlds.
           </motion.p>
 
           <motion.div {...rise(0.4)} className="mt-7 space-y-4">
-            <p className="text-sm leading-relaxed text-ivory/60">
+            <p className="max-w-[62ch] text-[0.95rem] leading-[1.75] text-ivory/60">
               Blending intimate songwriting, sharp wit and theatrical storytelling,
-              Dasha Day creates music about love, heartbreak, desire and everything
-              people are afraid to say out loud.
+              Dasha Day makes music about love, heartbreak, desire and everything
+              people are afraid to say out loud. She writes, directs and scores her
+              own work from London, for an audience spread across 172 countries.
             </p>
-            <p className="text-sm leading-relaxed text-ivory/60">
+            <p className="max-w-[62ch] text-[0.95rem] leading-[1.75] text-ivory/60">
               Her 19-track album{" "}
               <span className="italic text-ivory/80">Things I Shouldn't Say</span>{" "}
               extends beyond music into an original cinematic mystery series, bringing
               her songs, characters and stories into one interconnected universe.
+              Through DAYD Media she handles the creative direction, film and digital
+              projects behind it.
+            </p>
+            <p className="pt-1">
+              <a
+                href="/media-kit/"
+                className="font-sans text-[10px] uppercase tracking-[0.3em] text-ivory/45 no-underline transition-colors hover:text-gold"
+              >
+                Full biography and figures →
+              </a>
             </p>
           </motion.div>
 

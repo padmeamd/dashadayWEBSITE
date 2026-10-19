@@ -9,7 +9,7 @@ const albums = [
     title: "Things I Shouldn't Say",
     year: "2026",
     slug: "things-i-shouldnt-say",
-    coverImage: "/image/albums/tiss.jpg",
+    coverImage: "/image/albums/tiss.webp",
     coverColor: "from-gold/20 to-night-soft",
   },
   {
@@ -17,7 +17,7 @@ const albums = [
     title: "Great Romance",
     year: "2025",
     slug: "great-romance",
-    coverImage: "/image/albums/greatromance.jpg",
+    coverImage: "/image/albums/greatromance.webp",
     coverColor: "from-night-card to-night",
   },
   {
@@ -25,7 +25,7 @@ const albums = [
     title: "Phobia",
     year: "2023",
     slug: "phobia",
-    coverImage: "/image/albums/phobia.JPG",
+    coverImage: "/image/albums/phobia.webp",
     coverColor: "from-secondary to-night-card",
   },
   {
@@ -33,7 +33,7 @@ const albums = [
     title: "Work of Art",
     year: "2021",
     slug: "work-of-art",
-    coverImage: "/image/albums/workofart.png",
+    coverImage: "/image/albums/workofart.webp",
     coverColor: "from-night-soft to-secondary",
   },
 ];

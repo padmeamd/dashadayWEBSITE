@@ -20,7 +20,7 @@ export const HERO_HOTSPOTS: HeroHotspotDef[] = [
     objectLabel: "TELEPHONE",
     actionLabel: "CONTACT",
     style: { left: "1%", top: "59%", width: "24%", height: "34%" },
-    mobileStyle: { left: "0%", top: "42%", width: "26%", height: "32%" },
+    mobileStyle: { left: "3%", top: "46%", width: "28%", height: "30%" },
     labelClassName:
       "absolute left-[58%] top-[2%] flex -translate-x-1/2 max-md:left-[55%] max-md:-top-[6%] md:left-[62%] md:top-[3%]",
   },
@@ -30,6 +30,7 @@ export const HERO_HOTSPOTS: HeroHotspotDef[] = [
     objectLabel: "CANDLES",
     actionLabel: "PREDICTIONS",
     style: { left: "48%", top: "30%", width: "20%", height: "44%" },
+    mobileStyle: { left: "56%", top: "40%", width: "24%", height: "26%" },
     labelClassName: "absolute top-[0%] right-[2%] md:top-[2%]",
   },
   {
@@ -38,6 +39,7 @@ export const HERO_HOTSPOTS: HeroHotspotDef[] = [
     objectLabel: "VINYL PLAYER",
     actionLabel: "VIDEOS",
     style: { left: "57%", top: "32%", width: "30%", height: "38%" },
+    mobileStyle: { left: "58%", top: "62%", width: "34%", height: "20%" },
     labelClassName: "absolute bottom-[14%] left-1/2 flex -translate-x-1/2 md:bottom-[16%]",
   },
   {
@@ -56,6 +58,7 @@ export const HERO_HOTSPOTS: HeroHotspotDef[] = [
     objectLabel: "JEWELRY TRAY",
     actionLabel: "DAYD MEDIA",
     style: { left: "28%", top: "56%", width: "28%", height: "24%" },
+    mobileStyle: { left: "20%", top: "68%", width: "34%", height: "15%" },
     labelClassName: "absolute bottom-[4%] left-1/2 flex -translate-x-1/2",
   },
   {

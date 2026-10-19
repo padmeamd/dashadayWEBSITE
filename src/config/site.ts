@@ -2,7 +2,9 @@ export const SITE_URL = "https://heydashaday.com";
 
 export const SITE_NAME = "DashaDay Official Website";
 
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/image/background.png`;
+/* Social scrapers are not uniformly happy with webp, so the share image stays
+   a jpeg at the size the platforms actually crop to. */
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/image/og/default.jpg`;
 
 export const THEME_COLOR = "#1a0a0e";
 

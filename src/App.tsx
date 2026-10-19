@@ -17,6 +17,7 @@ import NotFound from "./pages/NotFound";
 import Links from "./pages/Links";
 import LiveShows from "./pages/LiveShows";
 import SparklesCursor from "./components/SparklesCursor";
+import Lyrics from "./pages/Lyrics";
 import SeriesPage from "./pages/SeriesPage";
 import SocietyPage from "./pages/SocietyPage";
 import SocietyQuizPage from "./pages/SocietyQuizPage";
@@ -51,10 +52,7 @@ function AppRoutes() {
             path="/about"
             element={<SimpleCinematicPage title="About" subtitle="The story behind the sound—coming soon." />}
           />
-          <Route
-            path="/lyrics"
-            element={<SimpleCinematicPage title="Lyrics" subtitle="Words from Things I Shouldn't Say—coming soon." />}
-          />
+          <Route path="/lyrics" element={<Lyrics />} />
           <Route
             path="/merch"
             element={<SimpleCinematicPage title="Merch" subtitle="Wear the velvet night—coming soon." />}

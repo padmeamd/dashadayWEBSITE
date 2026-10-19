@@ -12,25 +12,25 @@ const albums: Record<
     title: "Things I Shouldn't Say",
     year: "2026",
     color: "from-gold/20 to-night-soft",
-    coverImage: "/image/albums/tiss.jpg",
+    coverImage: "/image/albums/tiss.webp",
   },
   "great-romance": {
     title: "Great Romance",
     year: "2025",
     color: "from-night-card to-night",
-    coverImage: "/image/albums/greatromance.jpg",
+    coverImage: "/image/albums/greatromance.webp",
   },
   phobia: {
     title: "Phobia",
     year: "2023",
     color: "from-secondary to-night-card",
-    coverImage: "/image/albums/phobia.JPG",
+    coverImage: "/image/albums/phobia.webp",
   },
   "work-of-art": {
     title: "Work of Art",
     year: "2021",
     color: "from-night-soft to-secondary",
-    coverImage: "/image/albums/workofart.png",
+    coverImage: "/image/albums/workofart.webp",
   },
 };
 

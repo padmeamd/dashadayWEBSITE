@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import vinylRecord from "@/assets/vinyl-record.png";
 
-const albumCover = "/image/albums/tiss.jpg";
+const albumCover = "/image/albums/tiss.webp";
 
 const songTitles = [
   "Blockbuster",

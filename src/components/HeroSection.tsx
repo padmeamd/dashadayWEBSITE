@@ -16,7 +16,7 @@ import HeroSeriesTeaser from "@/components/series/HeroSeriesTeaser";
 import { HERO_HOTSPOTS, heroHotspotZIndex, resolveHeroHotspotStyle } from "@/data/heroHotspots";
 import { ChevronDown, Plus } from "lucide-react";
 
-const BG_SRC = "/image/background.png";
+const BG_SRC = "/image/background.webp";
 const MIRROR_BOX = { left: "7%", top: "6%", width: "43%", height: "54%" } as const;
 
 /** Same hit-area padding on all viewports — desktop geometry, reliable router links on mobile. */
@@ -178,57 +178,6 @@ function MirrorMotes({ reduced }: { reduced: boolean }) {
   );
 }
 
-function TypewriterText({ text, reduced }: { text: string; reduced: boolean }) {
-  const [displayed, setDisplayed] = useState(reduced ? text : "");
-  const [phase, setPhase] = useState<"idle" | "typing" | "erasing">("idle");
-
-  useEffect(() => {
-    if (reduced) return;
-    const init = setTimeout(() => setPhase("typing"), 1600);
-    return () => clearTimeout(init);
-  }, [reduced]);
-
-  useEffect(() => {
-    if (reduced || phase === "idle") return;
-    let t: ReturnType<typeof setTimeout>;
-    if (phase === "typing") {
-      if (displayed.length < text.length) {
-        t = setTimeout(
-          () => setDisplayed(text.slice(0, displayed.length + 1)),
-          90 + Math.random() * 80
-        );
-      } else {
-        t = setTimeout(() => setPhase("erasing"), 4800);
-      }
-    } else {
-      if (displayed.length > 0) {
-        t = setTimeout(
-          () => setDisplayed((d) => d.slice(0, -1)),
-          60 + Math.random() * 45
-        );
-      } else {
-        t = setTimeout(() => setPhase("typing"), 2800);
-      }
-    }
-    return () => clearTimeout(t);
-  }, [displayed, phase, text, reduced]);
-
-  return (
-    <>
-      {displayed}
-      {!reduced && phase !== "idle" && (
-        <motion.span
-          className="inline-block w-px align-middle bg-ivory/55 ml-px"
-          style={{ height: "0.72em" }}
-          animate={{ opacity: [1, 1, 0, 0] }}
-          transition={{ duration: 0.75, repeat: Infinity, ease: "linear" }}
-          aria-hidden
-        />
-      )}
-    </>
-  );
-}
-
 /** Typography on the mirror - no glass card, no synthetic light-leak overlays */
 function MirrorCopyOnGlass({
   reduced,
@@ -250,9 +199,23 @@ function MirrorCopyOnGlass({
               animate={{ opacity: 1 }}
               transition={{ duration: reduced ? 0 : 1.8, ease: [0.22, 1, 0.36, 1] }}
             >
+              {/* Whose record this is, before what the record is called. */}
+              <p
+                className="font-serif text-[11px] font-light uppercase tracking-[0.46em] text-ivory/85 md:text-[12px]"
+                style={{ textShadow: "0 1px 10px hsl(0 0% 0% / 0.85)" }}
+              >
+                Dasha Day
+              </p>
+              <p
+                className="mt-1.5 font-sans text-[9.5px] uppercase tracking-[0.26em] text-ivory/50 md:text-[10.5px]"
+                style={{ textShadow: "0 1px 10px hsl(0 0% 0% / 0.85)" }}
+              >
+                Independent artist · Musician · Filmmaker
+              </p>
+
               <Link
                 to="/album/things-i-shouldnt-say"
-                className="block transition-opacity hover:opacity-90"
+                className="mt-4 block transition-opacity hover:opacity-90"
                 aria-label="Open Things I Shouldn't Say album"
               >
                 <motion.p
@@ -287,12 +250,24 @@ function MirrorCopyOnGlass({
             />
           </div>
 
-          <p
-            className="max-w-[22rem] font-serif text-[12px] font-light leading-relaxed tracking-[0.26em] text-ivory md:text-[14px] md:tracking-[0.28em]"
-            style={{ textShadow: "0 1px 12px hsl(0 0% 0% / 0.85)", minHeight: "1.5em" }}
-          >
-            <TypewriterText text="STREAM THE ALBUM NOW" reduced={reduced} />
-          </p>
+          {/* Two doors, named. The hero used to typewrite one instruction and
+              offer no second way in. */}
+          <div className="flex flex-col items-start gap-2.5">
+            <Link
+              to="/music"
+              className="min-h-11 font-serif text-[12px] font-light tracking-[0.3em] text-ivory no-underline underline-offset-[7px] transition-colors hover:text-gold md:min-h-0 md:text-[13px]"
+              style={{ textShadow: "0 1px 12px hsl(0 0% 0% / 0.85)" }}
+            >
+              EXPLORE MY MUSIC
+            </Link>
+            <Link
+              to="/things-i-shouldnt-say"
+              className="min-h-11 font-serif text-[12px] font-light tracking-[0.3em] text-ivory no-underline underline-offset-[7px] transition-colors hover:text-gold md:min-h-0 md:text-[13px]"
+              style={{ textShadow: "0 1px 12px hsl(0 0% 0% / 0.85)" }}
+            >
+              WATCH THE SERIES
+            </Link>
+          </div>
 
           <motion.button
             type="button"
@@ -612,7 +587,7 @@ const HeroSection = () => {
         <HeroVignette reduced={reduced} />
 
         <motion.img
-          src="/image/dust.png"
+          src="/image/dust.webp"
           alt=""
           role="presentation"
           className="pointer-events-none absolute inset-0 z-[19] h-full w-full object-cover opacity-[0.048] mix-blend-overlay"
@@ -624,7 +599,7 @@ const HeroSection = () => {
         />
 
         <img
-          src="/image/grain.png"
+          src="/image/grain.webp"
           alt=""
           role="presentation"
           className="pointer-events-none absolute inset-0 z-[20] h-full w-full object-cover opacity-[0.036] mix-blend-overlay"

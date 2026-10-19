@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import FilmGrain from "@/components/FilmGrain";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
-const albumCover = "/image/albums/tiss.jpg";
+const albumCover = "/image/albums/tiss.webp";
 
 const streamingPlatforms = [
   {

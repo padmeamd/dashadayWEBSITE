@@ -107,9 +107,9 @@ export const ROUTE_SEO: Record<string, PageSEOConfig> = {
   },
   "/lyrics": {
     title: "Lyrics | DashaDay",
-    description: "Lyrics from Things I Shouldn't Say and more — coming soon.",
+    description:
+      "Lyrics by DashaDay, beginning with Be That from the album Things I Shouldn't Say.",
     path: "/lyrics",
-    noindex: true,
   },
 };
 

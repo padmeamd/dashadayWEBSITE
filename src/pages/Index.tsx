@@ -9,9 +9,10 @@ import NewAlbumSection from "@/components/NewAlbumSection";
 import FeaturedVideoSection from "@/components/FeaturedVideoSection";
 import MusicSection from "@/components/MusicSection";
 import MusicVideosSection from "@/components/MusicVideosSection";
-import LyricsSection from "@/components/LyricsSection";
 import VisualsSection from "@/components/VisualsSection";
+import ExploreWorld from "@/components/ExploreWorld";
 import LinksStrip from "@/components/LinksStrip";
+import CollaborateSection from "@/components/CollaborateSection";
 import Footer from "@/components/Footer";
 
 const SectionBlend = ({ from = "night", to = "night" }: { from?: string; to?: string }) => (
@@ -30,20 +31,28 @@ const Index = () => {
       <NewEpisodePopup />
       <FilmGrain />
       <LightLeaksOverlay />
+      {/* Who she is ───────────────────────────────────────────────── */}
       <HeroSection />
+
+      {/* What she has made, newest first ───────────────────────────── */}
       <SeriesSection />
-      <AboutStrip />
       <NewAlbumSection />
-      <FeaturedVideoSection />
       <SectionBlend from="night" to="night" />
       <MusicSection />
+      <SectionBlend from="night" to="night" />
+      <FeaturedVideoSection />
       <SectionBlend from="night" to="night-soft" />
       <MusicVideosSection />
+
+      {/* Who is behind it ──────────────────────────────────────────── */}
       <SectionBlend from="night-soft" to="night" />
-      <LyricsSection />
-      <SectionBlend from="night" to="night" />
+      <AboutStrip />
       <VisualsSection />
+
+      {/* Where to go next ──────────────────────────────────────────── */}
+      <ExploreWorld />
       <LinksStrip />
+      <CollaborateSection />
       <Footer />
     </main>
   );

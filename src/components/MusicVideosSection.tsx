@@ -1,23 +1,22 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Play, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import { musicVideos } from "@/data/musicVideos";
+
+/**
+ * The homepage shows a handful; the archive at /videos holds the rest. A
+ * homepage is an introduction, and the whole catalogue on it is a filing
+ * cabinet with the drawers left open.
+ */
+const SHOWN = 3;
+const shown = musicVideos.slice(0, SHOWN);
 
 const MusicVideosSection = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 400;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
 
   return (
     <>
@@ -42,35 +41,26 @@ const MusicVideosSection = () => {
               </p>
             </div>
             
-            {/* Scroll controls */}
-            <div className="hidden md:flex items-center gap-4">
-              <button
-                onClick={() => scroll("left")}
-                className="w-12 h-12 border border-ivory/20 flex items-center justify-center hover:border-gold/50 hover:text-gold transition-colors text-ivory/50"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                className="w-12 h-12 border border-ivory/20 flex items-center justify-center hover:border-gold/50 hover:text-gold transition-colors text-ivory/50"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+            {/* Three here; the archive holds all of them. */}
+            <Link
+              to="/videos"
+              className="font-sans text-[11px] uppercase tracking-[0.3em] text-ivory/55 no-underline transition-colors hover:text-gold"
+            >
+              All {musicVideos.length} videos →
+            </Link>
           </motion.div>
         </div>
 
         {/* Horizontal scroll container */}
         <div className="relative">
           <div
-            ref={scrollRef}
             className="scrollbar-hide flex gap-4 overflow-x-auto px-4 pb-4 sm:gap-6 sm:px-8 md:px-16"
             style={{
               scrollSnapType: "x mandatory",
               WebkitOverflowScrolling: "touch",
             }}
           >
-            {musicVideos.map((video, index) => (
+            {shown.map((video, index) => (
               <motion.div
                 key={video.id}
                 initial={{ opacity: 0, y: 40 }}
