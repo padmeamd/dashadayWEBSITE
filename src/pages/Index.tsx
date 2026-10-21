@@ -1,6 +1,7 @@
 import FilmGrain from "@/components/FilmGrain";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
 import HeroSection from "@/components/HeroSection";
+import NewSingleSection from "@/components/NewSingleSection";
 import SeriesSection from "@/components/series/SeriesSection";
 import NewEpisodePopup from "@/components/series/NewEpisodePopup";
 import SeriesStructuredData from "@/components/series/SeriesStructuredData";
@@ -35,6 +36,8 @@ const Index = () => {
       <HeroSection />
 
       {/* What she has made, newest first ───────────────────────────── */}
+      <NewSingleSection />
+      <SectionBlend from="night" to="night" />
       <SeriesSection />
       <NewAlbumSection />
       <SectionBlend from="night" to="night" />
