@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import { LATEST_RELEASE } from "@/data/latestRelease";
+import vinylRecord from "@/assets/vinyl-record.png";
 
 /**
  * The newest release, given the top of the page.
@@ -26,28 +27,49 @@ const NewSingleSection = () => {
     <section className="section-cinematic bg-night py-16 sm:py-24" aria-labelledby="new-single-title">
       <div className="section-container">
         <div className="grid items-center gap-10 sm:gap-14 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)]">
-          {/* ── The sleeve ───────────────────────────────────────────── */}
+          {/* ── The sleeve, with the record behind it ────────────────── */}
           <motion.a
             {...rise()}
             href={release.platforms.find((p) => p.primary)?.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative block overflow-hidden no-underline"
+            className="group relative mx-auto block aspect-square w-full max-w-[26rem] no-underline md:max-w-none"
             aria-label={`Listen to ${release.title} on ${release.platforms.find((p) => p.primary)?.label}`}
           >
-            <img
-              src={release.cover}
-              alt={release.coverAlt}
-              width={1200}
-              height={1200}
-              loading="lazy"
-              decoding="async"
-              className="w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03] motion-reduce:transform-none"
-            />
+            {/* The record slides a little further out when approached, the way
+                one does when you pull it from the sleeve. */}
+            {/* Positioned explicitly rather than by transform percentages.
+                It leans out of the top-right corner: the gap to the text
+                column is narrow, but the space above the sleeve is free, so
+                that is where the record is allowed to show itself. */}
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-0 border border-ivory/10 transition-colors duration-700 group-hover:border-gold/40"
-            />
+              className="absolute left-[24%] top-[-6%] h-[84%] w-[84%] transition-[top] duration-[1100ms] ease-out group-hover:top-[-11%] motion-reduce:transition-none"
+            >
+              <motion.span
+                className="block h-full w-full"
+                animate={reduced ? undefined : { rotate: 360 }}
+                transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+              >
+                <img src={vinylRecord} alt="" className="h-full w-full object-contain" />
+              </motion.span>
+            </span>
+
+            <span className="relative z-10 block h-full w-full overflow-hidden">
+              <img
+                src={release.cover}
+                alt={release.coverAlt}
+                width={1200}
+                height={1200}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.02] motion-reduce:transform-none"
+              />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 border border-ivory/10 transition-colors duration-700 group-hover:border-gold/40"
+              />
+            </span>
           </motion.a>
 
           {/* ── The announcement ─────────────────────────────────────── */}
