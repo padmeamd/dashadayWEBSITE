@@ -44,7 +44,7 @@ export const LATEST_RELEASE = {
    * starts.
    */
   video: {
-    title: "FAMOUS (Official Music Video)",
+    title: "DashaDay - FAMOUS (Music Video)",
     youtubeId: "LHyXb1C580A",
     href: "https://youtu.be/LHyXb1C580A",
     poster: "/image/albums/famous-video.webp",
