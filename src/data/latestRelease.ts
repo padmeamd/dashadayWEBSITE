@@ -29,8 +29,13 @@ export const LATEST_RELEASE = {
     "A red carpet, a wall of shutters, and the particular loneliness of being looked at. Out now.",
   platforms: [
     { label: "Spotify", href: "https://open.spotify.com/album/7zFg1L8KTNEeCCqvNGqmpb", primary: true },
+    { label: "Apple Music", href: "https://music.apple.com/gb/album/famous-single/6825275124" },
     { label: "YouTube", href: "https://www.youtube.com/watch?v=SadGMoMdgcQ&list=OLAK5uy_kr5t1O2cN1ux5cwTz4T4Xlzn239ZRARqM" },
+    { label: "Deezer", href: "https://www.deezer.com/en/album/1126980151" },
+    // Artist profile rather than the release itself — the direct album URL
+    // has not been supplied yet, so this one lands a step away from FAMOUS.
+    { label: "Amazon Music", href: "https://music.amazon.co.uk/artists/B08H51P4F6/dashaday" },
   ] satisfies ReleasePlatform[],
-  /** Shown while the rest of the stores are still catching up. */
-  moreComing: true,
+  /** Out everywhere now. */
+  moreComing: false,
 } as const;

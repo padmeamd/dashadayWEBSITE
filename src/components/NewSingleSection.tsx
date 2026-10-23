@@ -15,6 +15,8 @@ import vinylRecord from "@/assets/vinyl-record.png";
 const NewSingleSection = () => {
   const reduced = useReducedMotion();
   const release = LATEST_RELEASE;
+  const primary = release.platforms.find((p) => p.primary);
+  const others = release.platforms.filter((p) => !p.primary);
 
   const rise = (delay = 0) => ({
     initial: reduced ? false : { opacity: 0, y: 20 },
@@ -30,11 +32,11 @@ const NewSingleSection = () => {
           {/* ── The sleeve, with the record behind it ────────────────── */}
           <motion.a
             {...rise()}
-            href={release.platforms.find((p) => p.primary)?.href}
+            href={primary?.href}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative mx-auto block aspect-square w-full max-w-[26rem] no-underline md:max-w-none"
-            aria-label={`Listen to ${release.title} on ${release.platforms.find((p) => p.primary)?.label}`}
+            aria-label={`Listen to ${release.title} on ${primary?.label}`}
           >
             {/* The record slides a little further out when approached, the way
                 one does when you pull it from the sleeve. */}
@@ -90,26 +92,37 @@ const NewSingleSection = () => {
               {release.blurb}
             </motion.p>
 
-            <motion.ul {...rise(0.26)} className="mt-9 flex flex-wrap items-center gap-3.5">
-              {release.platforms.map((platform) => (
-                <li key={platform.label}>
-                  <a
-                    href={platform.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={
-                      platform.primary
-                        ? "inline-flex items-center gap-2 border border-transparent bg-ivory px-7 py-3.5 font-sans text-[11px] uppercase tracking-[0.3em] text-night no-underline transition-colors hover:bg-gold"
-                        : "inline-flex items-center gap-2 border border-ivory/25 px-7 py-3.5 font-sans text-[11px] uppercase tracking-[0.3em] text-ivory no-underline transition-colors hover:border-gold/60 hover:text-gold"
-                    }
-                  >
-                    {platform.primary ? "Listen on " : ""}
-                    {platform.label}
-                    <ArrowUpRight size={13} aria-hidden />
-                  </a>
-                </li>
-              ))}
-            </motion.ul>
+            {/* One button for the main door, the rest as a quiet row. Five
+                buttons of equal weight would be a wall, not a choice. */}
+            <motion.div {...rise(0.26)} className="mt-9">
+              {primary && (
+                <a
+                  href={primary.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-ivory px-7 py-3.5 font-sans text-[11px] uppercase tracking-[0.3em] text-night no-underline transition-colors hover:bg-gold"
+                >
+                  Listen on {primary.label}
+                  <ArrowUpRight size={13} aria-hidden />
+                </a>
+              )}
+
+              <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+                {others.map((platform) => (
+                  <li key={platform.label}>
+                    <a
+                      href={platform.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 border-b border-ivory/20 pb-1 font-sans text-[11px] uppercase tracking-[0.22em] text-ivory/65 no-underline transition-colors hover:border-gold/60 hover:text-gold"
+                    >
+                      {platform.label}
+                      <ArrowUpRight size={11} aria-hidden />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
 
             {release.moreComing && (
               <motion.p {...rise(0.32)} className="mt-6 font-sans text-xs tracking-[0.14em] text-ivory/35">
