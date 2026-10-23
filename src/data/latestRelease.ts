@@ -38,4 +38,15 @@ export const LATEST_RELEASE = {
   ] satisfies ReleasePlatform[],
   /** Out everywhere now. */
   moreComing: false,
+  /**
+   * The official video. The poster is a real frame, letterboxed to 16:9 the
+   * same way the player will letterbox the 4:3 film, so nothing jumps when it
+   * starts.
+   */
+  video: {
+    title: "FAMOUS (Official Music Video)",
+    youtubeId: "fYLnqxIs84o",
+    href: "https://youtu.be/fYLnqxIs84o",
+    poster: "/image/albums/famous-video.webp",
+  },
 } as const;

@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Play } from "lucide-react";
 
 import { LATEST_RELEASE } from "@/data/latestRelease";
 import vinylRecord from "@/assets/vinyl-record.png";
@@ -15,6 +16,7 @@ import vinylRecord from "@/assets/vinyl-record.png";
 const NewSingleSection = () => {
   const reduced = useReducedMotion();
   const release = LATEST_RELEASE;
+  const [playing, setPlaying] = useState(false);
   const primary = release.platforms.find((p) => p.primary);
   const others = release.platforms.filter((p) => !p.primary);
 
@@ -131,6 +133,63 @@ const NewSingleSection = () => {
             )}
           </div>
         </div>
+
+        {/* ── The official video ───────────────────────────────────────
+            A still with a play button until it is wanted: YouTube loads
+            nothing — no iframe, no cookies, no third-party request — until
+            someone actually asks to watch. */}
+        <motion.div {...rise(0.1)} className="mt-16 sm:mt-24">
+          <h3 className="font-sans text-[11px] uppercase tracking-[0.34em] text-gold/70">
+            The official video
+          </h3>
+
+          <div className="relative mt-6 aspect-video w-full overflow-hidden bg-night-soft">
+            {playing ? (
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${release.video.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                title={release.video.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 h-full w-full border-0"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPlaying(true)}
+                className="group/play absolute inset-0 h-full w-full cursor-pointer border-0 bg-transparent p-0"
+                aria-label={`Play ${release.video.title}`}
+              >
+                <img
+                  src={release.video.poster}
+                  alt=""
+                  width={1280}
+                  height={720}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover/play:scale-[1.02] motion-reduce:transform-none"
+                />
+                <span aria-hidden className="absolute inset-0 bg-night/25 transition-colors duration-500 group-hover/play:bg-night/10" />
+                <span
+                  aria-hidden
+                  className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-ivory/40 bg-night/55 backdrop-blur-sm transition-colors duration-500 group-hover/play:border-gold/70 sm:h-20 sm:w-20"
+                >
+                  <Play className="ml-0.5 h-6 w-6 text-ivory sm:h-7 sm:w-7" strokeWidth={1.25} />
+                </span>
+              </button>
+            )}
+          </div>
+
+          <p className="mt-4 font-sans text-xs tracking-[0.14em] text-ivory/35">
+            <a
+              href={release.video.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline transition-colors hover:text-ivory/70"
+            >
+              Watch on YouTube ↗
+            </a>
+          </p>
+        </motion.div>
       </div>
     </section>
   );
