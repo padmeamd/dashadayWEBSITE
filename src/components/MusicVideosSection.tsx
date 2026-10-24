@@ -23,7 +23,7 @@ const MusicVideosSection = () => {
       <section
         id="videos"
         ref={ref}
-        className="section-cinematic bg-night-soft pt-8 sm:pt-12 pb-10 sm:pb-14 md:pb-16"
+        className="section-cinematic band-tight bg-night-soft"
       >
         <div className="section-container">
           <motion.div
@@ -44,7 +44,7 @@ const MusicVideosSection = () => {
             {/* Three here; the archive holds all of them. */}
             <Link
               to="/videos"
-              className="font-sans text-[11px] uppercase tracking-[0.3em] text-ivory/55 no-underline transition-colors hover:text-gold"
+              className="tap tap-pad font-sans text-[11px] uppercase tracking-[0.3em] text-ivory/55 no-underline transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
             >
               All {musicVideos.length} videos →
             </Link>

@@ -28,7 +28,7 @@ const NewSingleSection = () => {
   });
 
   return (
-    <section className="section-cinematic bg-night py-16 sm:py-24" aria-labelledby="new-single-title">
+    <section className="section-cinematic bg-night band" aria-labelledby="new-single-title">
       <div className="section-container">
         <div className="grid items-center gap-10 sm:gap-14 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)]">
           {/* ── The sleeve, with the record behind it ────────────────── */}
@@ -116,7 +116,7 @@ const NewSingleSection = () => {
                       href={platform.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 border-b border-ivory/20 pb-1 font-sans text-[11px] uppercase tracking-[0.22em] text-ivory/65 no-underline transition-colors hover:border-gold/60 hover:text-gold"
+                      className="tap tap-pad inline-flex items-center gap-1.5 border-b border-ivory/20 pb-1 font-sans text-[11px] uppercase tracking-[0.22em] text-ivory/65 no-underline transition-colors hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
                     >
                       {platform.label}
                       <ArrowUpRight size={11} aria-hidden />
@@ -184,7 +184,7 @@ const NewSingleSection = () => {
               href={release.video.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="no-underline transition-colors hover:text-ivory/70"
+              className="tap tap-pad no-underline transition-colors hover:text-ivory/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
             >
               Watch on YouTube ↗
             </a>

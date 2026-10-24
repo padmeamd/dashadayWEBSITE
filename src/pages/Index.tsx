@@ -1,12 +1,12 @@
 import FilmGrain from "@/components/FilmGrain";
 import LightLeaksOverlay from "@/components/LightLeaksOverlay";
 import HeroSection from "@/components/HeroSection";
+import HeroRoomIndex from "@/components/HeroRoomIndex";
 import NewSingleSection from "@/components/NewSingleSection";
 import SeriesSection from "@/components/series/SeriesSection";
 import NewEpisodePopup from "@/components/series/NewEpisodePopup";
 import SeriesStructuredData from "@/components/series/SeriesStructuredData";
 import AboutStrip from "@/components/AboutStrip";
-import NewAlbumSection from "@/components/NewAlbumSection";
 import FeaturedVideoSection from "@/components/FeaturedVideoSection";
 import MusicSection from "@/components/MusicSection";
 import MusicVideosSection from "@/components/MusicVideosSection";
@@ -34,13 +34,18 @@ const Index = () => {
       <LightLeaksOverlay />
       {/* Who she is ───────────────────────────────────────────────── */}
       <HeroSection />
+      <HeroRoomIndex />
 
       {/* What she has made, newest first ───────────────────────────── */}
       <NewSingleSection />
       <SectionBlend from="night" to="night" />
       <SeriesSection />
-      <NewAlbumSection />
       <SectionBlend from="night" to="night" />
+      {/* The standalone album block stood here: the same cover and the same
+          spinning-record device as the new single above it, 820px of it, for a
+          record that is no longer the latest release. It now leads the
+          discography below, as a real link. The component is untouched should
+          it be wanted back. */}
       <MusicSection />
       <SectionBlend from="night" to="night" />
       <FeaturedVideoSection />

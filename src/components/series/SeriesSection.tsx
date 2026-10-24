@@ -1,28 +1,16 @@
-import { ArrowUpRight, Instagram, Send, Youtube } from "lucide-react";
 import {
-  EPISODES,
-  FOLLOW,
-  MEMBERSHIP,
   SCHEDULE,
   SERIES,
   SERIES_ANCHOR_ID,
   SERIES_STILLS,
-  type FollowChannel,
 } from "@/data/series";
-import ChapterRow from "./ChapterRow";
 import GuidePanel from "./GuidePanel";
 import CinematicPlate from "./CinematicPlate";
-import Ornament from "./Ornament";
 import Reveal from "./Reveal";
 import SeriesButton from "./SeriesButton";
 
 const TITLE_ID = "series-title";
 
-const CHANNEL_ICONS: Record<FollowChannel["name"], typeof Send> = {
-  telegram: Send,
-  instagram: Instagram,
-  youtube: Youtube,
-};
 
 /* ── Title lockup ─────────────────────────────────────────────────────────── */
 
@@ -203,6 +191,12 @@ const SeriesSection = () => (
               <span aria-hidden className="mt-[0.45rem] h-1 w-1 shrink-0 rotate-45 bg-gold/70" />
               {SERIES.watchNote}
             </p>
+
+            {/* Kept from the removed chapter block: the release cadence is the one
+                fact in it that somebody still on the homepage needs. */}
+            <p className="mt-3 font-sans text-[12px] uppercase tracking-[0.2em] text-ivory/45">
+              {SCHEDULE.subheading}
+            </p>
           </div>
         </Reveal>
         {/* Production slate — closes the composition under the smaller frame */}
@@ -231,131 +225,11 @@ const SeriesSection = () => (
 
       </div>
 
-      {/* ─── THE CHAPTERS ───────────────────────────────────────────────── */}
-      <Reveal className="mt-20 sm:mt-24 md:mt-28" y={16}>
-        <Ornament className="mb-10 sm:mb-14" />
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <h3 className="font-serif text-[clamp(1.5rem,4.8vw,2.4rem)] font-light uppercase leading-none tracking-[0.18em] text-ivory/90">
-            {SCHEDULE.heading}
-          </h3>
-          <p className="font-sans text-[13px] font-light leading-relaxed text-ivory/70 sm:text-right sm:text-[14px]">
-            {SCHEDULE.subheading}
-          </p>
-        </div>
-      </Reveal>
-
-      <div className="mt-8 border-b border-ivory/[0.12] sm:mt-10">
-        {EPISODES.map((episode, i) => (
-          <Reveal key={episode.id} delay={i * 0.08} y={14}>
-            <ChapterRow episode={episode} />
-          </Reveal>
-        ))}
-      </div>
-
-      {/* ─── THE ALDERWICK SOCIETY ──────────────────────────────────────── */}
-      <Reveal className="mt-16 sm:mt-20 md:mt-24" y={16}>
-        <div className="relative overflow-hidden border border-gold/25 bg-[hsl(var(--burgundy-deep)/0.5)]">
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(80% 110% at 50% 0%, hsl(var(--burgundy) / 0.45) 0%, transparent 68%)",
-            }}
-          />
-          <span aria-hidden className="pointer-events-none absolute inset-[6px] border border-gold/[0.14]" />
-
-          <div className="relative px-6 py-10 text-center sm:px-10 sm:py-14 md:px-16">
-            <p className="font-serif text-[9.5px] uppercase tracking-[0.4em] text-gold/70 sm:text-[10.5px]">
-              {MEMBERSHIP.eyebrow}
-            </p>
-
-            <h3 className="mt-5 font-serif text-[clamp(1.5rem,5.2vw,2.5rem)] font-light uppercase leading-tight tracking-[0.14em] text-ivory">
-              {MEMBERSHIP.heading}
-            </h3>
-
-            <Ornament className="my-6 sm:my-7" width="max-w-[13rem]" />
-
-            <p className="mx-auto max-w-xl font-serif text-[1.05rem] font-light italic leading-snug text-ivory/85 sm:text-[1.2rem]">
-              &ldquo;{MEMBERSHIP.quote}&rdquo;
-            </p>
-
-            <p className="mx-auto mt-5 max-w-lg font-sans text-[13px] font-light leading-relaxed text-ivory/60 sm:text-[13.5px]">
-              {MEMBERSHIP.description}
-            </p>
-
-            <ul className="mx-auto mt-6 flex max-w-2xl flex-col items-center justify-center gap-x-6 gap-y-2 sm:flex-row sm:flex-wrap">
-              {MEMBERSHIP.benefits.map((benefit) => (
-                <li
-                  key={benefit}
-                  className="flex items-center gap-2.5 font-sans text-[13px] font-light tracking-wide text-ivory/75 sm:text-[13.5px]"
-                >
-                  <span aria-hidden className="h-1 w-1 shrink-0 rotate-45 bg-gold/70" />
-                  {benefit}
-                </li>
-              ))}
-            </ul>
-
-            <p className="mt-8 flex items-baseline justify-center gap-2">
-              <span className="font-serif text-[2.1rem] font-light leading-none text-gold sm:text-[2.5rem]">
-                {MEMBERSHIP.price}
-              </span>
-              <span className="font-sans text-[10.5px] uppercase tracking-[0.26em] text-ash/85">
-                {MEMBERSHIP.priceInterval}
-              </span>
-            </p>
-
-            <SeriesButton href={MEMBERSHIP.cta.href} variant="primary" className="mt-7 w-full sm:w-auto">
-              {MEMBERSHIP.cta.label}
-            </SeriesButton>
-          </div>
-        </div>
-      </Reveal>
-
-      {/* ─── FOLLOW THE STORY ───────────────────────────────────────────── */}
-      <Reveal className="mt-14 sm:mt-16 md:mt-20" y={14}>
-        <div className="flex items-center gap-4">
-          <h3 className="font-serif text-[10.5px] uppercase tracking-[0.34em] text-ivory/60 sm:text-xs sm:tracking-[0.4em]">
-            {FOLLOW.heading}
-          </h3>
-          <span aria-hidden className="h-px flex-1 bg-gradient-to-r from-gold/20 to-transparent" />
-        </div>
-
-        <ul className="mt-6 grid list-none gap-px border border-ivory/[0.08] bg-ivory/[0.06] sm:grid-cols-3">
-          {FOLLOW.channels.map((channel) => {
-            const Icon = CHANNEL_ICONS[channel.name];
-            return (
-              <li key={channel.name} className="bg-[hsl(var(--charcoal))]">
-                <a
-                  href={channel.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group/follow flex h-full min-h-[4.5rem] items-center gap-4 px-5 py-5 transition-colors duration-500 hover:bg-ivory/[0.035] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold/50 sm:px-6"
-                >
-                  <Icon
-                    className="h-[18px] w-[18px] shrink-0 text-gold/60 transition-colors duration-500 group-hover/follow:text-gold"
-                    strokeWidth={1.25}
-                    aria-hidden
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-serif text-[12px] uppercase tracking-[0.26em] text-ivory/85 transition-colors duration-500 group-hover/follow:text-ivory">
-                      {channel.label}
-                    </span>
-                    <span className="mt-1.5 block font-sans text-[12.5px] font-light leading-snug text-ivory/60 sm:text-[13px]">
-                      {channel.description}
-                    </span>
-                  </span>
-                  <ArrowUpRight
-                    className="h-4 w-4 shrink-0 text-ivory/25 transition-all duration-500 group-hover/follow:-translate-y-0.5 group-hover/follow:translate-x-0.5 group-hover/follow:text-gold/70 motion-reduce:transition-none"
-                    strokeWidth={1.25}
-                    aria-hidden
-                  />
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </Reveal>
+      {/* The chapter list, the Alderwick Society panel and the milestone
+          timeline used to stand here — roughly two thousand pixels of them.
+          Each is reproduced in full on /things-i-shouldnt-say, which is where
+          the detail belongs: the homepage's job is to make someone want the
+          series, not to be the series site. The two buttons above carry them. */}
 
       {/* ─── BEHIND THE MAGIC ───────────────────────────────────────────── */}
       <Reveal className="mt-12 pb-16 sm:mt-14 sm:pb-20 md:pb-28" y={16}>

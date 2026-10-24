@@ -205,8 +205,65 @@
     }
   }
 
+  /* Eight sections share this. Folding it into the system below means one
+     gutter across the page instead of px-4 / px-8 / px-16 steps that jumped
+     against neighbours using their own padding. */
   .section-container {
-    @apply container mx-auto px-4 sm:px-8 md:px-16;
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    max-width: calc(var(--shell-wide) + var(--gutter) * 2);
+  }
+
+  /* ─── Spatial system ──────────────────────────────────────────────────
+     One gutter, three deliberate content widths, three vertical rhythms.
+     Before this every section invented its own geometry: content widths ran
+     896 / 1024 / 1312 / 1400 / 1468 px and side padding ran px-4 through
+     px-16, which is why the page read as a stack of unrelated pages. The
+     variation that remains is now chosen -- reading measure for prose,
+     editorial for composed sections, wide for cinematic ones. */
+  :root {
+    --gutter: 1.25rem;
+    --measure: 64ch;
+    --shell-editorial: 72rem;   /* 1152px -- composed sections */
+    --shell-wide: 85rem;        /* 1360px -- cinematic, image-led */
+    --band-tight: clamp(3rem, 7vw, 5rem);
+    --band: clamp(4.5rem, 10vw, 8rem);
+    --band-loose: clamp(6rem, 13vw, 11rem);
+  }
+
+  @media (min-width: 640px)  { :root { --gutter: 2rem; } }
+  @media (min-width: 1024px) { :root { --gutter: 3rem; } }
+  @media (min-width: 1440px) { :root { --gutter: 4rem; } }
+
+  .shell,
+  .shell-wide,
+  .shell-read {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .shell      { max-width: calc(var(--shell-editorial) + var(--gutter) * 2); }
+  .shell-wide { max-width: calc(var(--shell-wide) + var(--gutter) * 2); }
+  .shell-read { max-width: calc(var(--measure) + var(--gutter) * 2); }
+
+  .band       { padding-block: var(--band); }
+  .band-tight { padding-block: var(--band-tight); }
+  .band-loose { padding-block: var(--band-loose); }
+
+  /* Touch targets. Nearly every link on the site measured 20-22px tall, which
+     is half of what a thumb needs. The padding is negative-margined back out
+     so widening the target never shifts the composition around it. */
+  .tap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+  @media (max-width: 1023px) {
+    .tap-pad {
+      padding-block: 0.6rem;
+      margin-block: -0.6rem;
+    }
   }
 
   /* Blur depth effect */

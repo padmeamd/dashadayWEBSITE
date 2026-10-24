@@ -36,7 +36,7 @@ const ExploreWorld = () => {
   const reduced = useReducedMotion();
 
   return (
-    <section className="section-cinematic bg-night py-20 sm:py-28" aria-labelledby="explore-title">
+    <section className="section-cinematic bg-night band" aria-labelledby="explore-title">
       <div className="section-container">
         <motion.div
           initial={reduced ? false : { opacity: 0, y: 20 }}

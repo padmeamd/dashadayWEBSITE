@@ -159,7 +159,11 @@ export function SiteHeader({ variant = "page" }: SiteHeaderProps) {
   const isCinematic = variant === "cinematic";
 
   const linkClass = cn(
-    "font-serif font-light uppercase transition-colors duration-500 hover:text-ivory",
+    // py-2.5 lifts every nav item from a 20px line of text to a 44px target and
+    // gives keyboards something visible to land on. twMerge lets the mobile
+    // menu's own py-4 win, so the drawer is unaffected.
+    "inline-flex items-center py-2.5 font-serif font-light uppercase transition-colors duration-500 hover:text-ivory",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
     isCinematic
       ? "text-[14px] tracking-[0.24em] text-ivory/[0.88] md:text-[13px] md:tracking-[0.18em] lg:text-[14px] lg:tracking-[0.2em] xl:text-[16px] xl:tracking-[0.26em]"
       : "text-[15px] tracking-[0.22em] text-ivory/70 md:text-[13px] md:tracking-[0.16em] lg:text-[14px] lg:tracking-[0.2em] xl:text-[16px]"
@@ -197,7 +201,8 @@ export function SiteHeader({ variant = "page" }: SiteHeaderProps) {
           <Link
             to="/"
             className={cn(
-              "transition-opacity hover:opacity-90",
+              "inline-flex min-h-11 items-center py-1.5 transition-opacity hover:opacity-90",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
               isCinematic
                 ? `font-hand text-[clamp(1.35rem,3.4vw,1.95rem)] leading-none text-ivory ${glow}`
                 : "font-serif text-xl font-light tracking-[0.14em] text-ivory md:text-2xl"

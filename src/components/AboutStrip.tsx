@@ -95,7 +95,7 @@ const AboutStrip = () => {
             <p className="pt-1">
               <a
                 href="/media-kit/"
-                className="font-sans text-[10px] uppercase tracking-[0.3em] text-ivory/45 no-underline transition-colors hover:text-gold"
+                className="tap tap-pad font-sans text-[11px] uppercase tracking-[0.26em] text-ivory/60 no-underline transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
               >
                 Full biography and figures →
               </a>

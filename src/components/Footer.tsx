@@ -14,7 +14,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer ref={ref} className="bg-night py-16 sm:py-20 md:py-32">
+    <footer ref={ref} className="bg-night band">
       <motion.div className="section-container">
         <NewsletterSignup />
         <motion.div

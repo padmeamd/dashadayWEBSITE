@@ -1,7 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Play } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const albums = [
   {
@@ -41,13 +41,12 @@ const albums = [
 const MusicSection = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const navigate = useNavigate();
 
   return (
     <section
       id="music"
       ref={ref}
-      className="section-cinematic bg-night pt-8 sm:pt-12 pb-10 sm:pb-14 md:pb-16"
+      className="section-cinematic band-tight bg-night"
     >
       <div className="section-container">
         <motion.div
@@ -66,14 +65,23 @@ const MusicSection = () => {
 
         <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {albums.map((album, index) => (
-            <motion.button
+            <motion.div
               key={album.id}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1, delay: 0.2 + index * 0.15 }}
-              onClick={() => navigate(`/album/${album.slug}`)}
-              className="group relative aspect-square glow-gold-hover cursor-pointer text-left"
+              className="group relative aspect-square glow-gold-hover text-left"
             >
+              {/* A real link, stretched over the tile. These were buttons
+                  calling navigate(), so they could not be opened in a new tab,
+                  were announced as buttons rather than links, and left the album
+                  pages with no crawlable way in. */}
+              <Link
+                to={`/album/${album.slug}`}
+                className="absolute inset-0 z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 focus-visible:ring-offset-2 focus-visible:ring-offset-night"
+              >
+                <span className="sr-only">{`${album.title} (${album.year})`}</span>
+              </Link>
               {/* Album cover */}
               <img
                 src={album.coverImage}
@@ -103,7 +111,7 @@ const MusicSection = () => {
                   {album.title}
                 </h3>
               </div>
-            </motion.button>
+            </motion.div>
           ))}
         </motion.div>
       </div>

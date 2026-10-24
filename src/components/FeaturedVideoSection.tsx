@@ -112,7 +112,7 @@ const FeaturedVideoSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="relative bg-night pt-4 sm:pt-6 pb-4 sm:pb-6 overflow-hidden">
+    <section ref={ref} className="band-tight relative overflow-hidden bg-night">
       {/* Ambient glow */}
       <motion.div
         className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full"
@@ -128,7 +128,7 @@ const FeaturedVideoSection = () => {
       <Sparkles />
       <LightLeaks />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8">
+      <div className="shell relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -197,7 +197,7 @@ const FeaturedVideoSection = () => {
             href="https://www.youtube.com/watch?v=ttj_ktpPOp8"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-ivory/35 text-xs tracking-[0.2em] uppercase hover:text-gold/60 transition-colors duration-300"
+            className="tap tap-pad inline-flex items-center gap-2 text-ivory/55 text-xs tracking-[0.2em] uppercase hover:text-gold/70 transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
           >
             <Play className="w-3 h-3" />
             Watch on YouTube

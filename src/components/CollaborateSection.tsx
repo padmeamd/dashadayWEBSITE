@@ -17,7 +17,7 @@ const CollaborateSection = () => {
   const reduced = useReducedMotion();
 
   return (
-    <section className="section-cinematic bg-night py-20 sm:py-28" aria-labelledby="collaborate-title">
+    <section className="section-cinematic bg-night band" aria-labelledby="collaborate-title">
       <div className="section-container">
         <motion.div
           initial={reduced ? false : { opacity: 0, y: 20 }}
@@ -51,7 +51,10 @@ const CollaborateSection = () => {
           </div>
 
           <p className="mt-8 font-sans text-xs tracking-[0.18em] text-ivory/35">
-            <a href={`mailto:${CONTACT_INBOX}`} className="no-underline transition-colors hover:text-ivory/70">
+            <a
+              href={`mailto:${CONTACT_INBOX}`}
+              className="tap tap-pad no-underline transition-colors hover:text-ivory/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
+            >
               {CONTACT_INBOX}
             </a>
           </p>

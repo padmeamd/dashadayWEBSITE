@@ -17,8 +17,6 @@ import { HERO_HOTSPOTS, heroHotspotZIndex, resolveHeroHotspotStyle } from "@/dat
 import { ChevronDown, Plus } from "lucide-react";
 
 const BG_SRC = "/image/background.webp";
-const MIRROR_BOX = { left: "7%", top: "6%", width: "43%", height: "54%" } as const;
-
 /** Same hit-area padding on all viewports — desktop geometry, reliable router links on mobile. */
 const HOTSPOT_TAP_CLASS =
   "pointer-events-auto absolute block cursor-pointer border-0 bg-transparent p-2 outline-none touch-manipulation ring-offset-2 ring-offset-[hsl(350_28%_5%)] before:absolute before:-inset-2 before:content-[''] focus-visible:ring-2 focus-visible:ring-gold/45";
@@ -187,39 +185,65 @@ function MirrorCopyOnGlass({
   onEnterWorld: () => void;
 }) {
   return (
-    <div className="pointer-events-none absolute z-[34] overflow-hidden" style={MIRROR_BOX}>
+    /* The copy sits on the mirror glass, which is 43% of the frame — about
+       144px once a phone is 390px wide, so her name broke across two lines and
+       the button across three. Below sm it spans the frame instead and the
+       mirror keeps the composition from sm up. */
+    <div className="pointer-events-none absolute left-[6%] top-[7%] z-[34] h-[52%] w-[88%] overflow-hidden sm:left-[7%] sm:top-[6%] sm:h-[54%] sm:w-[43%]">
       <div className="pointer-events-auto relative h-full min-h-0 w-full">
         <MirrorMotes reduced={reduced} />
 
-        <div className="absolute inset-0 z-[1] flex items-start justify-center px-3 pt-3 pb-3 sm:items-center sm:py-3 md:px-4 md:py-4">
-          <div className="flex max-h-full w-full max-w-[min(100%,26rem)] -translate-y-0.5 translate-x-0 flex-col items-center justify-center gap-3 text-center sm:translate-y-0 sm:translate-x-8 sm:gap-4 md:translate-x-32 md:gap-5">
-          <div className="flex flex-wrap items-end justify-center gap-3 md:gap-4">
+        {/* Below sm the copy crosses the mirror's bulbs, which are the brightest
+            thing in the photograph. A soft scrim keeps the small gold labels
+            readable without flattening the picture. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[1] sm:hidden"
+          style={{
+            background:
+              "radial-gradient(120% 70% at 50% 34%, hsl(0 0% 2% / 0.62) 0%, hsl(0 0% 2% / 0.34) 48%, transparent 78%)",
+          }}
+        />
+
+        <div className="absolute inset-0 z-[2] flex items-start justify-center px-3 pb-3 pt-10 sm:items-center sm:py-3 md:px-4 md:py-4">
+          <div className="flex max-h-full w-full max-w-[min(100%,27rem)] -translate-y-0.5 translate-x-0 flex-col items-center justify-center gap-4 text-center sm:translate-y-0 sm:translate-x-6 md:translate-x-12 md:gap-5">
+            {/* Whose world this is, stated before what she has made in it. Her
+                name used to sit at 11px above a title set thirty times larger,
+                so the first screen read as a series landing page rather than an
+                artist's. */}
             <motion.div
               initial={reduced ? false : { opacity: 0.85 }}
               animate={{ opacity: 1 }}
               transition={{ duration: reduced ? 0 : 1.8, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col items-center"
             >
-              {/* Whose record this is, before what the record is called. */}
-              <p
-                className="font-serif text-[11px] font-light uppercase tracking-[0.46em] text-ivory/85 md:text-[12px]"
-                style={{ textShadow: "0 1px 10px hsl(0 0% 0% / 0.85)" }}
+              <h2
+                className="font-serif text-[clamp(1.5rem,5.2vw,2.25rem)] font-light uppercase leading-none tracking-[0.3em] text-ivory"
+                style={{ textShadow: "0 1px 14px hsl(0 0% 0% / 0.9)" }}
               >
                 Dasha Day
-              </p>
+              </h2>
               <p
-                className="mt-1.5 font-sans text-[9.5px] uppercase tracking-[0.26em] text-ivory/50 md:text-[10.5px]"
+                className="mt-3 font-sans text-[9px] uppercase tracking-[0.24em] text-ivory/65 md:text-[10px] md:tracking-[0.26em]"
                 style={{ textShadow: "0 1px 10px hsl(0 0% 0% / 0.85)" }}
               >
                 Independent artist · Musician · Filmmaker
               </p>
 
+              <span aria-hidden className="mt-5 block h-px w-12 bg-gold/30" />
+
+              {/* The album title keeps its neon treatment, but is now labelled
+                  as the work it is instead of standing in for her name. */}
               <Link
                 to="/album/things-i-shouldnt-say"
-                className="mt-4 block transition-opacity hover:opacity-90"
-                aria-label="Open Things I Shouldn't Say album"
+                className="group mt-5 block transition-opacity hover:opacity-90"
+                aria-label="Open the Things I Shouldn't Say album"
               >
-                <motion.p
-                  className="font-moralana text-[clamp(1.15rem,4.2vw,3.1rem)] leading-[1.08] tracking-wide text-ivory md:text-[clamp(2.1rem,4.6vw,3.45rem)]"
+                <span className="block font-sans text-[9px] uppercase tracking-[0.3em] text-gold/70 md:text-[9.5px]">
+                  Debut album &amp; original series
+                </span>
+                <motion.span
+                  className="mt-2 block font-moralana text-[clamp(1.6rem,5.4vw,2.7rem)] leading-[1.08] tracking-wide text-ivory [text-wrap:balance]"
                   style={{
                     textShadow:
                       "0 0 3px hsl(40 100% 94% / 0.9), 0 0 12px hsl(38 88% 70% / 0.75), 0 0 26px hsl(35 80% 56% / 0.55), 0 0 52px hsl(30 72% 44% / 0.35), 0 2px 16px hsl(0 0% 0% / 0.7)",
@@ -240,49 +264,33 @@ function MirrorCopyOnGlass({
                   }}
                 >
                   Things I Shouldn&apos;t Say
-                </motion.p>
+                </motion.span>
               </Link>
             </motion.div>
+
+            {/* One way in, then a quieter one. "Enter my world" used to sit here
+                as a third button calling the very same scroll as the cue at the
+                foot of the screen, so three CTAs competed where one should lead. */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: reduced ? 0 : 0.6, duration: 1 }}
-            />
-          </div>
-
-          {/* Two doors, named. The hero used to typewrite one instruction and
-              offer no second way in. */}
-          <div className="flex flex-col items-start gap-2.5">
-            <Link
-              to="/music"
-              className="min-h-11 font-serif text-[12px] font-light tracking-[0.3em] text-ivory no-underline underline-offset-[7px] transition-colors hover:text-gold md:min-h-0 md:text-[13px]"
-              style={{ textShadow: "0 1px 12px hsl(0 0% 0% / 0.85)" }}
+              className="mt-2 flex w-full flex-col items-center gap-3.5"
             >
-              EXPLORE MY MUSIC
-            </Link>
-            <Link
-              to="/things-i-shouldnt-say"
-              className="min-h-11 font-serif text-[12px] font-light tracking-[0.3em] text-ivory no-underline underline-offset-[7px] transition-colors hover:text-gold md:min-h-0 md:text-[13px]"
-              style={{ textShadow: "0 1px 12px hsl(0 0% 0% / 0.85)" }}
-            >
-              WATCH THE SERIES
-            </Link>
-          </div>
-
-          <motion.button
-            type="button"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: reduced ? 0 : 0.9, duration: 0.8 }}
-            onClick={(e) => {
-              e.preventDefault();
-              onEnterWorld();
-            }}
-            className="relative z-[2] -mx-2 min-h-11 cursor-pointer touch-manipulation border-0 bg-transparent px-4 py-2 font-serif text-[12px] font-light tracking-[0.32em] text-ivory underline decoration-gold/45 decoration-[0.5px] underline-offset-[7px] transition-colors hover:text-ivory hover:decoration-gold/75 md:mx-0 md:min-h-0 md:px-0 md:py-0 md:text-[14px] md:tracking-[0.34em]"
-            style={{ textShadow: "0 1px 10px hsl(0 0% 0% / 0.8)" }}
-          >
-            ENTER MY WORLD
-          </motion.button>
+              <Link
+                to="/things-i-shouldnt-say"
+                className="inline-flex min-h-12 w-full max-w-[18rem] items-center justify-center whitespace-nowrap border border-gold/60 bg-gold/[0.12] px-4 font-sans text-[10.5px] uppercase tracking-[0.18em] text-gold sm:px-7 sm:text-[11px] sm:tracking-[0.26em] shadow-[0_0_36px_-18px_hsl(var(--gold)/0.8)] backdrop-blur-[2px] transition-colors duration-500 hover:border-gold hover:bg-gold/25 hover:text-ivory focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 md:text-[12px]"
+              >
+                Watch the series
+              </Link>
+              <Link
+                to="/music"
+                className="link-subtle tap font-serif text-[12px] font-light tracking-[0.28em] text-ivory/80 transition-colors hover:text-gold md:text-[13px]"
+                style={{ textShadow: "0 1px 12px hsl(0 0% 0% / 0.85)" }}
+              >
+                EXPLORE MY MUSIC
+              </Link>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -494,7 +502,7 @@ const HeroSection = () => {
         onMouseLeave={onMouseLeave}
         className="relative h-[100dvh] min-h-[100svh] w-full overflow-hidden bg-[hsl(350_28%_5%)]"
       >
-        <h1 className="sr-only">DashaDay - Things I Shouldn&apos;t Say, debut album</h1>
+        <h1 className="sr-only">DashaDay - Things I Shouldn&apos;t Say, new album</h1>
 
         {!reduced && finePointer ? (
           <CandleCursorLight cursorX={cursorX} cursorY={cursorY} flameY={flameY} active={spotActive} />
@@ -617,7 +625,7 @@ const HeroSection = () => {
 
         <MirrorCopyOnGlass reduced={reduced} onEnterWorld={scrollToNewAlbum} />
 
-        <motion.div className="pointer-events-none absolute inset-0 z-[55]">
+        <motion.div className="pointer-events-none absolute inset-0 z-[55] hidden lg:block">
           {HERO_HOTSPOTS.map((spot) => (
             <Link
               key={spot.id}
@@ -638,11 +646,11 @@ const HeroSection = () => {
           ))}
         </motion.div>
 
-        {/* "Your invitation to Alderwick" — slim plate on the right edge of the
-            scene, sitting in the gap between the dress and vinyl hotspots. */}
-        <div className="pointer-events-auto absolute right-5 top-1/2 z-[56] hidden w-44 -translate-y-1/2 lg:block xl:right-7 xl:w-52">
-          <HeroSeriesTeaser variant="rail" />
-        </div>
+        {/* The "invitation to Alderwick" plate used to hang here. It pointed at
+            the same place as the hero's primary button, sat on top of the dress
+            hotspot's label, and made a fourth call to the series above the fold
+            — nav, button, this plate and the section below. The button carries
+            it now. */}
 
         <motion.div
           style={{ opacity: uiOpacity, y: uiY }}

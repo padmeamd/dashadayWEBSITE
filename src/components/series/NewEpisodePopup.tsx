@@ -81,13 +81,56 @@ const NewEpisodePopup = () => {
     const latest = getLatestPublicRelease();
     if (!latest || (!forced && isSilenced(latest))) return;
 
-    const timer = window.setTimeout(() => {
-      restoreFocusTo.current = document.activeElement as HTMLElement | null;
-      setRelease(latest);
-      setOpen(true);
-    }, EPISODE_POPUP.delayMs);
+    /* Wait until the hero has actually been seen. A timer fired two seconds after
 
-    return () => window.clearTimeout(timer);
+       load put a full-screen dialog over the first impression, which is the one
+
+       thing the homepage cannot afford. Forced previews still show at once. */
+
+    let timer = 0;
+
+    const reveal = () => {
+
+      restoreFocusTo.current = document.activeElement as HTMLElement | null;
+
+      setRelease(latest);
+
+      setOpen(true);
+
+    };
+
+
+    if (forced) {
+
+      timer = window.setTimeout(reveal, 400);
+
+      return () => window.clearTimeout(timer);
+
+    }
+
+
+    const onScroll = () => {
+
+      if (window.scrollY < window.innerHeight * 0.75) return;
+
+      window.removeEventListener("scroll", onScroll);
+
+      timer = window.setTimeout(reveal, EPISODE_POPUP.delayMs);
+
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    onScroll();
+
+
+    return () => {
+
+      window.removeEventListener("scroll", onScroll);
+
+      window.clearTimeout(timer);
+
+    };
   }, []);
 
   const close = useCallback(() => {
@@ -122,15 +165,19 @@ const NewEpisodePopup = () => {
       }
     };
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    /* The page stays scrollable and focus stays where the visitor left it: this
+
+       is an announcement beside the content, not a gate in front of it. Trapping
+
+       focus in something non-modal would strand keyboard users. */
+
     document.addEventListener("keydown", onKeyDown, true);
-    const focusTimer = window.setTimeout(() => closeRef.current?.focus(), 60);
+
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+
       document.removeEventListener("keydown", onKeyDown, true);
-      window.clearTimeout(focusTimer);
+
     };
   }, [open, close]);
 
@@ -155,26 +202,17 @@ const NewEpisodePopup = () => {
   // full-screen overlay mounted at opacity 0, silently swallowing every click
   // on the page behind it. Closing unmounts immediately instead.
   return (
-    <div className="fixed inset-0 z-[120] flex items-end justify-center p-0 sm:items-center sm:p-6">
-        {/* Backdrop — clicking it dismisses, same as the close button. */}
-        <button
-          type="button"
-          aria-label="Close announcement"
-          onClick={close}
-          className="absolute inset-0 h-full w-full cursor-default bg-[hsl(0_0%_2%/0.82)] backdrop-blur-sm"
-        />
-
-        <motion.div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={titleId}
-          aria-describedby={descId}
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="relative flex max-h-[92dvh] w-full max-w-[30rem] flex-col overflow-y-auto overscroll-contain border border-ivory/[0.14] bg-[hsl(var(--charcoal))] shadow-[0_40px_120px_-40px_hsl(0_0%_0%/0.95)] sm:max-h-[88dvh]"
-        >
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[120] flex justify-center p-3 sm:inset-x-auto sm:bottom-6 sm:right-6 sm:justify-end sm:p-0">
+      <motion.div
+        ref={dialogRef}
+        role="complementary"
+        aria-labelledby={titleId}
+        aria-describedby={descId}
+        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="pointer-events-auto relative flex max-h-[78dvh] w-full max-w-[26rem] flex-col overflow-y-auto overscroll-contain border border-ivory/[0.14] bg-[hsl(var(--charcoal))] shadow-[0_40px_120px_-40px_hsl(0_0%_0%/0.95)] sm:max-w-[21rem]"
+      >
           {/* Close */}
           <button
             ref={closeRef}
@@ -187,7 +225,7 @@ const NewEpisodePopup = () => {
           </button>
 
           {/* Banner */}
-          <div className="relative aspect-[2/1] w-full shrink-0 overflow-hidden">
+          <div className="relative aspect-[21/9] w-full shrink-0 overflow-hidden">
             <img
               src={still.src}
               alt={still.alt}
@@ -211,14 +249,14 @@ const NewEpisodePopup = () => {
           </div>
 
           {/* Copy */}
-          <div className="relative -mt-4 px-6 pb-7 sm:px-8 sm:pb-8">
+          <div className="relative -mt-4 px-5 pb-6 sm:px-6 sm:pb-7">
             <p className="font-serif text-[9px] uppercase tracking-[0.32em] text-gold/75 sm:text-[10px] sm:tracking-[0.38em]">
               {EPISODE_POPUP.eyebrow}
             </p>
 
             <h2
               id={titleId}
-              className="mt-3 font-serif text-[1.5rem] font-light uppercase leading-[1.08] tracking-[0.07em] text-ivory sm:text-[1.8rem]"
+              className="mt-3 font-serif text-[1.35rem] font-light uppercase leading-[1.08] tracking-[0.07em] text-ivory sm:text-[1.5rem]"
             >
               {EPISODE_POPUP.title}
             </h2>

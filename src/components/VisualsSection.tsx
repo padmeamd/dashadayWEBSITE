@@ -46,7 +46,7 @@ const VisualsSection = () => {
       <section
         id="visuals"
         ref={ref}
-        className="section-cinematic bg-night pt-8 sm:pt-12 pb-10 sm:pb-14 md:pb-16"
+        className="section-cinematic band-tight bg-night"
       >
         <div className="section-container">
           <motion.div
