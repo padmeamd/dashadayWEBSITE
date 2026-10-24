@@ -88,6 +88,18 @@ export const ROUTE_SEO: Record<string, PageSEOConfig> = {
       } satisfies PageSEOConfig,
     ]),
   ),
+  "/privacy": {
+    title: "Privacy Policy | DashaDay",
+    description:
+      "What this site collects and what it does not: advertising cookies, the contact and newsletter forms, and nothing else.",
+    path: "/privacy",
+  },
+  "/terms": {
+    title: "Terms of Use | DashaDay",
+    description:
+      "How the music, films and the world of Alderwick may be used, and how to ask about anything beyond that.",
+    path: "/terms",
+  },
   "/links": {
     title: "All Links | DashaDay",
     description:

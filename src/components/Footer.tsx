@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Footer = () => {
@@ -47,7 +48,24 @@ const Footer = () => {
           <div className="w-16 h-px bg-ivory/10 mb-8" />
 
           <p className="text-ivory/20 text-xs tracking-widest">
-            © 2025 DashaDay. All rights reserved.
+            © 2026 DashaDay. All rights reserved.
+          </p>
+
+          {/* Required by AdSense and by Google's OAuth consent screen, and
+              findable rather than buried. */}
+          <p className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-xs tracking-widest">
+            <Link
+              to="/privacy"
+              className="tap tap-pad text-ivory/35 no-underline transition-colors hover:text-gold/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+            >
+              Privacy
+            </Link>
+            <Link
+              to="/terms"
+              className="tap tap-pad text-ivory/35 no-underline transition-colors hover:text-gold/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+            >
+              Terms
+            </Link>
           </p>
         </motion.div>
       </motion.div>

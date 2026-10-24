@@ -94,17 +94,17 @@ const SeriesSection = () => (
     />
 
     {/* ─── ACT I — the gate ──────────────────────────────────────────────── */}
-    <div className="relative pt-14 sm:pt-20 md:pt-24">
-      <div className="relative mx-auto w-full max-w-[82rem] px-4 sm:px-6 md:px-10">
+    <div className="relative band-tight">
+      <div className="shell relative">
         {/* Dominant establishing frame, breaking wider than the text column */}
         <Reveal y={30} duration={1.5} focusPull>
           <CinematicPlate
             still={SERIES_STILLS.hall}
-            aspect="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[2/1]"
+            aspect="aspect-[4/3] sm:aspect-[2/1] lg:aspect-[5/2]"
             objectPosition="object-top"
             scrim="deep"
             priority
-            sizes="(min-width: 1280px) 1280px, 96vw"
+            sizes="(min-width: 1152px) 1152px, 94vw"
             className="lg:border-ivory/[0.16]"
           >
             {/* Location slug, top-right, like a production slate */}
@@ -124,11 +124,11 @@ const SeriesSection = () => (
     </div>
 
     {/* ─── ACT II — the plates + the story ───────────────────────────────── */}
-    <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8 md:px-12">
-      <div className="mt-12 grid gap-6 sm:mt-16 lg:mt-20 lg:grid-cols-12 lg:gap-7">
+    <div className="shell relative">
+      <div className="mt-10 grid gap-6 sm:mt-12 md:grid-cols-12 lg:mt-14 lg:gap-7">
         {/* Larger secondary frame */}
         <Reveal
-          className="lg:col-span-7 lg:col-start-1"
+          className="md:col-span-6 md:col-start-1 md:row-start-1 lg:col-span-7"
           y={28}
           duration={1.3}
           delay={0.05}
@@ -138,13 +138,13 @@ const SeriesSection = () => (
             aspect="aspect-[16/9] sm:aspect-[1.9/1]"
             parallax={14}
             scrim="soft"
-            sizes="(min-width: 1024px) 640px, 92vw"
+            sizes="(min-width: 1024px) 660px, 92vw"
           />
         </Reveal>
 
         {/* Smaller frame, dropped lower so the pair reads asymmetrically */}
         <Reveal
-          className="lg:col-span-5 lg:col-start-8 lg:mt-16"
+          className="md:col-span-6 md:col-start-1 md:row-start-2 lg:col-span-5"
           y={28}
           duration={1.3}
           delay={0.2}
@@ -154,18 +154,18 @@ const SeriesSection = () => (
             aspect="aspect-[16/9]"
             parallax={22}
             scrim="soft"
-            sizes="(min-width: 1024px) 420px, 92vw"
+            sizes="(min-width: 1024px) 460px, 92vw"
           />
         </Reveal>
 
         {/* Story introduction, tucked into the composition beneath the wide frame */}
         <Reveal
-          className="lg:col-span-7 lg:col-start-1 lg:row-start-2 lg:-mt-4"
+          className="md:col-span-6 md:col-start-7 md:row-start-1 lg:col-span-5 lg:col-start-8"
           y={20}
           duration={1.2}
           delay={0.15}
         >
-          <div className="pt-4 lg:pt-6">
+          <div className="pt-4 md:pt-0">
             <h3 className="font-serif text-[11px] uppercase tracking-[0.36em] text-gold/75 sm:text-xs sm:tracking-[0.42em]">
               {SERIES.intro.heading}
             </h3>
@@ -199,9 +199,11 @@ const SeriesSection = () => (
             </p>
           </div>
         </Reveal>
-        {/* Production slate — closes the composition under the smaller frame */}
+        {/* Production slate — closes the composition beside the smaller frame.
+            It shared a cell with the story column once that moved up, and the
+            two printed straight over each other. */}
         <Reveal
-          className="lg:col-span-5 lg:col-start-8 lg:row-start-2"
+          className="md:col-span-6 md:col-start-7 md:row-start-2 lg:col-span-5 lg:col-start-8"
           y={16}
           duration={1.2}
           delay={0.3}

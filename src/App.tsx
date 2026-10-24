@@ -13,6 +13,7 @@ import Videos from "./pages/Videos";
 import Contact from "./pages/Contact";
 import Predictions from "./pages/Predictions";
 import SimpleCinematicPage from "./pages/SimpleCinematicPage";
+import Legal from "./pages/Legal";
 import NotFound from "./pages/NotFound";
 import Links from "./pages/Links";
 import LiveShows from "./pages/LiveShows";
@@ -62,6 +63,8 @@ function AppRoutes() {
           <Route path="/things-i-shouldnt-say/societies/:slug" element={<SocietyPage />} />
           <Route path="/things-i-shouldnt-say/discover-your-society" element={<SocietyQuizPage />} />
           <Route path="/links" element={<Links />} />
+          <Route path="/privacy" element={<Legal />} />
+          <Route path="/terms" element={<Legal />} />
           <Route path="/live" element={<LiveShows />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
