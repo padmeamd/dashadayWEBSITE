@@ -25,8 +25,19 @@ const PRIVACY: Block[] = [
   {
     heading: "The short version",
     body: [
-      "This is a personal site for an independent artist. There are no accounts, no logins and no profiles. I do not sell anything about you, because I do not have anything about you to sell.",
-      "Two things do collect data: Google AdSense, which shows the advertising on some pages, and the two forms below, which exist so you can write to me.",
+      "This is a personal site for an independent artist, and the place where the privacy policy of my own publishing tool lives. There are no accounts here, no logins and no profiles. I do not sell anything about you, because I do not have anything about you to sell.",
+      "Three things are worth describing: the advertising on some pages, the two forms that let you write to me, and the application I use to publish my own videos. Each is below.",
+    ],
+  },
+  {
+    heading: "DashaDay AI Agent, and its access to Google data",
+    body: [
+      "DashaDay AI Agent is a private application I run on my own computer to publish my own work. It is not offered to anyone else, there is no sign-up, and nobody else's account is ever connected to it.",
+      "It asks Google for two permissions on my own YouTube channel. The first, youtube.upload, lets it upload my finished videos. The second, youtube.readonly, lets it read back the channel's own name and video count so I can confirm the right channel is connected before anything is sent.",
+      "What it does with that access: it uploads video files that I have made, with the title, description and tags I have approved, and it reads the name and public statistics of my own channel. It does not read or collect anything about viewers, subscribers, comments or anyone else's data, and it has no permission to.",
+      "What it stores, and where: a Google refresh token, kept in a configuration file on my own computer so the tool can connect again without asking each time. That file is not published, not backed up to any service, and never sent anywhere except to Google when a new access token is requested. No Google user data of any kind is stored beyond it.",
+      "Nothing obtained through Google APIs is shared with anyone, used for advertising, used to build profiles, sold, or used to train any model. Use of information received from Google APIs follows the Google API Services User Data Policy, including its Limited Use requirements.",
+      "Revoking it: because the application only ever connects to my own account, access can be removed at any time at myaccount.google.com/permissions, which deletes the token's usefulness immediately. Any copy still on my computer is deleted on request to the address below.",
     ],
   },
   {
@@ -53,7 +64,7 @@ const PRIVACY: Block[] = [
   {
     heading: "What I do not do",
     body: [
-      "No analytics beyond what AdSense and the host do on their own. No tracking pixels of my own. No selling or sharing of email addresses. No profiling.",
+      "No analytics beyond what AdSense and the host do on their own. No tracking pixels of my own. No selling or sharing of email addresses. No profiling. No collection of anyone else's Google account data.",
     ],
   },
   {
@@ -63,9 +74,10 @@ const PRIVACY: Block[] = [
     ],
   },
   {
-    heading: "Changes",
+    heading: "Changes, and how to reach me",
     body: [
       "If this changes, the date at the top changes with it. Anything substantial will be said plainly rather than buried.",
+      "Questions about any of it, including the application's use of Google data: " + CONTACT + ".",
     ],
   },
 ];
