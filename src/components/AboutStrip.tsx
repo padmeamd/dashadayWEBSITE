@@ -13,7 +13,7 @@ import { useRef } from "react";
 const FIGURES = [
   { value: "172", label: "Countries reached" },
   { value: "3.4M+", label: "Streams worldwide" },
-  { value: "30K+", label: "Monthly listeners" },
+  { value: "42.1K", label: "Monthly listeners" },
 ];
 
 const AboutStrip = () => {

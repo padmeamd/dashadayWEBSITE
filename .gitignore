@@ -27,3 +27,8 @@ dist-ssr
 # never enters history: ~17MB of PNG that nothing imports. The web-sized
 # versions under public/image/series/ are what the site actually serves.
 src/components/alderwick/*.png
+
+# Ключи. Их место — в окружении Cloudflare Pages, не в истории.
+.env
+.env.*
+!.env.example
