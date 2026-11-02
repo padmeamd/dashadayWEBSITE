@@ -32,3 +32,6 @@ src/components/alderwick/*.png
 .env
 .env.*
 !.env.example
+
+# Временная папка для публикации артефакта.
+.artifact-review/
