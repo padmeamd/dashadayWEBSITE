@@ -12,7 +12,7 @@ import { useRef } from "react";
 /** Edit the numbers here; nothing downstream hardcodes them. */
 const FIGURES = [
   { value: "172", label: "Countries reached" },
-  { value: "2.7M+", label: "Streams worldwide" },
+  { value: "3.4M+", label: "Streams worldwide" },
   { value: "30K+", label: "Monthly listeners" },
 ];
 
