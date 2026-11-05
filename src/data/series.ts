@@ -37,6 +37,8 @@ export const SERIES_LINKS = {
   telegram: "https://t.me/daydmedia",
   /** Episode One, free and in full on YouTube, in English. */
   youtubeEpisodeOne: "https://youtu.be/pbTrzJmW4Kw",
+  /** Episode Two, free and in full on YouTube since 5 November 2026. */
+  youtubeEpisodeTwo: "https://youtu.be/gXE93cxrjBE",
   /** Members' community — early access + behind the scenes. */
   membership: "https://buymeacoffee.com/daydmedia",
   /** AI filmmaking guide. */
@@ -176,9 +178,20 @@ export type Episode = {
   description?: string;
   /** Short availability note: runtime, language, where to watch. */
   availability?: string;
+  /** A frame from the episode, shown beside its row. */
+  still?: SeriesStill;
   schedule: ReleaseMilestone[];
   cta: SeriesCta;
 };
+
+/** Episode previews. Her own frames; the alt text describes only what is
+ *  visible, so nothing about the story is given away by a screen reader. */
+const preview = (n: string, alt: string): SeriesStill => ({
+  src: `/image/series/episode-${n}.jpg`,
+  width: 1200,
+  height: 675,
+  alt,
+});
 
 export const EPISODES: Episode[] = [
   {
@@ -190,6 +203,7 @@ export const EPISODES: Episode[] = [
     description:
       "Dasha arrives at Alderwick University for the first time, unaware that her invitation will lead her into a world of ancient secrets, unexpected connections, and a mysterious legend.",
     availability: "Full episode · 9 minutes · in English · free on YouTube",
+    still: preview("01", "Dasha and a fellow student sit together in a candlelit Alderwick hall"),
     schedule: [
       {
         date: "2026-10-05",
@@ -211,11 +225,13 @@ export const EPISODES: Episode[] = [
     id: "ep-02",
     number: "02",
     status: "streaming",
-    statusLabel: "Now on Telegram",
-    // Episode Two is watchable on Telegram only — it is not on YouTube, so
-    // every link for it points at the channel rather than the video site.
-    // No `availability` line: the status and the button already say it, and
-    // its runtime and language are not confirmed.
+    statusLabel: "Now Streaming on YouTube",
+    // It opened on Telegram and reached YouTube on 5 November. Both dates stay
+    // in the schedule — the channel got it first and that is worth showing —
+    // but every link now points at the video, because that is where anyone
+    // arriving today can watch it without joining anything.
+    availability: "Full episode · 8 minutes · in English · free on YouTube",
+    still: preview("02", "Three students at a breakfast table in a long hall of stained glass and portraits"),
     schedule: [
       {
         date: "2026-10-05",
@@ -237,22 +253,76 @@ export const EPISODES: Episode[] = [
         isPublic: true,
         watchHref: SERIES_LINKS.telegram,
       },
+      {
+        date: "2026-11-05",
+        label: "5 November 2026",
+        note: "Now on YouTube — full episode, in English",
+        isPublic: true,
+        watchHref: SERIES_LINKS.youtubeEpisodeTwo,
+      },
     ],
-    cta: { label: "Watch on Telegram", href: SERIES_LINKS.telegram },
+    cta: { label: "Watch on YouTube", href: SERIES_LINKS.youtubeEpisodeTwo },
+  },
+  {
+    id: "ep-03",
+    number: "03",
+    status: "early-access",
+    statusLabel: "For Members",
+    // Out, but not on YouTube: the channel has its trailer and nothing more.
+    // No milestone here, because no date for it has been confirmed to me and
+    // a guessed date on a public page is worse than none.
+    availability: "For members, on Telegram",
+    still: preview("03", "A student in a scarf looks past Dasha in a stone courtyard"),
+    schedule: [],
+    cta: { label: "Watch Early", href: SERIES_LINKS.membership },
+  },
+  {
+    id: "ep-04",
+    number: "04",
+    status: "early-access",
+    statusLabel: "For Members",
+    availability: "For members, on Telegram",
+    still: preview("04", "Close on a gold filigree masquerade mask set with stones"),
+    schedule: [
+      {
+        date: "2026-11-05",
+        label: "5 November 2026",
+        // No `isPublic`: members paid to see this first, and the popup and the
+        // structured data both read that flag. Without it neither can advertise
+        // an episode the public cannot watch.
+        note: "Members premiere",
+      },
+    ],
+    cta: { label: "Watch Early", href: SERIES_LINKS.membership },
+  },
+  {
+    id: "ep-05",
+    number: "05",
+    status: "upcoming",
+    statusLabel: "Coming Soon",
+    // Not out anywhere yet. It carries a preview because she asked for one and
+    // the sneak peek is already public on her channel; it carries no date,
+    // because none has been announced.
+    still: preview("05", "Two characters face one another by candlelight in evening dress"),
+    schedule: [],
+    cta: { label: "Watch Early", href: SERIES_LINKS.membership },
   },
   /**
    * Add future chapters here, e.g.:
    * {
-   *   id: "ep-03",
-   *   number: "03",
+   *   id: "ep-05",
+   *   number: "05",
    *   status: "upcoming",
    *   statusLabel: "Coming Soon",
    *   schedule: [
-   *     { date: "2026-10-22", label: "22 October 2026", note: "Members premiere" },
-   *     { date: "2026-10-29", label: "29 October 2026", note: "Public premiere", isPublic: true },
+   *     { date: "2026-11-19", label: "19 November 2026", note: "Members premiere" },
+   *     { date: "2026-11-26", label: "26 November 2026", note: "Public premiere", isPublic: true },
    *   ],
    *   cta: { label: "Watch Early", href: SERIES_LINKS.membership },
    * },
+   *
+   * `isPublic` is the one flag that matters: it is what the popup and the
+   * structured data read. A members premiere must not carry it.
    */
 ];
 
@@ -477,6 +547,16 @@ export type SeriesUpdate = {
 };
 
 export const SERIES_UPDATES: SeriesUpdate[] = [
+  {
+    date: "2026-11-05",
+    label: "5 November 2026",
+    title: "Chapter Two is on YouTube",
+    body:
+      "The second chapter is now free and in full on YouTube, in English. " +
+      "Chapters three and four are with members on Telegram, where every " +
+      "episode lands first.",
+    link: { label: "Watch on YouTube", href: SERIES_LINKS.youtubeEpisodeTwo },
+  },
   {
     date: "2026-10-12",
     label: "12 October 2026",
