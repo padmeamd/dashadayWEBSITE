@@ -85,8 +85,28 @@ const ChapterRow = ({ episode }: { episode: Episode }) => {
           ) : null}
         </div>
 
-        {/* Dated milestones */}
+        {/* Preview frame, then the dated milestones */}
         <div className="md:pt-1">
+          {episode.still ? (
+            <img
+              src={episode.still.src}
+              width={episode.still.width}
+              height={episode.still.height}
+              alt={episode.still.alt}
+              loading="lazy"
+              decoding="async"
+              /* Intrinsic size is on the element, so the row never jumps while
+                 the picture loads. An unreleased chapter sits back a little
+                 until the reader hovers it. */
+              className={cn(
+                "mb-5 w-full rounded-[2px] border border-ivory/10 object-cover",
+                "transition-opacity duration-700",
+                episode.status === "upcoming"
+                  ? "opacity-70 group-hover:opacity-100"
+                  : "opacity-90 group-hover:opacity-100"
+              )}
+            />
+          ) : null}
           <ul className="space-y-2.5">
             {episode.schedule.map((milestone) => {
               const released = isMilestoneReleased(milestone);
