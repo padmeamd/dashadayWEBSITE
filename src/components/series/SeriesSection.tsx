@@ -182,6 +182,9 @@ const SeriesSection = () => (
               <SeriesButton href={SERIES.primaryCta.href} variant="primary">
                 {SERIES.primaryCta.label}
               </SeriesButton>
+              <SeriesButton href={SERIES.allEpisodesCta.href} variant="ghost">
+                {SERIES.allEpisodesCta.label}
+              </SeriesButton>
               <SeriesButton href={SERIES.secondaryCta.href} variant="ghost">
                 {SERIES.secondaryCta.label}
               </SeriesButton>

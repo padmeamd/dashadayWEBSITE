@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
@@ -32,7 +34,13 @@ const variants = {
     "hover:border-ivory/45 hover:bg-ivory/[0.05] hover:text-ivory",
 };
 
-/** External CTA used across the series section. Always opens in a new tab. */
+/**
+ * CTA used across the series section.
+ *
+ * A link that leaves the site opens in a new tab; one that stays on it is
+ * routed in place. Sending a visitor to our own page in a second tab is a
+ * small rudeness, and it loses the back button.
+ */
 const SeriesButton = ({
   href,
   children,
@@ -40,18 +48,28 @@ const SeriesButton = ({
   size = "md",
   className,
   srSuffix,
-}: SeriesButtonProps) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className={cn(base, sizes[size], variants[variant], className)}
-  >
+}: SeriesButtonProps) => {
+  const look = cn(base, sizes[size], variants[variant], className);
+  const body = (
     <span>
       {children}
       {srSuffix ? <span className="sr-only"> {srSuffix}</span> : null}
     </span>
-  </a>
-);
+  );
+
+  if (href.startsWith("/")) {
+    return (
+      <Link to={href} className={look}>
+        {body}
+      </Link>
+    );
+  }
+
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={look}>
+      {body}
+    </a>
+  );
+};
 
 export default SeriesButton;

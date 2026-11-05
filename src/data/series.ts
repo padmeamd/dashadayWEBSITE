@@ -122,9 +122,14 @@ export const SERIES = {
     label: "Watch Episode One",
     href: SERIES_LINKS.youtubeEpisodeOne,
   } satisfies SeriesCta,
+  /** Straight to the chapter list, where each one says where to watch it. */
+  allEpisodesCta: {
+    label: "All Episodes",
+    href: `${SERIES_ROUTE}#archives`,
+  } satisfies SeriesCta,
   /** Printed under the buttons so the offer is unmistakable. */
   watchNote:
-    "Episode One — The Invitation is out now on YouTube: the full episode, in English, free to watch. Episode Two is on Telegram.",
+    "Episodes One and Two are free and in full on YouTube, in English. Three and Four are on Telegram, where members see every chapter first.",
   secondaryCta: {
     label: "Enter the Alderwick Society",
     href: SERIES_LINKS.membership,
