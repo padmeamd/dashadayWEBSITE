@@ -93,23 +93,62 @@ const SeriesPage = () => {
                 style={{ borderColor: "var(--aw-rule)" }}
               >
                 <Plate
-                  src={`/image/series/episodes/${episode.id}.jpg`}
-                  alt={`A still from ${episode.title}`}
-                  caption={`Chapter ${episode.number} — still to come`}
+                  src={episode.still?.src ?? `/image/series/episodes/${episode.id}.jpg`}
+                  alt={episode.still?.alt ?? `A still from Chapter ${episode.number}`}
+                  /* Shown only if the file is missing, so it has to describe
+                     the chapter rather than claim it is unreleased: four of
+                     the five are out. */
+                  caption={`Chapter ${episode.number} · ${episode.statusLabel}`}
                   className="aspect-video w-full object-cover"
                 />
                 <div>
                   <p className="aw-label">
                     Chapter {episode.number} · {episode.statusLabel}
                   </p>
-                  <h3 className="aw-display mt-3 text-2xl">{episode.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
-                    {episode.description}
-                  </p>
+                  <h3 className="aw-display mt-3 text-2xl">
+                    {episode.title ?? `Chapter ${episode.number}`}
+                  </h3>
+                  {episode.description && (
+                    <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
+                      {episode.description}
+                    </p>
+                  )}
                   {episode.availability && (
                     <p className="mt-3 text-[11px] uppercase tracking-[0.18em]" style={{ color: "var(--aw-ivory-faint)" }}>
                       {episode.availability}
                     </p>
+                  )}
+                  {/* Where to watch. A chapter that is not out anywhere gets no
+                      button: a link that leads nowhere is worse than none. The
+                      channel link is offered alongside, except where it is
+                      already the main one. */}
+                  {episode.status !== "upcoming" && (
+                    <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+                      <a
+                        href={episode.cta.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em]"
+                        style={{ color: "var(--aw-gold)" }}
+                      >
+                        {episode.cta.label}
+                        <span className="sr-only"> — Chapter {episode.number}</span>
+                        <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} />
+                      </a>
+                      {episode.cta.href !== SERIES_LINKS.telegram && (
+                        <a
+                          href={SERIES_LINKS.telegram}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em]"
+                          style={{ color: "var(--aw-ivory-faint)" }}
+                        >
+                          Watch on Telegram
+                          <span className="sr-only"> — Chapter {episode.number}</span>
+                          <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} />
+                        </a>
+                      )}
+                    </div>
                   )}
                 </div>
               </motion.article>
