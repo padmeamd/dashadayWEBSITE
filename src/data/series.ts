@@ -272,9 +272,23 @@ export const EPISODES: Episode[] = [
     // nothing more. No milestone, because no date for it was given to me and
     // a guessed date on a public page is worse than an absent one — which
     // also keeps it out of the structured data until a real date arrives.
-    availability: "On Telegram, in full",
+    availability: "On Telegram, in full · free on YouTube from 19 November",
     still: preview("03", "A student in a scarf looks past Dasha in a stone courtyard"),
-    schedule: [],
+    schedule: [
+      {
+        date: "2026-11-19",
+        label: "19 November 2026",
+        note: "Free on YouTube — full episode, in English",
+        // Dated ahead, which is safe: both the popup and the structured data
+        // skip an isPublic milestone until its day arrives. On the 19th it
+        // starts promoting itself with no edit needed.
+        isPublic: true,
+        // The video does not exist yet, so this points at the channel. Swap
+        // it for the watch URL once the episode is up, or the popup will send
+        // people to a channel page instead of the episode.
+        watchHref: SERIES_LINKS.youtube,
+      },
+    ],
     cta: { label: "Watch on Telegram", href: SERIES_LINKS.telegram },
   },
   {
