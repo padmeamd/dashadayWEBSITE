@@ -266,15 +266,16 @@ export const EPISODES: Episode[] = [
   {
     id: "ep-03",
     number: "03",
-    status: "early-access",
-    statusLabel: "For Members",
-    // Out, but not on YouTube: the channel has its trailer and nothing more.
-    // No milestone here, because no date for it has been confirmed to me and
-    // a guessed date on a public page is worse than none.
-    availability: "For members, on Telegram",
+    status: "streaming",
+    statusLabel: "Now on Telegram",
+    // Out on the channel, but not on YouTube: there it has a trailer and
+    // nothing more. No milestone, because no date for it was given to me and
+    // a guessed date on a public page is worse than an absent one — which
+    // also keeps it out of the structured data until a real date arrives.
+    availability: "On Telegram, in full",
     still: preview("03", "A student in a scarf looks past Dasha in a stone courtyard"),
     schedule: [],
-    cta: { label: "Watch Early", href: SERIES_LINKS.membership },
+    cta: { label: "Watch on Telegram", href: SERIES_LINKS.telegram },
   },
   {
     id: "ep-04",
