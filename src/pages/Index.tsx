@@ -5,6 +5,7 @@ import HeroRoomIndex from "@/components/HeroRoomIndex";
 import NewSingleSection from "@/components/NewSingleSection";
 import SeriesSection from "@/components/series/SeriesSection";
 import NewEpisodePopup from "@/components/series/NewEpisodePopup";
+import MobileWelcome from "@/components/MobileWelcome";
 import SeriesStructuredData from "@/components/series/SeriesStructuredData";
 import AboutStrip from "@/components/AboutStrip";
 import FeaturedVideoSection from "@/components/FeaturedVideoSection";
@@ -29,6 +30,8 @@ const Index = () => {
   return (
     <main className="bg-night min-h-screen overflow-x-hidden">
       <SeriesStructuredData />
+      {/* Phones get the doors first; everything below is the same for everyone. */}
+      <MobileWelcome />
       <NewEpisodePopup />
       <FilmGrain />
       <LightLeaksOverlay />
