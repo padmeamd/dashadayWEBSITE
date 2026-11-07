@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import vinylRecord from "@/assets/vinyl-record.png";
 import { ALBUM } from "@/data/album";
 import { LATEST_RELEASE } from "@/data/latestRelease";
-import { SERIES_LINKS, getLatestPublicRelease } from "@/data/series";
+import { SERIES_LINKS, SERIES_ROUTE, getLatestPublicRelease } from "@/data/series";
 
 /** Dismissed for this visit only — a new tab is a new invitation. */
 const STORAGE_KEY = "dashaday:mobile-welcome";
@@ -27,7 +27,7 @@ const PORTRAIT_ALT = "DashaDay seated in a gold gown in a gilded, candlelit room
 /** Spelled out, because "Episode 02" reads like a placeholder. */
 const ORDINAL = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven"];
 
-type Screen = "doors" | "music";
+type Screen = "doors" | "music" | "series";
 
 type Choice = {
   key: string;
@@ -188,6 +188,8 @@ const MobileWelcome = () => {
   }, [open, close]);
 
   const onMusic = screen === "music";
+  const onSeries = screen === "series";
+  const onPanel = onMusic || onSeries;
 
   /** Everything enters the same way: a short rise, staggered by its turn. */
   const rise = (delay: number) => ({
@@ -218,11 +220,10 @@ const MobileWelcome = () => {
     {
       key: "series",
       label: "Watch my series",
-      hint: `${episodeLabel} — free on YouTube`,
+      hint: `${episodeLabel} — and where to watch the rest`,
       /* Its own still, so the card shows the chapter it opens. */
       art: "/image/series/episode-02.jpg",
-      href: latestEpisode?.watchHref ?? SERIES_LINKS.telegram,
-      external: true,
+      onClick: () => setScreen("series"),
     },
     {
       key: "support",
@@ -259,6 +260,58 @@ const MobileWelcome = () => {
   const cardStyle = {
     background: "linear-gradient(155deg, hsl(var(--burgundy)/0.45), hsl(var(--night)) 80%)",
   };
+
+  /* Three ways in, in the order they actually happen: the channel first,
+     YouTube later, and membership for seeing either before everyone else.
+     Wording follows EPISODES, so it stays true as chapters move. */
+  const seriesWays = [
+    {
+      key: "youtube",
+      label: "Watch on YouTube",
+      hint: "Chapters One and Two, free and in full",
+      href: latestEpisode?.watchHref ?? SERIES_LINKS.youtube,
+    },
+    {
+      key: "telegram",
+      label: "The channel on Telegram",
+      hint: "Where each new chapter lands first",
+      href: SERIES_LINKS.telegram,
+    },
+    {
+      key: "member",
+      label: "Become a member",
+      hint: "See every chapter before anyone else",
+      href: SERIES_LINKS.membership,
+    },
+    {
+      key: "page",
+      label: "All five chapters",
+      hint: "The series page, and where to watch each",
+      onClick: () => {
+        close();
+        navigate(SERIES_ROUTE);
+      },
+    },
+  ];
+
+  const wayClass =
+    "group flex items-center gap-3 rounded-[4px] border border-gold/30 px-3.5 py-3 text-left " +
+    "transition-colors duration-300 hover:border-gold/80 focus-visible:border-gold " +
+    "focus-visible:outline-none";
+
+  const wayBody = (w: { label: string; hint: string }) => (
+    <>
+      <span className="min-w-0 flex-1">
+        <span className="block font-serif text-[14px] leading-tight text-ivory transition-colors duration-300 group-hover:text-gold">
+          {w.label}
+        </span>
+        <span className="mt-0.5 block font-sans text-[9.5px] font-light leading-snug text-ivory/55">
+          {w.hint}
+        </span>
+      </span>
+      <span aria-hidden className="shrink-0 font-serif text-base text-gold/55">→</span>
+    </>
+  );
 
   const cardBody = (c: Choice) => (
     <>
@@ -330,7 +383,7 @@ const MobileWelcome = () => {
               {/* ── The plate ─────────────────────────────────────────── */}
               <div
                 className="relative shrink-0 overflow-hidden transition-[height] duration-700"
-                style={{ height: onMusic ? "24vh" : "38vh", minHeight: onMusic ? 150 : 240 }}
+                style={{ height: onPanel ? "24vh" : "38vh", minHeight: onPanel ? 150 : 240 }}
               >
                 <motion.img
                   src={PORTRAIT}
@@ -339,7 +392,7 @@ const MobileWelcome = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: still ? 0 : 1.5, ease: [0.22, 1, 0.36, 1] }}
                   className="h-full w-full object-cover"
-                  style={{ objectPosition: onMusic ? "center 4%" : "center 20%" }}
+                  style={{ objectPosition: onPanel ? "center 4%" : "center 20%" }}
                 />
 
                 <span
@@ -387,7 +440,7 @@ const MobileWelcome = () => {
                     className="font-serif text-[25px] leading-[1.06] text-ivory"
                     style={{ textShadow: "0 2px 22px hsl(var(--night)/0.85)" }}
                   >
-                    {onMusic ? ALBUM.title : "A night inside my world"}
+                    {onMusic ? ALBUM.title : onSeries ? "Where to watch" : "A night inside my world"}
                   </h2>
                 </motion.div>
               </div>
@@ -441,6 +494,53 @@ const MobileWelcome = () => {
                             </motion.button>
                           );
                         })}
+                      </div>
+                    </motion.div>
+                  ) : onSeries ? (
+                    <motion.div key="series" {...swap} transition={{ duration: still ? 0 : 0.3 }}>
+                      <button
+                        type="button"
+                        onClick={() => setScreen("doors")}
+                        className="inline-flex min-h-11 items-center gap-2 font-sans text-[9.5px]
+                                   uppercase tracking-[0.24em] text-ivory/60 transition-colors
+                                   duration-300 hover:text-gold focus-visible:text-gold
+                                   focus-visible:outline-none"
+                      >
+                        <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.4} />
+                        Back
+                      </button>
+
+                      <p className="mt-1 font-sans text-[11px] font-light leading-relaxed text-ivory/60">
+                        Every chapter reaches the channel first and YouTube
+                        later. Members see each one before either.
+                      </p>
+
+                      <div className="mt-4 space-y-2.5">
+                        {seriesWays.map((w) =>
+                          w.href ? (
+                            <a
+                              key={w.key}
+                              href={w.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={close}
+                              className={wayClass}
+                              style={cardStyle}
+                            >
+                              {wayBody(w)}
+                            </a>
+                          ) : (
+                            <button
+                              key={w.key}
+                              type="button"
+                              onClick={w.onClick}
+                              className={`${wayClass} w-full`}
+                              style={cardStyle}
+                            >
+                              {wayBody(w)}
+                            </button>
+                          )
+                        )}
                       </div>
                     </motion.div>
                   ) : (
