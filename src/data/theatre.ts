@@ -80,6 +80,10 @@ export const STAGE = {
     "Dasha Day in profile, facing into the page"),
   dashaClosed: asset("dasha-closed", 820, 749, true,
     "Dasha Day in profile with her eyes gently closed"),
+  /** The valance that hangs across the seam between the first two sections.
+      3:1, so at full width it is a third as tall as the page is wide. */
+  frieze: asset("frieze", 1800, 600, true,
+    "A burgundy and gold theatre valance with a fringed swag"),
   /** Scene 6 — the sealed invitation. */
   envelope: asset("envelope", 1200, 800, true,
     "An antique envelope closed with a crimson wax seal"),

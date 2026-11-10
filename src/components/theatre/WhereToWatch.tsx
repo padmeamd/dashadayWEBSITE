@@ -164,13 +164,38 @@ const WhereToWatch = () => {
       {/* Wider than the rest of the page: Dasha takes a column of her own,
           and on a 6xl container her growing would have squeezed the three
           cards beside her below a readable width. */}
-      <div className="relative mx-auto max-w-7xl">
-        <div className="grid items-end gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[28rem_minmax(0,1fr)]">
+      {/* The valance across the seam. It lives in this section so that it
+          paints over the hero above it, and it is pulled up by most of its
+          own height so the fringe hangs just below the join. At 3:1 it is a
+          third of the viewport tall, which is more than the gap between the
+          two sections — so its solid upper half passes behind the hero's
+          closing lines, which carry a higher z-index. Decorative only:
+          hidden from the reading order and deaf to the pointer. */}
+      <img
+        src={STAGE.frieze.src}
+        width={STAGE.frieze.width}
+        height={STAGE.frieze.height}
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] w-full -translate-y-[86%] select-none sm:-translate-y-[84%]"
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="grid items-end gap-8 lg:grid-cols-[26rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[29rem_minmax(0,1fr)]">
           {/* ── Downstage left ──────────────────────────────────────────
               Bottom-aligned by the grid, so she stands on the stage floor
               rather than floating beside the heading. */}
+          {/* On wide screens she is drawn larger than the column she occupies
+              and hangs off its left edge, so her head reaches the top of the
+              first card without her column stealing the width the three cards
+              need. She faces right, so what leaves the frame is the outer edge
+              of her hair — her face never does. */}
           <div className="mx-auto w-64 shrink-0 sm:w-80 lg:mx-0 lg:w-full">
-            <Blink />
+            <div className="lg:-ml-[10rem] lg:w-[38rem] lg:max-w-none xl:-ml-[9rem] xl:w-[40rem]">
+              <Blink />
+            </div>
           </div>
 
           {/* ── The lit middle ──────────────────────────────────────── */}

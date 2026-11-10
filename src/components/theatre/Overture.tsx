@@ -312,7 +312,9 @@ const Overture = () => {
           </div>
         )}
 
-        <div className="mt-8 text-center sm:mt-10">
+        {/* Above the valance that the next section hangs across this seam:
+            the ornament passes behind these words, not over them. */}
+        <div className="relative z-20 mt-8 text-center sm:mt-10">
           <p className="tf-label">A gothic fantasy series</p>
           {/* The title is painted into the scroll above. This is the same
               words for anyone the picture does not reach. */}
