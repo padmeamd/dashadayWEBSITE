@@ -156,17 +156,20 @@ const WhereToWatch = () => {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(rgba(16,13,10,0.9), rgba(16,13,10,0.95) 45%, rgba(16,13,10,0.97))",
+              "linear-gradient(rgba(16,13,10,0.62), rgba(16,13,10,0.78) 45%, rgba(16,13,10,0.86))",
           }}
         />
       </div>
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="grid items-end gap-8 lg:grid-cols-[21rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[25rem_minmax(0,1fr)]">
+      {/* Wider than the rest of the page: Dasha takes a column of her own,
+          and on a 6xl container her growing would have squeezed the three
+          cards beside her below a readable width. */}
+      <div className="relative mx-auto max-w-7xl">
+        <div className="grid items-end gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[28rem_minmax(0,1fr)]">
           {/* ── Downstage left ──────────────────────────────────────────
               Bottom-aligned by the grid, so she stands on the stage floor
               rather than floating beside the heading. */}
-          <div className="mx-auto w-52 shrink-0 sm:w-64 lg:mx-0 lg:w-full">
+          <div className="mx-auto w-64 shrink-0 sm:w-80 lg:mx-0 lg:w-full">
             <Blink />
           </div>
 
