@@ -61,7 +61,7 @@ const SeriesPage = () => (
         the page says which is which rather than presenting all of it with
         equal authority. Remove this note once the status is settled. */}
     <div
-      className="mx-auto max-w-3xl px-5 pt-16 sm:px-8"
+      className="mx-auto max-w-3xl px-5 pt-10 sm:px-8"
       style={{ background: "var(--tf-black)" }}
     >
       <p
@@ -82,7 +82,7 @@ const SeriesPage = () => (
     {/* ── Whispers ──────────────────────────────────────────────────── */}
     <section
       id="whispers"
-      className="relative mx-auto max-w-3xl px-5 py-20 sm:px-8"
+      className="relative mx-auto max-w-3xl px-5 py-14 sm:px-8"
       style={{ background: "var(--tf-black)" }}
     >
       <motion.div {...rise()} className="text-center">
@@ -135,7 +135,7 @@ const SeriesPage = () => (
         Who makes this, and how. Claims kept to what can be verified: no
         budgets, no crew counts, no festivals. */}
     <section
-      className="mx-auto max-w-3xl px-5 py-20 sm:px-8"
+      className="mx-auto max-w-3xl px-5 py-14 sm:px-8"
       style={{ background: "var(--tf-black)" }}
     >
       <motion.div {...rise()}>

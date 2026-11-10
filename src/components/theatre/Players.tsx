@@ -157,7 +157,7 @@ const Players = () => {
   return (
     <section
       id="players"
-      className="relative px-4 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-20"
+      className="relative px-4 pb-14 pt-12 sm:px-8 sm:pb-16 sm:pt-14"
       style={{ background: "linear-gradient(#120f0c, var(--tf-black))" }}
     >
       <div className="mx-auto max-w-6xl">

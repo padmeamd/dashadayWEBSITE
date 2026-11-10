@@ -25,7 +25,7 @@ const SealedLetter = () => {
   return (
     <section
       id="invitation"
-      className="relative px-4 py-20 text-center sm:px-8 sm:py-24"
+      className="relative px-4 py-14 text-center sm:px-8 sm:py-16"
       style={{ background: "linear-gradient(#15110e, var(--tf-black))" }}
     >
       <div className="mx-auto max-w-3xl">
