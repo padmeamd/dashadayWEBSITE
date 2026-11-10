@@ -30,8 +30,37 @@ const Societies = () => {
   const reduced = useReducedMotion();
 
   return (
-    <section id="societies" className="relative px-5 py-20 sm:px-8 sm:py-28" aria-labelledby="societies-title">
-      <div className="mx-auto max-w-6xl">
+    <section
+      id="societies"
+      className="relative overflow-hidden px-5 py-20 sm:px-8 sm:py-28"
+      aria-labelledby="societies-title"
+    >
+      {/* Midnight over the university, behind this section and no other.
+          The artwork puts its rooftops along the bottom edge and leaves open
+          sky above, so it is anchored to the foot: the roofline stays at the
+          foot of the section at any height and the emblems and the type sit
+          against the sky. A scrim over it keeps both readable — the sky is
+          dark but not evenly so, and small caps on a star field are not. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <img
+          src="/image/theatre/societies-night.webp"
+          width={1600}
+          height={900}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover object-bottom"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(rgba(10,9,9,0.82), rgba(10,9,9,0.74) 45%, rgba(10,9,9,0.88))",
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-6xl">
         <motion.div
           initial={reduced ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

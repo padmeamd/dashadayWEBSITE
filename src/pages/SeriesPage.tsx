@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 import Seo from "@/components/Seo";
-import LostSocieties from "@/components/alderwick/LostSocieties";
 import Societies from "@/components/alderwick/Societies";
 
 import Overture from "@/components/theatre/Overture";
@@ -77,7 +76,6 @@ const SeriesPage = () => (
       </p>
     </div>
     <Societies />
-    <LostSocieties />
 
     <Overture19 />
 
