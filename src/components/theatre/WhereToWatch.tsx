@@ -142,7 +142,26 @@ const WhereToWatch = () => {
       {/* The supplied stage, untouched, dimmed hard. It is a ground, not a
           picture: anything legible back there would compete with what stands
           on it. */}
-      <div aria-hidden className="absolute inset-0">
+      {/* Masked to nothing at its own top edge.
+          The seam was never spacing — the boxes have always met at zero. It
+          was two different grounds meeting along a line: .theatre paints a
+          fixed wash behind the page, it shows through the hero above (which
+          has no background of its own), and this section's opaque backdrop
+          was blocking it. Fading the backdrop in from transparent makes the
+          top of this section the same ground as the foot of the hero, and
+          there is no edge left to see.
+          The fade is short on purpose. This artwork carries its own drawn
+          curtain along its top edge, and that edge is the transition — a
+          separate strip laid across the join only made the two sections look
+          like two sections. */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          maskImage: "linear-gradient(to bottom, transparent 0, black 7%)",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 7%)",
+        }}
+      >
         <img
           src={STAGE.watchBackdrop.src}
           width={STAGE.watchBackdrop.width}
@@ -164,48 +183,6 @@ const WhereToWatch = () => {
       {/* Wider than the rest of the page: Dasha takes a column of her own,
           and on a 6xl container her growing would have squeezed the three
           cards beside her below a readable width. */}
-      {/* The valance across the seam.
-          The asset is 3:1, so at full page width it stands 465px tall — five
-          times the clearance between the hero's last button and this
-          section's heading. Shown whole it stopped being a border and became
-          a second background, indistinguishable from the burgundy stage
-          behind it.
-          So it is shown through a window of its own instead: a band of fixed
-          height sitting astride the join, with the artwork anchored to the
-          window's foot. What falls inside is the fringed lower edge — the
-          ornamental part — at full width and true proportions. The window
-          trims only the plain damask field above it, which carries no detail
-          to lose. The band is a constant depth at every screen size, which a
-          percentage offset could never be.
-          Decorative: out of the reading order, deaf to the pointer, and on a
-          layer above the backgrounds but below every heading, card and link. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[64px] -translate-y-1/2 overflow-hidden sm:h-[80px] lg:h-[96px]"
-      >
-        <img
-          src={STAGE.frieze.src}
-          width={STAGE.frieze.width}
-          height={STAGE.frieze.height}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          className="absolute bottom-0 left-0 w-full select-none"
-        />
-      </div>
-
-      {/* The cast shadow, as a sibling: a filter on the image itself would be
-          clipped by the window that trims it. Without it the ornament sits
-          flat against a stage of the same burgundy and disappears. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-10 translate-y-[2px]"
-        style={{
-          background:
-            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.22) 45%, transparent)",
-        }}
-      />
-
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="grid items-end gap-8 lg:grid-cols-[26rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[29rem_minmax(0,1fr)]">
           {/* ── Downstage left ──────────────────────────────────────────
