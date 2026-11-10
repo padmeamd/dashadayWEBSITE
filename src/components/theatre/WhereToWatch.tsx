@@ -171,13 +171,7 @@ const WhereToWatch = () => {
           decoding="async"
           className="h-full w-full object-cover"
         />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(rgba(16,13,10,0.62), rgba(16,13,10,0.78) 45%, rgba(16,13,10,0.86))",
-          }}
-        />
+
       </div>
 
       {/* Wider than the rest of the page: Dasha takes a column of her own,

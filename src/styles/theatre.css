@@ -354,26 +354,6 @@
   .tf-door-note { display: none; }
 }
 
-/* ── Inherited sections ──────────────────────────────────────────────────── */
-
-/* The societies and the lost-societies blocks came from the page as it was
-   and are not rebuilt here. They carry py-20/py-24/py-28 of their own, which
-   next to the scenes above and below them stacked into a gap of two hundred
-   pixels. Trimmed on this page only — their own markup is untouched, so they
-   keep their spacing anywhere else they are used. */
-.theatre #societies,
-.theatre #societies + section {
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
-}
-
-@media (min-width: 640px) {
-  .theatre #societies,
-  .theatre #societies + section {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-}
 
 /* ── Where to watch ──────────────────────────────────────────────────────── */
 

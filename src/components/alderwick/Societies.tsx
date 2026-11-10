@@ -32,7 +32,7 @@ const Societies = () => {
   return (
     <section
       id="societies"
-      className="relative overflow-hidden px-5 py-20 sm:px-8 sm:py-28"
+      className="relative overflow-hidden px-5 py-12 sm:px-8 sm:py-16"
       aria-labelledby="societies-title"
     >
       {/* Midnight over the university, behind this section and no other.
@@ -51,13 +51,7 @@ const Societies = () => {
           decoding="async"
           className="h-full w-full object-cover object-bottom"
         />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(rgba(10,9,9,0.82), rgba(10,9,9,0.74) 45%, rgba(10,9,9,0.88))",
-          }}
-        />
+
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl">
@@ -69,13 +63,13 @@ const Societies = () => {
           className="text-center"
         >
           <p className="aw-label">Alderwick University Archives</p>
-          <h2 id="societies-title" className="aw-display mt-5 text-[clamp(2rem,5.5vw,3.4rem)] uppercase tracking-[0.06em]">
+          <h2 id="societies-title" className="aw-display mt-4 text-[clamp(1.8rem,4.6vw,2.9rem)] uppercase tracking-[0.06em]">
             The Societies of Alderwick
           </h2>
-          <p className="aw-display mx-auto mt-4 max-w-2xl text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
+          <p className="aw-display mx-auto mt-3 max-w-2xl text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
             Three legacies. Three philosophies. One university built upon secrets.
           </p>
-          <p className="mx-auto mt-7 max-w-2xl text-[0.98rem] leading-[1.85]" style={{ color: "var(--aw-ivory-soft)" }}>
+          <p className="mx-auto mt-5 max-w-2xl text-[0.98rem] leading-[1.75]" style={{ color: "var(--aw-ivory-soft)" }}>
             At Alderwick, belonging is never simply a matter of choice. Behind the university's
             ancient walls lie societies whose influence has shaped generations of scholars,
             artists, and visionaries. Each offers a different understanding of what it means to
@@ -83,7 +77,7 @@ const Societies = () => {
           </p>
         </motion.div>
 
-        <ul className="mt-16 grid gap-14 sm:gap-10 lg:grid-cols-3">
+        <ul className="mt-10 grid gap-10 sm:gap-8 lg:grid-cols-3">
           {SOCIETIES.map((society, n) => (
             <motion.li
               key={society.id}
@@ -139,20 +133,20 @@ const Societies = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9 }}
-          className="mt-20 text-center"
+          className="mt-12 text-center"
         >
           <span aria-hidden className="aw-rule-ornament mx-auto max-w-sm">
             <span className="aw-diamond" />
           </span>
 
-          <p className="aw-display mx-auto mt-8 max-w-xl text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
+          <p className="aw-display mx-auto mt-5 max-w-xl text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
             Some are born to question. Some to create. Others to see what the world refuses to
             reveal.
           </p>
 
           <Link
             to={SOCIETY_QUIZ_ROUTE}
-            className="aw-label aw-cta-solid mt-8 inline-block px-8 py-4 no-underline"
+            className="aw-label aw-cta-solid mt-6 inline-block px-8 py-3.5 no-underline"
           >
             Discover your society
           </Link>
