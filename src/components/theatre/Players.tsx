@@ -155,11 +155,10 @@ const Players = () => {
   const sway = ["tf-sway", "tf-sway tf-sway--slow", "tf-sway tf-sway--fast"];
 
   return (
-    <section
-      id="players"
-      className="relative px-4 pb-14 pt-12 sm:px-8 sm:pb-16 sm:pt-14"
-      style={{ background: "linear-gradient(#120f0c, var(--tf-black))" }}
-    >
+    /* No ground of its own any more. The company stands on the Alderwick
+       scenery, inside the section that holds the letter, so this is a block
+       in that scene rather than a section after it. */
+    <div id="players" className="relative">
       <div className="mx-auto max-w-6xl">
         {/* The university's introduction now stands here rather than in a
             block of its own: it is the sentence that explains who these three
@@ -258,7 +257,7 @@ const Players = () => {
           )}
         </AnimatePresence>
       </div>
-    </section>
+    </div>
   );
 };
 

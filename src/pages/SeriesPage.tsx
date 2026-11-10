@@ -8,7 +8,6 @@ import Societies from "@/components/alderwick/Societies";
 import Overture from "@/components/theatre/Overture";
 import WhereToWatch from "@/components/theatre/WhereToWatch";
 import AlderwickAct from "@/components/theatre/AlderwickAct";
-import Players from "@/components/theatre/Players";
 import Chapters from "@/components/theatre/Chapters";
 import Overture19 from "@/components/theatre/Overture19";
 import SealedLetter from "@/components/theatre/SealedLetter";
@@ -49,7 +48,6 @@ const SeriesPage = () => (
     <Overture />
     <WhereToWatch />
     <AlderwickAct />
-    <Players />
     <Chapters />
 
     {/* The societies were already part of this world; they sit between the
