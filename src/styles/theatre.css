@@ -476,3 +476,11 @@
 .tf-social:focus-visible .tf-social-label {
   color: var(--tf-ivory);
 }
+
+/* Compact variant for the three cards once they share a row with Dasha —
+   same label, less air, so three still fit without the type shrinking. */
+.tf-paper-button--sm {
+  padding: 0.62rem 1rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}

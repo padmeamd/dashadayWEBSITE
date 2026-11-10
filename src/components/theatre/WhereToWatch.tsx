@@ -6,12 +6,21 @@ import { SERIES_LINKS } from "@/data/series";
 import { SOCIAL_LINKS } from "@/config/site";
 
 /**
- * WHERE TO WATCH, and BEHIND THE CURTAIN.
+ * ONE STAGE: where to watch, and who is behind it.
  *
- * Three ways into the series, in the order they cost the reader: the
- * membership first, then the channel, then the free public release. Every
- * address comes from data/series.ts or config/site.ts — this file writes no
- * URLs of its own, and makes no claim about when anything arrives.
+ * A single composition rather than two full-width blocks stacked. The paper
+ * theatre is the ground; Dasha stands downstage left, facing in; everything
+ * she is introducing — the three ways to watch, then the short note about who
+ * makes it — stands in the lit middle to her right.
+ *
+ * She is laid out in her own column rather than positioned absolutely over
+ * the content. Absolute would look right at one width and cover a button at
+ * the next; a column cannot overlap what it sits beside, at any size.
+ *
+ * Three ways in, in the order they cost the reader: the membership first,
+ * then the channel, then the free public release. Every address comes from
+ * data/series.ts or config/site.ts — this file writes no URLs of its own, and
+ * makes no claim about when anything arrives.
  *
  * The blink is two cut-outs of the same size swapped on a timer. Both are in
  * the document from the start so neither has to be fetched mid-blink, and the
@@ -128,11 +137,11 @@ const WhereToWatch = () => {
   return (
     <section
       id="where-to-watch"
-      className="relative overflow-hidden px-4 pb-14 pt-12 sm:px-8 sm:pb-16 sm:pt-14"
+      className="relative overflow-hidden px-4 pb-14 pt-12 sm:px-8 sm:pb-16 sm:pt-14 lg:pb-10"
     >
-      {/* The stage stands behind everything, dimmed hard. It is a ground, not
-          a picture: anything legible back there would compete with the cards
-          standing on it. */}
+      {/* The supplied stage, untouched, dimmed hard. It is a ground, not a
+          picture: anything legible back there would compete with what stands
+          on it. */}
       <div aria-hidden className="absolute inset-0">
         <img
           src={STAGE.watchBackdrop.src}
@@ -153,87 +162,96 @@ const WhereToWatch = () => {
       </div>
 
       <div className="relative mx-auto max-w-6xl">
-        <header className="text-center">
-          <h2 className="tf-display text-3xl uppercase tracking-[0.12em] sm:text-4xl">
-            Where to watch
-          </h2>
-          <p
-            className="tf-display mt-3 text-lg italic"
-            style={{ color: "var(--tf-ivory-soft)" }}
-          >
-            Choose how you’d like to enter the story.
-          </p>
-        </header>
+        <div className="grid items-end gap-8 lg:grid-cols-[21rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[25rem_minmax(0,1fr)]">
+          {/* ── Downstage left ──────────────────────────────────────────
+              Bottom-aligned by the grid, so she stands on the stage floor
+              rather than floating beside the heading. */}
+          <div className="mx-auto w-52 shrink-0 sm:w-64 lg:mx-0 lg:w-full">
+            <Blink />
+          </div>
 
-        <ul className="mt-12 flex flex-wrap justify-center gap-7">
-          {WAYS.map((way, n) => (
-            <motion.li
-              key={way.id}
-              initial={reduced ? false : { opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.65, delay: n * 0.07, ease: [0.2, 0.7, 0.2, 1] as const }}
-              className="w-full max-w-[21rem] sm:w-[19rem] lg:w-[20rem]"
-            >
-              <article
-                className={`tf-way flex h-full flex-col items-center p-7 text-center ${
-                  way.featured ? "tf-way--featured" : ""
-                }`}
+          {/* ── The lit middle ──────────────────────────────────────── */}
+          <div className="min-w-0">
+            <header className="text-center lg:text-left">
+              <h2 className="tf-display text-3xl uppercase tracking-[0.12em] sm:text-4xl">
+                Where to watch
+              </h2>
+              <p
+                className="tf-display mt-3 text-lg italic"
+                style={{ color: "var(--tf-ivory-soft)" }}
               >
-                <img
-                  src={way.art.src}
-                  width={way.art.width}
-                  height={way.art.height}
-                  alt=""
-                  aria-hidden
-                  loading="lazy"
-                  decoding="async"
-                  className="h-28 w-auto object-contain sm:h-32"
-                />
+                Choose how you’d like to enter the story.
+              </p>
+            </header>
 
-                <h3 className="tf-label mt-6 text-[0.84rem]">{way.kicker}</h3>
-
-                <p
-                  className="mt-3 flex-1 text-[0.95rem] leading-[1.7]"
-                  style={{ color: "var(--tf-ivory-soft)" }}
+            <ul className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {WAYS.map((way, n) => (
+                <motion.li
+                  key={way.id}
+                  initial={reduced ? false : { opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.65, delay: n * 0.07, ease: [0.2, 0.7, 0.2, 1] as const }}
                 >
-                  {way.body}
-                </p>
+                  <article
+                    className={`tf-way flex h-full flex-col items-center p-5 text-center ${
+                      way.featured ? "tf-way--featured" : ""
+                    }`}
+                  >
+                    <img
+                      src={way.art.src}
+                      width={way.art.width}
+                      height={way.art.height}
+                      alt=""
+                      aria-hidden
+                      loading="lazy"
+                      decoding="async"
+                      className="h-20 w-auto object-contain sm:h-24"
+                    />
 
-                <a
-                  href={way.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="tf-paper-button mt-7"
-                >
-                  {way.cta}
-                </a>
-              </article>
-            </motion.li>
-          ))}
-        </ul>
+                    <h3 className="tf-label mt-4 text-[0.78rem]">{way.kicker}</h3>
 
-        {/* ── Behind the curtain ──────────────────────────────────────── */}
-        <div className="mt-16 sm:mt-20">
-          <h2 className="tf-display text-center text-2xl uppercase tracking-[0.12em] sm:text-3xl">
-            Behind the curtain
-          </h2>
+                    <p
+                      className="mt-2.5 flex-1 text-[0.88rem] leading-[1.65]"
+                      style={{ color: "var(--tf-ivory-soft)" }}
+                    >
+                      {way.body}
+                    </p>
 
-          <div className="mt-10 flex flex-col items-center gap-9 sm:flex-row sm:items-center sm:gap-12">
-            {/* She faces right, so she stands on the left and looks into the
-                words rather than off the edge of the page. */}
-            <div className="w-48 shrink-0 sm:w-56 lg:w-64">
-              <Blink />
-            </div>
+                    <a
+                      href={way.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tf-paper-button tf-paper-button--sm mt-5"
+                    >
+                      {way.cta}
+                    </a>
+                  </article>
+                </motion.li>
+              ))}
+            </ul>
 
-            <div className="min-w-0 flex-1 text-center sm:text-left">
-              <p className="text-[1.02rem] leading-[1.8]" style={{ color: "var(--tf-ivory-soft)" }}>
+            {/* ── Behind the curtain ──────────────────────────────────
+                Compact, and under the cards rather than in a block of its
+                own: it is the same scene, and she is standing right there. */}
+            <div
+              className="mt-10 border-t pt-8"
+              style={{ borderColor: "var(--tf-gold-faint)" }}
+            >
+              <h3 className="tf-display text-center text-xl uppercase tracking-[0.14em] sm:text-2xl lg:text-left">
+                Behind the curtain
+              </h3>
+
+              <p
+                className="mt-4 text-center text-[0.98rem] leading-[1.75] lg:text-left"
+                style={{ color: "var(--tf-ivory-soft)" }}
+              >
                 Alderwick is written, directed and scored by Dasha Day, an
                 independent artist who builds the story, characters and music
                 behind the series.
               </p>
 
-              <ul className="mt-7 flex flex-wrap justify-center gap-x-7 gap-y-3 sm:justify-start">
+              <ul className="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-3 lg:justify-start">
                 {SOCIALS.filter((s) => s.href).map((s) => (
                   <li key={s.label}>
                     <a
