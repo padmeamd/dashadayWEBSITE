@@ -37,7 +37,7 @@ export const SERIES_LINKS = {
   telegram: "https://t.me/daydmedia",
   /** Episode One, free and in full on YouTube, in English. */
   youtubeEpisodeOne: "https://youtu.be/pbTrzJmW4Kw",
-  /** Episode Two, free and in full on YouTube since 5 November 2026. */
+  /** Episode Two, free and in full on YouTube since 15 October 2026. */
   youtubeEpisodeTwo: "https://youtu.be/gXE93cxrjBE",
   /** Members' community — early access + behind the scenes. */
   membership: "https://buymeacoffee.com/daydmedia",
@@ -231,10 +231,11 @@ export const EPISODES: Episode[] = [
     number: "02",
     status: "streaming",
     statusLabel: "Now Streaming on YouTube",
-    // It opened on Telegram and reached YouTube on 5 November. Both dates stay
-    // in the schedule — the channel got it first and that is worth showing —
-    // but every link now points at the video, because that is where anyone
-    // arriving today can watch it without joining anything.
+    // Members saw it first, Telegram carried Part One on the 12th, and the
+    // full episode reached YouTube on the 15th. All three stay in the
+    // schedule — the order matters — but every link points at the video,
+    // because that is where anyone arriving today can watch it without
+    // joining anything.
     availability: "Full episode · 8 minutes · in English · free on YouTube",
     still: preview("02", "Three students at a breakfast table in a long hall of stained glass and portraits"),
     schedule: [
@@ -254,14 +255,7 @@ export const EPISODES: Episode[] = [
       {
         date: "2026-10-15",
         label: "15 October 2026",
-        note: "Full public premiere on Telegram",
-        isPublic: true,
-        watchHref: SERIES_LINKS.telegram,
-      },
-      {
-        date: "2026-11-05",
-        label: "5 November 2026",
-        note: "Now on YouTube — full episode, in English",
+        note: "Full episode on YouTube — in English",
         isPublic: true,
         watchHref: SERIES_LINKS.youtubeEpisodeTwo,
       },
@@ -568,8 +562,8 @@ export type SeriesUpdate = {
 
 export const SERIES_UPDATES: SeriesUpdate[] = [
   {
-    date: "2026-11-05",
-    label: "5 November 2026",
+    date: "2026-10-15",
+    label: "15 October 2026",
     title: "Chapter Two is on YouTube",
     body:
       "The second chapter is now free and in full on YouTube, in English. " +
