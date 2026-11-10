@@ -164,22 +164,46 @@ const WhereToWatch = () => {
       {/* Wider than the rest of the page: Dasha takes a column of her own,
           and on a 6xl container her growing would have squeezed the three
           cards beside her below a readable width. */}
-      {/* The valance across the seam. It lives in this section so that it
-          paints over the hero above it, and it is pulled up by most of its
-          own height so the fringe hangs just below the join. At 3:1 it is a
-          third of the viewport tall, which is more than the gap between the
-          two sections — so its solid upper half passes behind the hero's
-          closing lines, which carry a higher z-index. Decorative only:
-          hidden from the reading order and deaf to the pointer. */}
-      <img
-        src={STAGE.frieze.src}
-        width={STAGE.frieze.width}
-        height={STAGE.frieze.height}
-        alt=""
+      {/* The valance across the seam.
+          The asset is 3:1, so at full page width it stands 465px tall — five
+          times the clearance between the hero's last button and this
+          section's heading. Shown whole it stopped being a border and became
+          a second background, indistinguishable from the burgundy stage
+          behind it.
+          So it is shown through a window of its own instead: a band of fixed
+          height sitting astride the join, with the artwork anchored to the
+          window's foot. What falls inside is the fringed lower edge — the
+          ornamental part — at full width and true proportions. The window
+          trims only the plain damask field above it, which carries no detail
+          to lose. The band is a constant depth at every screen size, which a
+          percentage offset could never be.
+          Decorative: out of the reading order, deaf to the pointer, and on a
+          layer above the backgrounds but below every heading, card and link. */}
+      <div
         aria-hidden
-        loading="lazy"
-        decoding="async"
-        className="pointer-events-none absolute inset-x-0 top-0 z-[1] w-full -translate-y-[86%] select-none sm:-translate-y-[84%]"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[64px] -translate-y-1/2 overflow-hidden sm:h-[80px] lg:h-[96px]"
+      >
+        <img
+          src={STAGE.frieze.src}
+          width={STAGE.frieze.width}
+          height={STAGE.frieze.height}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="absolute bottom-0 left-0 w-full select-none"
+        />
+      </div>
+
+      {/* The cast shadow, as a sibling: a filter on the image itself would be
+          clipped by the window that trims it. Without it the ornament sits
+          flat against a stage of the same burgundy and disappears. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-10 translate-y-[2px]"
+        style={{
+          background:
+            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.22) 45%, transparent)",
+        }}
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">

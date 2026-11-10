@@ -1,7 +1,10 @@
 import { useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
-import { ALDERWICK_ACT, STAGE } from "@/data/theatre";
+import { Link } from "react-router-dom";
+
+import { STAGE } from "@/data/theatre";
+import { SOCIETY_QUIZ_ROUTE } from "@/data/series";
 import { VESPER_CLUES } from "@/data/alderwick";
 
 /**
@@ -100,18 +103,17 @@ const AlderwickAct = () => {
           />
 
           {/* ── Everything the scene has to say, inside the scene ────── */}
+          {/* The place and the sentence that introduces it have moved to the
+              characters below, where they belong: they describe the three
+              people standing there. What stays here is the scenery and the
+              letter the university keeps. */}
           <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-5 pb-7 text-center sm:px-8 sm:pb-10">
-            <p className="tf-label">{ALDERWICK_ACT.place}</p>
-            <h2 className="tf-display mt-3 max-w-2xl text-xl leading-[1.45] sm:mt-4 sm:text-[1.8rem]">
-              {ALDERWICK_ACT.body}
-            </h2>
-
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls={cluesId}
-              className="tf-seal group mt-6 block w-full max-w-[14rem] sm:mt-7 sm:max-w-[17rem]"
+              className="tf-seal group block w-full max-w-[14rem] sm:max-w-[17rem]"
             >
               <span className="sr-only">
                 {open
@@ -187,11 +189,18 @@ const AlderwickAct = () => {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-8 text-center">
+                  {/* The letter ends where the reader can do something with
+                      it: the archive already has a page that sorts a visitor
+                      into one of the societies, and this is the moment they
+                      would want it. The route is the existing one. */}
+                  <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+                    <Link to={SOCIETY_QUIZ_ROUTE} className="tf-button w-full sm:w-auto">
+                      Discover your society
+                    </Link>
                     <button
                       type="button"
                       onClick={() => setOpen(false)}
-                      className="tf-button tf-button--quiet text-[0.7rem]"
+                      className="tf-button tf-button--quiet w-full text-[0.72rem] sm:w-auto"
                     >
                       Seal the letter
                     </button>

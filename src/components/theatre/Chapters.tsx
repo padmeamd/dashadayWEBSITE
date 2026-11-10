@@ -57,7 +57,12 @@ const Chapters = () => {
               className="w-full max-w-[23rem] sm:w-[21rem] lg:w-[22.5rem]"
             >
               <article className="tf-card flex h-full flex-col">
-                <div className="tf-card-plate relative aspect-video w-full overflow-hidden">
+                <div className="tf-card-plate relative aspect-video w-full">
+                  {/* Inside the frame's opening rather than under its band.
+                      The printed border takes 6% of the width at either side
+                      and 10% of the height top and bottom; the picture is
+                      inset by exactly that, so the frame surrounds the whole
+                      of it and hides none of it. */}
                   <img
                     src={episode.still?.src ?? `/image/series/episode-${episode.number}.jpg`}
                     alt={episode.still?.alt ?? `A still from Chapter ${episode.number}`}
@@ -65,10 +70,13 @@ const Chapters = () => {
                     height={episode.still?.height}
                     loading="lazy"
                     decoding="async"
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-x-[6%] inset-y-[10%] h-auto w-auto object-cover"
+                    style={{ width: "88%", height: "80%" }}
                   />
-                  {/* The frame is the same 16:9 as the plate, so inset-0 lays
-                      its band exactly along the picture's edges. */}
+                  {/* The frame keeps the card's own width, so neighbouring
+                      cards never touch: pushed outward instead, its overhang
+                      was wider than the gap between them and the row ran
+                      together into one strip. */}
                   <img
                     src={STAGE.paperFrame.src}
                     width={STAGE.paperFrame.width}

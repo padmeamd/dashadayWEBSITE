@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 
-import { PLAYERS, STAGE, type Player } from "@/data/theatre";
+import { ALDERWICK_ACT, PLAYERS, STAGE, type Player } from "@/data/theatre";
 
 /**
  * SCENE THREE — meet the players.
@@ -161,10 +161,16 @@ const Players = () => {
       style={{ background: "linear-gradient(#120f0c, var(--tf-black))" }}
     >
       <div className="mx-auto max-w-6xl">
-        <div className="text-center">
-          <p className="tf-label">The company</p>
-          <h2 className="tf-display mt-5 text-3xl uppercase tracking-[0.12em] sm:text-4xl">
-            Meet the players
+        {/* The university's introduction now stands here rather than in a
+            block of its own: it is the sentence that explains who these three
+            are, and it was being read a whole section away from them. */}
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="tf-label">{ALDERWICK_ACT.place}</p>
+          <p className="tf-display mt-5 text-xl leading-[1.5] sm:text-[1.6rem]">
+            {ALDERWICK_ACT.body}
+          </p>
+          <h2 className="tf-display mt-9 text-3xl uppercase tracking-[0.12em] sm:text-4xl">
+            Meet the characters
           </h2>
         </div>
 
