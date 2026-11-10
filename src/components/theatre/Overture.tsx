@@ -73,6 +73,24 @@ const Overture = () => {
   const [replay, setReplay] = useState(0);
 
   useEffect(() => {
+    const fit = () => {
+      const header = document.querySelector("header");
+      const reserve = stageRef.current?.closest("main")?.parentElement;
+      if (!header || !reserve) return;
+      const overhang =
+        header.getBoundingClientRect().height -
+        parseFloat(getComputedStyle(reserve).paddingTop || "0");
+      document.documentElement.style.setProperty(
+        "--tf-hero-offset",
+        `${Math.max(0, Math.round(overhang))}px`,
+      );
+    };
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
+
+  useEffect(() => {
     if (reduced) return;
     try {
       if (sessionStorage.getItem(SEEN)) return;
@@ -117,7 +135,7 @@ const Overture = () => {
   const unrolled = reduced || (inView && true);
 
   return (
-    <section className="relative px-0 pb-8 pt-16 sm:pb-10 sm:pt-20">
+    <section className="relative px-0 pb-8 pt-[var(--tf-hero-offset,0px)] sm:pb-10">
       <div
         ref={stageRef}
         className="tf-proscenium relative mx-auto aspect-[16/10] w-full sm:aspect-[16/9]"
