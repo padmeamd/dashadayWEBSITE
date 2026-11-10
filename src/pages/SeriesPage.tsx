@@ -1,26 +1,39 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 import Seo from "@/components/Seo";
-import Crest from "@/components/alderwick/Crest";
-import Invitation from "@/components/alderwick/Invitation";
-import Plate from "@/components/alderwick/Plate";
-import Characters from "@/components/alderwick/Characters";
-import SeriesHero from "@/components/alderwick/SeriesHero";
 import LostSocieties from "@/components/alderwick/LostSocieties";
 import Societies from "@/components/alderwick/Societies";
-import { VESPER_CLUES } from "@/data/alderwick";
-import {
-  EPISODES,
-  MEMBERSHIP,
-  GUIDE,
-  SERIES,
-  SERIES_LINKS,
-  SERIES_UPDATES,
-} from "@/data/series";
+
+import Overture from "@/components/theatre/Overture";
+import AlderwickAct from "@/components/theatre/AlderwickAct";
+import Players from "@/components/theatre/Players";
+import Chapters from "@/components/theatre/Chapters";
+import Overture19 from "@/components/theatre/Overture19";
+import SealedLetter from "@/components/theatre/SealedLetter";
+
+import { GUIDE, SERIES_UPDATES } from "@/data/series";
 import "@/styles/alderwick.css";
+import "@/styles/theatre.css";
+
+/**
+ * THINGS I SHOULDN'T SAY — the series page, as a Victorian toy theatre.
+ *
+ * Six scenes in one performance: the curtains open, Alderwick is entered, the
+ * players are met, the chapters are played, the record is heard, and the
+ * invitation is broken open. The societies and the news that were already here
+ * keep their place between the acts.
+ *
+ * Every link, date, price and chapter still comes from data/series.ts and
+ * data/album.ts. This file is the running order; it decides nothing about what
+ * the series contains.
+ *
+ * The full-screen Invitation overlay that used to open this page has been
+ * retired: the curtain is now the entrance, and two sealed envelopes in a row
+ * is one door too many. The envelope itself is where the brief puts it — at
+ * the end, as the invitation to join.
+ */
 
 const rise = (delay = 0) => ({
   initial: { opacity: 0, y: 18 },
@@ -29,307 +42,123 @@ const rise = (delay = 0) => ({
   transition: { duration: 0.8, delay, ease: [0.2, 0.7, 0.2, 1] as const },
 });
 
-const Ornament = () => (
-  <div className="aw-rule-ornament my-10">
-    <span className="aw-diamond" aria-hidden />
-  </div>
-);
+const SeriesPage = () => (
+  <main className="theatre alderwick relative min-h-screen overflow-x-hidden">
+    <Seo />
 
-const SeriesPage = () => {
-  const [clue, setClue] = useState(-1);
+    <Overture />
+    <AlderwickAct />
+    <Players />
+    <Chapters />
 
-  return (
-    <main className="alderwick relative min-h-screen overflow-x-hidden">
-      <Seo />
-      <Invitation />
+    {/* The societies were already part of this world; they sit between the
+        chapters and the music rather than being rebuilt. */}
+    <Societies />
+    <LostSocieties />
 
-      <SeriesHero />
+    <Overture19 />
 
-      {/* ── The story ─────────────────────────────────────────────────── */}
-      <section className="relative mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
-        <motion.div {...rise()}>
-          <p className="aw-label">A university with secrets</p>
-          <h2 className="sr-only">The story</h2>
-          <Ornament />
-          <p className="aw-display text-2xl leading-[1.5] sm:text-[1.75rem]">
-            Dasha arrives at Alderwick University for a single day, to decide whether she
-            belongs there.
-          </p>
-          <div className="mt-8 space-y-5 text-[1.02rem] leading-[1.8]" style={{ color: "var(--aw-ivory-soft)" }}>
-            <p>
-              An unexpected connection with the conductor of the university orchestra
-              complicates a visit that was meant to be simple.
+    {/* ── Whispers ──────────────────────────────────────────────────── */}
+    <section
+      id="whispers"
+      className="relative mx-auto max-w-3xl px-5 py-24 sm:px-8"
+      style={{ background: "var(--tf-black)" }}
+    >
+      <motion.div {...rise()} className="text-center">
+        <p className="tf-label">The noticeboard</p>
+        <h2 className="tf-display mt-5 text-3xl uppercase tracking-[0.12em] sm:text-4xl">
+          Whispers from Alderwick
+        </h2>
+      </motion.div>
+
+      <ul className="mt-12 space-y-8">
+        {SERIES_UPDATES.map((update, n) => (
+          <motion.li
+            key={update.date + update.title}
+            {...rise(n * 0.05)}
+            className="border-t pt-7"
+            style={{ borderColor: "var(--tf-gold-faint)" }}
+          >
+            <p className="tf-label text-[0.62rem]">
+              <time dateTime={update.date}>{update.label}</time>
             </p>
-            <p>
-              Then the visions begin — not memory, not premonition, but rooms she is not
-              standing in, unfolding while she watches.
-            </p>
-            <p>
-              Alderwick is older than its prospectus admits, and parts of its history have
-              been deliberately mislaid.
-            </p>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── The archive ───────────────────────────────────────────────── */}
-      <section id="archives" className="relative px-5 py-20 sm:px-8 sm:py-24" style={{ background: "var(--aw-walnut)" }}>
-        <div className="mx-auto max-w-4xl">
-          <motion.div {...rise()} className="text-center">
-            <h2 className="aw-display text-3xl uppercase tracking-[0.08em] sm:text-4xl">
-              The Alderwick Archives
-            </h2>
-            <p className="aw-display mt-3 text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
-              Every story leaves something behind.
-            </p>
-          </motion.div>
-
-          <div className="mt-12 space-y-10">
-            {EPISODES.map((episode, n) => (
-              <motion.article
-                key={episode.id}
-                {...rise(n * 0.05)}
-                className="grid gap-6 border-t pt-8 sm:grid-cols-[1.1fr_1.4fr]"
-                style={{ borderColor: "var(--aw-rule)" }}
+            <h3 className="tf-display mt-3 text-xl">{update.title}</h3>
+            {update.body && (
+              <p
+                className="mt-3 text-[0.95rem] leading-[1.75]"
+                style={{ color: "var(--tf-ivory-soft)" }}
               >
-                <Plate
-                  src={episode.still?.src ?? `/image/series/episodes/${episode.id}.jpg`}
-                  alt={episode.still?.alt ?? `A still from Chapter ${episode.number}`}
-                  /* Shown only if the file is missing, so it has to describe
-                     the chapter rather than claim it is unreleased: four of
-                     the five are out. */
-                  caption={`Chapter ${episode.number} · ${episode.statusLabel}`}
-                  className="aspect-video w-full object-cover"
-                />
-                <div>
-                  <p className="aw-label">
-                    Chapter {episode.number} · {episode.statusLabel}
-                  </p>
-                  <h3 className="aw-display mt-3 text-2xl">
-                    {episode.title ?? `Chapter ${episode.number}`}
-                  </h3>
-                  {episode.description && (
-                    <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
-                      {episode.description}
-                    </p>
-                  )}
-                  {episode.availability && (
-                    <p className="mt-3 text-[11px] uppercase tracking-[0.18em]" style={{ color: "var(--aw-ivory-faint)" }}>
-                      {episode.availability}
-                    </p>
-                  )}
-                  {/* Where to watch. A chapter that is not out anywhere gets no
-                      button: a link that leads nowhere is worse than none. The
-                      channel link is offered alongside, except where it is
-                      already the main one. */}
-                  {episode.status !== "upcoming" && (
-                    <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
-                      <a
-                        href={episode.cta.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em]"
-                        style={{ color: "var(--aw-gold)" }}
-                      >
-                        {episode.cta.label}
-                        <span className="sr-only"> — Chapter {episode.number}</span>
-                        <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} />
-                      </a>
-                      {episode.cta.href !== SERIES_LINKS.telegram && (
-                        <a
-                          href={SERIES_LINKS.telegram}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em]"
-                          style={{ color: "var(--aw-ivory-faint)" }}
-                        >
-                          Watch on Telegram
-                          <span className="sr-only"> — Chapter {episode.number}</span>
-                          <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} />
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      <Characters />
-
-      <Societies />
-      <LostSocieties />
-
-      {/* ── Whispers ──────────────────────────────────────────────────── */}
-      <section id="whispers" className="relative mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">
-        <motion.div {...rise()}>
-          <h2 className="aw-display text-3xl uppercase tracking-[0.08em] sm:text-4xl">
-            Whispers from Alderwick
-          </h2>
-          <p className="aw-display mt-3 text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
-            Not everything stays hidden behind these walls.
-          </p>
-        </motion.div>
-
-        <div className="mt-10 space-y-7">
-          {SERIES_UPDATES.map((update, n) => (
-            <motion.article
-              key={update.date + update.title}
-              {...rise(n * 0.05)}
-              className="border-l pl-6"
-              style={{ borderColor: "var(--aw-rule)" }}
-            >
-              <time dateTime={update.date} className="aw-label">
-                {update.label}
-              </time>
-              <h3 className="aw-display mt-2 text-xl">{update.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
                 {update.body}
               </p>
-              {update.link && (
-                <a
-                  href={update.link.href}
-                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em]"
-                  style={{ color: "var(--aw-gold)" }}
-                >
-                  {update.link.label}
-                  <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} />
-                </a>
-              )}
-            </motion.article>
-          ))}
+            )}
+            {update.link && (
+              <a
+                href={update.link.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="tf-label mt-4 inline-flex items-center gap-2 border-b pb-1 text-[0.62rem]"
+                style={{ borderColor: "var(--tf-gold-faint)" }}
+              >
+                {update.link.label}
+                <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} aria-hidden />
+              </a>
+            )}
+          </motion.li>
+        ))}
+      </ul>
+    </section>
+
+    <SealedLetter />
+
+    {/* ── Behind the creation ───────────────────────────────────────────
+        Who makes this, and how. Claims kept to what can be verified: no
+        budgets, no crew counts, no festivals. */}
+    <section
+      className="mx-auto max-w-3xl px-5 py-24 sm:px-8"
+      style={{ background: "var(--tf-black)" }}
+    >
+      <motion.div {...rise()}>
+        <p className="tf-label">Behind the creation</p>
+        <h2 className="tf-display mt-4 text-2xl uppercase tracking-[0.12em]">Dasha Day</h2>
+
+        <div
+          className="mt-6 space-y-4 text-[0.95rem] leading-[1.8]"
+          style={{ color: "var(--tf-ivory-soft)" }}
+        >
+          <p>
+            Alderwick is written, directed and scored by one person. Dasha Day builds the
+            story, the characters and the world, and composes the music the series is set to.
+          </p>
+          <p>
+            It is an independent production, made with AI filmmaking tools alongside ordinary
+            editing craft — the tools render the frames; the continuity, the performances on
+            the page and the shape of the mystery are authored.
+          </p>
         </div>
-      </section>
 
-      {/* ── Vesper ────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-5 py-24 text-center sm:px-8">
-        <span className="aw-dust" aria-hidden />
-        <motion.div {...rise()} className="relative mx-auto max-w-xl">
-          <h2 className="aw-display text-4xl uppercase tracking-[0.3em]">Vesper</h2>
-          <p className="aw-display mt-4 text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
-            The university remembers what others forget.
-          </p>
+        <p className="mt-7 text-sm leading-relaxed" style={{ color: "var(--tf-ivory-soft)" }}>
+          <span className="tf-display italic">{GUIDE.guideTitle}</span> — {GUIDE.subtitle}.
+        </p>
+        <a
+          href={GUIDE.cta.href}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="tf-label mt-4 inline-flex items-center gap-2 border-b pb-1 text-[0.62rem]"
+          style={{ borderColor: "var(--tf-gold-faint)" }}
+        >
+          {GUIDE.cta.label}
+          <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} aria-hidden />
+        </a>
+      </motion.div>
 
-          <button
-            type="button"
-            onClick={() => setClue((c) => Math.min(c + 1, VESPER_CLUES.length - 1))}
-            className="mx-auto mt-10 flex h-24 w-24 items-center justify-center rounded-full transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
-            style={{
-              background: "radial-gradient(circle at 36% 30%, #8a1a33 0%, #650f25 52%, #45091a 100%)",
-              outlineColor: "var(--aw-gold)",
-            }}
-            aria-label="Press the seal to uncover an inscription"
-          >
-            <Crest className="h-14 w-14 opacity-80" />
-          </button>
-
-          {clue >= 0 && (
-            <motion.figure
-              key={clue}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="mt-8"
-            >
-              <blockquote className="aw-display text-xl italic" style={{ color: "var(--aw-ivory)" }}>
-                “{VESPER_CLUES[clue].inscription}”
-              </blockquote>
-              <figcaption className="aw-label mt-3 opacity-70">{VESPER_CLUES[clue].source}</figcaption>
-            </motion.figure>
-          )}
-
-          {clue < VESPER_CLUES.length - 1 && (
-            <p className="mt-6 text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--aw-ivory-faint)" }}>
-              {clue < 0 ? "Press the seal" : "Press again"}
-            </p>
-          )}
-        </motion.div>
-      </section>
-
-      {/* ── The sound, the gates, the guide ───────────────────────────── */}
-      <section className="mx-auto max-w-3xl px-5 py-20 sm:px-8">
-        <motion.div {...rise()}>
-          <h2 className="aw-display text-3xl uppercase tracking-[0.08em]">The sound of Alderwick</h2>
-          <p className="mt-4 leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
-            The series grew out of the album <em>{SERIES.title}</em> — every chapter is scored with
-            music written for it.
-          </p>
-          <a
-            href="https://open.spotify.com/album/1ROwGXAQFQnqVBL0n3cI4E"
-            className="aw-label mt-5 inline-flex items-center gap-2 border-b pb-1"
-            style={{ borderColor: "var(--aw-rule)" }}
-          >
-            Listen to the album <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} />
-          </a>
-        </motion.div>
-
-        <Ornament />
-
-        <motion.div {...rise(0.05)}>
-          <h2 className="aw-display text-3xl uppercase tracking-[0.08em]">Beyond the gates</h2>
-          <p className="aw-display mt-3 text-lg italic" style={{ color: "var(--aw-ivory-soft)" }}>
-            Some stories are revealed before the rest of the world sees them.
-          </p>
-          <ul className="mt-5 space-y-2 text-sm" style={{ color: "var(--aw-ivory-soft)" }}>
-            {MEMBERSHIP.benefits.slice(0, 4).map((benefit: string) => (
-              <li key={benefit}>— {benefit}</li>
-            ))}
-          </ul>
-          <a
-            href={SERIES_LINKS.membership}
-            className="aw-label mt-6 inline-block px-7 py-3.5"
-            style={{ background: "var(--aw-oxblood)", color: "var(--aw-ivory)" }}
-          >
-            Join — {MEMBERSHIP.price} {MEMBERSHIP.priceInterval}
-          </a>
-        </motion.div>
-
-        <Ornament />
-
-        {/* ── Behind the creation ─────────────────────────────────────
-            Who makes this, and how. Claims kept to what can be verified:
-            no budgets, no crew counts, no festivals. */}
-        <motion.div {...rise(0.1)}>
-          <p className="aw-label">Behind the creation</p>
-          <h2 className="aw-display mt-3 text-2xl uppercase tracking-[0.08em]">Dasha Day</h2>
-
-          <div className="mt-5 space-y-4 text-sm leading-[1.8]" style={{ color: "var(--aw-ivory-soft)" }}>
-            <p>
-              Alderwick is written, directed and scored by one person. Dasha Day builds the
-              story, the characters and the world, and composes the music the series is set to.
-            </p>
-            <p>
-              It is an independent production, made with AI filmmaking tools alongside ordinary
-              editing craft — the tools render the frames; the continuity, the performances on
-              the page and the shape of the mystery are authored.
-            </p>
-          </div>
-
-          <p className="mt-7 text-sm leading-relaxed" style={{ color: "var(--aw-ivory-soft)" }}>
-            <span className="aw-display italic">{GUIDE.guideTitle}</span> — {GUIDE.subtitle}.
-          </p>
-          <a
-            href={GUIDE.cta.href}
-            className="aw-label mt-4 inline-flex items-center gap-2 border-b pb-1"
-            style={{ borderColor: "var(--aw-rule)" }}
-          >
-            {GUIDE.cta.label} <ArrowUpRight className="h-3 w-3" strokeWidth={1.5} />
-          </a>
-        </motion.div>
-
-        <div className="mt-20 text-center">
-          <Link to="/" className="aw-label inline-flex items-center gap-2">
-            <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.5} />
-            Back to DashaDay
-          </Link>
-        </div>
-      </section>
-
-    </main>
-  );
-};
+      <div className="mt-20 text-center">
+        <Link to="/" className="tf-label inline-flex items-center gap-2 text-[0.62rem]">
+          <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
+          Back to DashaDay
+        </Link>
+      </div>
+    </section>
+  </main>
+);
 
 export default SeriesPage;
