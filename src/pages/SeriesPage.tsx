@@ -52,7 +52,28 @@ const SeriesPage = () => (
     <Chapters />
 
     {/* The societies were already part of this world; they sit between the
-        chapters and the music rather than being rebuilt. */}
+        chapters and the music rather than being rebuilt.
+
+        The note above them is deliberate. Vesper is part of the story. The
+        Linnaean Circle, the Aurelian Society and the four struck-out entries
+        are written in the university's own voice in data/societies.ts, and
+        nothing in the project materials marks them as confirmed canon — so
+        the page says which is which rather than presenting all of it with
+        equal authority. Remove this note once the status is settled. */}
+    <div
+      className="mx-auto max-w-3xl px-5 pt-10 sm:px-8"
+      style={{ background: "var(--tf-black)" }}
+    >
+      <p
+        className="border-l py-1 pl-5 text-[0.86rem] leading-[1.7]"
+        style={{ borderColor: "var(--tf-gold-faint)", color: "var(--tf-ivory-faint)" }}
+      >
+        <span className="tf-label mr-2 text-[0.72rem]">From the archive</span>
+        The records below are written in Alderwick's own voice. The Vesper
+        Society belongs to the story; the remaining entries are in-world
+        archive material and are not yet confirmed as part of it.
+      </p>
+    </div>
     <Societies />
     <LostSocieties />
 
@@ -61,7 +82,7 @@ const SeriesPage = () => (
     {/* ── Whispers ──────────────────────────────────────────────────── */}
     <section
       id="whispers"
-      className="relative mx-auto max-w-3xl px-5 py-24 sm:px-8"
+      className="relative mx-auto max-w-3xl px-5 py-14 sm:px-8"
       style={{ background: "var(--tf-black)" }}
     >
       <motion.div {...rise()} className="text-center">
@@ -114,7 +135,7 @@ const SeriesPage = () => (
         Who makes this, and how. Claims kept to what can be verified: no
         budgets, no crew counts, no festivals. */}
     <section
-      className="mx-auto max-w-3xl px-5 py-24 sm:px-8"
+      className="mx-auto max-w-3xl px-5 py-14 sm:px-8"
       style={{ background: "var(--tf-black)" }}
     >
       <motion.div {...rise()}>

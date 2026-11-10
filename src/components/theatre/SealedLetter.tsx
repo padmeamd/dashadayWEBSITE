@@ -25,7 +25,7 @@ const SealedLetter = () => {
   return (
     <section
       id="invitation"
-      className="relative px-4 py-24 text-center sm:px-8 sm:py-32"
+      className="relative px-4 py-14 text-center sm:px-8 sm:py-16"
       style={{ background: "linear-gradient(#15110e, var(--tf-black))" }}
     >
       <div className="mx-auto max-w-3xl">
@@ -38,7 +38,7 @@ const SealedLetter = () => {
           The secret invitation
         </h2>
 
-        <div className="mt-14 min-h-[22rem]">
+        <div className="mt-14 min-h-[20rem]">
           <AnimatePresence mode="wait" initial={false}>
             {!open ? (
               <motion.button
@@ -152,7 +152,7 @@ const SealedLetter = () => {
           </AnimatePresence>
         </div>
 
-        <div className="mt-20">
+        <div className="mt-14">
           <p className="tf-display text-xl italic sm:text-2xl">{CLOSING.first}</p>
           <p
             className="tf-display mt-3 text-xl italic sm:text-2xl"

@@ -45,12 +45,25 @@ export const STAGE = {
   /** One curtain panel, mirrored for the other side. */
   curtain: asset("curtain", 1024, 1536, true,
     "A burgundy velvet curtain panel held back with a gold tassel"),
-  /** Scene 4 — the blank playbill each chapter is printed into. */
+  /** Scene 4 — a flat cut-card frame, 16:9 like the stills it sits over.
+      Its burgundy band covers about 6% of the width at either side and 10%
+      of the height top and bottom, so it overlaps the edges of the picture
+      without taking any of the middle. */
+  paperFrame: asset("paper-frame", 1200, 675, true,
+    "A flat Victorian paper-theatre frame in burgundy and gold"),
+  /** Kept for reference; no longer used on the chapter cards. */
   playbill: asset("playbill-frame", 1000, 1333, false,
     "An ornate Victorian playbill frame of blank parchment"),
   /** Scene 5 — the album. */
   gramophone: asset("gramophone", 1100, 1375, false,
     "A gilded gramophone on a candlelit gothic stage, sheet music scattered at its foot"),
+  /** Scene 1 — the title, rolled shut and then open. Both are drawn on the
+      same 2172x724 canvas, so one can be revealed over the other without
+      either moving: the unrolling is a mask, not a swap. */
+  scrollRolled: asset("scroll-rolled", 1400, 467, true,
+    "A Victorian paper scroll, rolled shut"),
+  scrollOpen: asset("scroll-open", 1400, 467, true,
+    "A Victorian paper scroll opened to read: Things I Shouldn't Say"),
   /** Scene 6 — the sealed invitation. */
   envelope: asset("envelope", 1200, 800, true,
     "An antique envelope closed with a crimson wax seal"),
