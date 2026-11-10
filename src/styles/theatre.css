@@ -374,3 +374,105 @@
     padding-bottom: 4rem;
   }
 }
+
+/* ── Where to watch ──────────────────────────────────────────────────────── */
+
+/* Cards, not frames. The paper-theatre feeling here comes from the ground,
+   the colours and the small properties on each card — adding carved moulding
+   as well would crowd three things that only have a sentence each to say. */
+.tf-way {
+  border: 1px solid rgba(183, 150, 92, 0.22);
+  background: linear-gradient(rgba(31, 25, 20, 0.86), rgba(21, 17, 13, 0.9));
+  transition: border-color 0.45s ease, transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* The membership is the ask, so it is the one card that is lit. */
+.tf-way--featured {
+  border-color: rgba(183, 150, 92, 0.52);
+  background: linear-gradient(rgba(64, 26, 34, 0.6), rgba(26, 18, 16, 0.92));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+}
+
+@media (hover: hover) {
+  .tf-way:hover,
+  .tf-way:focus-within {
+    border-color: rgba(183, 150, 92, 0.6);
+    transform: translateY(-4px);
+  }
+}
+
+/* ── Paper buttons ───────────────────────────────────────────────────────── */
+
+/* A printed label stuck to the card: slightly raised, and pressed in when it
+   is clicked. The press is the whole point — it is what makes it read as
+   paper rather than as a rectangle that changes colour. */
+.tf-paper-button {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  font-family: var(--tf-display);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #2a1a10;
+  background: linear-gradient(#f0e4cc, #ddcaa6);
+  border: 1px solid rgba(92, 64, 35, 0.5);
+  box-shadow: 0 3px 0 rgba(92, 64, 35, 0.55), 0 10px 18px rgba(0, 0, 0, 0.42);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.35s ease;
+}
+
+.tf-paper-button:hover,
+.tf-paper-button:focus-visible {
+  background: linear-gradient(#f7eed9, #e5d4b2);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 rgba(92, 64, 35, 0.55), 0 14px 24px rgba(0, 0, 0, 0.5);
+}
+
+.tf-paper-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(92, 64, 35, 0.55), 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.tf-way--featured .tf-paper-button {
+  background: linear-gradient(#b7965c, #9a7a44);
+  color: #1a120c;
+  border-color: rgba(60, 40, 20, 0.6);
+}
+
+.tf-way--featured .tf-paper-button:hover,
+.tf-way--featured .tf-paper-button:focus-visible {
+  background: linear-gradient(#cdab6e, #ad8a50);
+}
+
+/* ── Social links ────────────────────────────────────────────────────────── */
+
+/* Words, not icons. An icon here would have to be drawn or fetched, and a
+   name is clearer about where it goes. */
+.tf-social {
+  display: block;
+  text-align: inherit;
+}
+
+.tf-social-label {
+  display: block;
+  font-family: var(--tf-display);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tf-gold-bright);
+  transition: color 0.35s ease;
+}
+
+.tf-social-handle {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.74rem;
+  color: var(--tf-ivory-faint);
+}
+
+.tf-social:hover .tf-social-label,
+.tf-social:focus-visible .tf-social-label {
+  color: var(--tf-ivory);
+}
