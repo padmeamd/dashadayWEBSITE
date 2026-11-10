@@ -64,6 +64,26 @@ export const STAGE = {
     "A Victorian paper scroll, rolled shut"),
   scrollOpen: asset("scroll-open", 1400, 467, true,
     "A Victorian paper scroll opened to read: Things I Shouldn't Say"),
+  /** Where to watch — the stage this section is printed on, and the three
+      small properties that stand for the three ways in. */
+  watchBackdrop: asset("watch-backdrop", 1600, 900, false,
+    "A wide paper-theatre stage with drawn curtains and lit footlights"),
+  cardTicket: asset("card-ticket", 900, 450, true,
+    "A gold key laid across a burgundy ticket sealed with red wax"),
+  cardTelegram: asset("card-telegram", 800, 533, true,
+    "A folded cream dispatch tied with a burgundy ribbon"),
+  cardScreen: asset("card-screen", 800, 533, true,
+    "A miniature gilded theatre with a blank screen between its curtains"),
+  /** Behind the curtain. Both portraits are cut to one size on purpose: the
+      blink is a swap, and a pixel of disagreement would read as a twitch. */
+  dashaOpen: asset("dasha-open", 820, 749, true,
+    "Dasha Day in profile, facing into the page"),
+  dashaClosed: asset("dasha-closed", 820, 749, true,
+    "Dasha Day in profile with her eyes gently closed"),
+  /** The valance that hangs across the seam between the first two sections.
+      3:1, so at full width it is a third as tall as the page is wide. */
+  frieze: asset("frieze", 1800, 600, true,
+    "A burgundy and gold theatre valance with a fringed swag"),
   /** Scene 6 — the sealed invitation. */
   envelope: asset("envelope", 1200, 800, true,
     "An antique envelope closed with a crimson wax seal"),

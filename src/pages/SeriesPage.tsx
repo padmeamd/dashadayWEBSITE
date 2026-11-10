@@ -7,6 +7,7 @@ import LostSocieties from "@/components/alderwick/LostSocieties";
 import Societies from "@/components/alderwick/Societies";
 
 import Overture from "@/components/theatre/Overture";
+import WhereToWatch from "@/components/theatre/WhereToWatch";
 import AlderwickAct from "@/components/theatre/AlderwickAct";
 import Players from "@/components/theatre/Players";
 import Chapters from "@/components/theatre/Chapters";
@@ -47,6 +48,7 @@ const SeriesPage = () => (
     <Seo />
 
     <Overture />
+    <WhereToWatch />
     <AlderwickAct />
     <Players />
     <Chapters />

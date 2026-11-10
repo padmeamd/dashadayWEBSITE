@@ -73,6 +73,24 @@ const Overture = () => {
   const [replay, setReplay] = useState(0);
 
   useEffect(() => {
+    const fit = () => {
+      const header = document.querySelector("header");
+      const reserve = stageRef.current?.closest("main")?.parentElement;
+      if (!header || !reserve) return;
+      const overhang =
+        header.getBoundingClientRect().height -
+        parseFloat(getComputedStyle(reserve).paddingTop || "0");
+      document.documentElement.style.setProperty(
+        "--tf-hero-offset",
+        `${Math.max(0, Math.round(overhang))}px`,
+      );
+    };
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
+
+  useEffect(() => {
     if (reduced) return;
     try {
       if (sessionStorage.getItem(SEEN)) return;
@@ -117,7 +135,7 @@ const Overture = () => {
   const unrolled = reduced || (inView && true);
 
   return (
-    <section className="relative px-0 pb-8 pt-16 sm:pb-10 sm:pt-20">
+    <section className="relative px-0 pb-8 pt-[var(--tf-hero-offset,0px)] sm:pb-10">
       <div
         ref={stageRef}
         className="tf-proscenium relative mx-auto aspect-[16/10] w-full sm:aspect-[16/9]"
@@ -294,7 +312,9 @@ const Overture = () => {
           </div>
         )}
 
-        <div className="mt-8 text-center sm:mt-10">
+        {/* Above the valance that the next section hangs across this seam:
+            the ornament passes behind these words, not over them. */}
+        <div className="relative z-20 mt-8 text-center sm:mt-10">
           <p className="tf-label">A gothic fantasy series</p>
           {/* The title is painted into the scroll above. This is the same
               words for anyone the picture does not reach. */}
