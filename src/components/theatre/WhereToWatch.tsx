@@ -245,7 +245,9 @@ const WhereToWatch = () => {
                       href={way.href}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tf-paper-button tf-paper-button--sm mt-5"
+                      className={`tf-plate-btn mt-5 ${
+                        way.featured ? "tf-plate-btn--burgundy" : "tf-plate-btn--cream"
+                      }`}
                     >
                       {way.cta}
                     </a>

@@ -343,11 +343,11 @@ const Overture = () => {
               {OVERTURE.line}
             </p>
 
-            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-              <a href="#alderwick" className="tf-button tf-button--onplate w-full sm:w-auto">
+            <div className="mt-6 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-6">
+              <a href="#alderwick" className="tf-plate-btn tf-plate-btn--burgundy">
                 Enter Alderwick
               </a>
-              <a href="#chapters" className="tf-button tf-button--onplate w-full sm:w-auto">
+              <a href="#chapters" className="tf-plate-btn tf-plate-btn--cream">
                 Watch the series
               </a>
             </div>
