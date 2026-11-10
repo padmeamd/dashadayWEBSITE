@@ -312,27 +312,45 @@ const Overture = () => {
           </div>
         )}
 
-        {/* Above the valance that the next section hangs across this seam:
-            the ornament passes behind these words, not over them. */}
-        <div className="relative z-20 mt-8 text-center sm:mt-10">
-          <p className="tf-label">A gothic fantasy series</p>
-          {/* The title is painted into the scroll above. This is the same
-              words for anyone the picture does not reach. */}
-          <h1 className="sr-only">{OVERTURE.title}</h1>
-          <p
-            className="tf-display mx-auto mt-5 max-w-xl text-lg italic sm:text-xl"
-            style={{ color: "var(--tf-ivory-soft)" }}
-          >
-            {OVERTURE.line}
-          </p>
+        {/* The closing lines and the two ways on, standing on the plate
+            rather than floating on the page below the stage. The artwork is
+            3:1 with a plain damask field across its upper half; the type sits
+            in that field, and object-cover lets the plate grow to whatever
+            height the words and buttons come to without the ornament being
+            stretched. */}
+        <div className="relative mx-auto mt-8 max-w-4xl sm:mt-10">
+          <img
+            src={STAGE.plate.src}
+            width={STAGE.plate.width}
+            height={STAGE.plate.height}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full select-none object-cover"
+            style={{ objectPosition: "center 26%" }}
+          />
 
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-            <a href="#alderwick" className="tf-button w-full sm:w-auto">
-              Enter Alderwick
-            </a>
-            <a href="#chapters" className="tf-button tf-button--quiet w-full sm:w-auto">
-              Watch the series
-            </a>
+          <div className="relative px-6 py-10 text-center sm:px-12 sm:py-12">
+            <p className="tf-label" style={{ color: "#f0dfc0" }}>
+              A gothic fantasy series
+            </p>
+            {/* The title is painted into the scroll above the stage. This is
+                the same words for anyone the picture does not reach. */}
+            <h1 className="sr-only">{OVERTURE.title}</h1>
+            <p
+              className="tf-display mx-auto mt-4 max-w-xl text-lg italic sm:text-xl"
+              style={{ color: "#f4e7cf" }}
+            >
+              {OVERTURE.line}
+            </p>
+
+            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+              <a href="#alderwick" className="tf-button tf-button--onplate w-full sm:w-auto">
+                Enter Alderwick
+              </a>
+              <a href="#chapters" className="tf-button tf-button--onplate w-full sm:w-auto">
+                Watch the series
+              </a>
+            </div>
           </div>
         </div>
       </div>

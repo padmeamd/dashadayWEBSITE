@@ -80,6 +80,11 @@ export const STAGE = {
     "Dasha Day in profile, facing into the page"),
   dashaClosed: asset("dasha-closed", 820, 749, true,
     "Dasha Day in profile with her eyes gently closed"),
+  /** The plate the hero's closing lines and buttons stand on. 3:1, with a
+      solid damask field across its upper half and the fringed swag below —
+      the type sits in the field. */
+  plate: asset("frieze", 1800, 600, true,
+    "A burgundy and gold Victorian theatre plate"),
   /** Scene 6 — the sealed invitation. */
   envelope: asset("envelope", 1200, 800, true,
     "An antique envelope closed with a crimson wax seal"),

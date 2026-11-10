@@ -464,3 +464,19 @@
   font-size: 0.7rem;
   letter-spacing: 0.1em;
 }
+
+/* Buttons standing on the plate. The page's own button sits on near-black
+   and borrows its ground; here the ground is mid-burgundy damask, so it
+   carries its own dark panel and a brighter edge to lift off the pattern. */
+.tf-button--onplate {
+  border-color: rgba(233, 221, 198, 0.42);
+  background: linear-gradient(rgba(25, 18, 16, 0.82), rgba(16, 11, 10, 0.88));
+  color: #f4e7cf;
+}
+
+.tf-button--onplate:hover,
+.tf-button--onplate:focus-visible {
+  border-color: #e9ddc6;
+  background: linear-gradient(rgba(87, 33, 45, 0.88), rgba(25, 18, 16, 0.92));
+  color: #fff;
+}
