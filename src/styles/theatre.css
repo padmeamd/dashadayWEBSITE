@@ -11,8 +11,12 @@
   --tf-ivory: #e9ddc6;
   --tf-forest: #28362c;
 
-  --tf-ivory-soft: rgba(233, 221, 198, 0.72);
-  --tf-ivory-faint: rgba(233, 221, 198, 0.45);
+  /* Secondary text was being set at 0.45 opacity, which falls under 4.5:1
+     on this ground. Both are lifted; nothing on the page now relies on a
+     reader having a bright screen. */
+  --tf-ivory-soft: rgba(233, 221, 198, 0.84);
+  --tf-ivory-faint: rgba(233, 221, 198, 0.62);
+  --tf-gold-bright: #cdab6e;
   --tf-gold-faint: rgba(183, 150, 92, 0.3);
 
   --tf-display: "Cormorant Garamond", "Iowan Old Style", Palatino, Georgia, serif;
@@ -41,12 +45,16 @@
 .tf-display { font-family: var(--tf-display); font-weight: 300; }
 .tf-gothic { font-family: var(--tf-gothic); font-weight: 400; }
 
+/* Was 0.72rem at 0.34em on a 45%-opacity gold — technically present,
+   practically unreadable. Larger, tighter, and a gold that actually has
+   contrast against the near-black ground. */
 .tf-label {
   font-family: var(--tf-display);
-  font-size: 0.72rem;
-  letter-spacing: 0.34em;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--tf-gold);
+  color: var(--tf-gold-bright);
 }
 
 /* ── The proscenium ──────────────────────────────────────────────────────── */
@@ -178,4 +186,50 @@
     transition-duration: 0.001ms !important;
   }
   .tf-playbill:hover { transform: none; }
+}
+
+/* ── The seal ────────────────────────────────────────────────────────────── */
+
+/* The letter is the control, so it has to answer to a pointer and to a
+   keyboard in the same way. The lift is small: this is a piece of paper on a
+   table, not a button on a dashboard. */
+.tf-seal img {
+  transition: filter 0.5s ease;
+}
+
+.tf-seal:hover img,
+.tf-seal:focus-visible img {
+  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.68))
+          drop-shadow(0 0 22px rgba(183, 150, 92, 0.34));
+}
+
+.tf-seal:focus-visible {
+  outline: 2px solid var(--tf-gold);
+  outline-offset: 10px;
+}
+
+/* ── Stage glint ─────────────────────────────────────────────────────────── */
+
+/* The puppets are single flattened cut-outs — there are no separate arm or
+   baton layers in the artwork to rotate — so the only honest extra motion is
+   light moving across them. A slow diagonal sheen, once every twelve
+   seconds, so it reads as a candle guttering rather than a sparkle effect. */
+@keyframes tf-glint {
+  0%, 72%, 100% { opacity: 0; transform: translateX(-120%) skewX(-18deg); }
+  80% { opacity: 0.5; }
+  92% { opacity: 0; transform: translateX(120%) skewX(-18deg); }
+}
+
+.tf-glint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 38%,
+    rgba(233, 221, 198, 0.4) 50%,
+    transparent 62%
+  );
+  mix-blend-mode: screen;
+  animation: tf-glint 12s ease-in-out infinite;
 }

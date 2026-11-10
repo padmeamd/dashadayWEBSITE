@@ -580,19 +580,25 @@ export const SERIES_UPDATES: SeriesUpdate[] = [
   {
     date: "2026-10-12",
     label: "12 October 2026",
-    title: "Chapter Two is out",
+    title: "Chapter Two is out on Telegram",
     body:
-      "The second chapter is up on Telegram, where public episodes land first. " +
-      "Members see each one before its public release.",
+      "Part One of the second chapter is up on Telegram, where public episodes " +
+      "land first. Members see each one before its public release. The YouTube " +
+      "release follows later.",
     link: { label: "Watch on Telegram", href: SERIES_LINKS.telegram },
   },
   {
-    date: "2026-10-05",
-    label: "5 October 2026",
+    // The chapter opened on 5 October; YouTube came a week later. This entry
+    // carries the YouTube link, so it has to be dated to the YouTube
+    // premiere — at 5 October it was telling readers the episode was on a
+    // platform it had not reached yet. The 5 October opening is still on the
+    // chapter's own release history below the playbill.
+    date: "2026-10-12",
+    label: "12 October 2026",
     title: "Chapter One: The Invitation",
     body:
-      "Dasha arrives at Alderwick for the first time. The full episode is free " +
-      "and in English on YouTube.",
+      "Dasha arrives at Alderwick for the first time. The full episode is now " +
+      "free and in English on YouTube.",
     link: { label: "Watch on YouTube", href: SERIES_LINKS.youtubeEpisodeOne },
   },
 ];

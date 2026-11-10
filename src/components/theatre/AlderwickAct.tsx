@@ -1,25 +1,29 @@
-import { useRef, useState } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useId, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
-import Crest from "@/components/alderwick/Crest";
 import { ALDERWICK_ACT, STAGE } from "@/data/theatre";
 import { VESPER_CLUES } from "@/data/alderwick";
 
 /**
  * SCENE TWO — enter Alderwick.
  *
- * The university arrives as scenery rather than as a photograph: three layers
- * of the same diorama moving at different rates, so scrolling reads as walking
+ * The university arrives as scenery rather than a photograph: three layers of
+ * the same diorama moving at different rates, so scrolling reads as walking
  * into a paper model rather than sliding a picture about.
  *
- * The Vesper seal is a real button, not a decorated div, because it does
- * something — and whatever can be clicked has to be reachable by keyboard.
+ * The seal is the letter itself, at the size of a thing you could pick up —
+ * a crest the size of a favicon asks to be clicked and then does not look
+ * worth clicking. It is a real button with a real accessible name, and the
+ * clues it uncovers are in the document either way: hidden with `hidden`
+ * when closed, so a screen reader is not read a letter nobody has opened,
+ * and plainly announced when it is.
  */
 
 const AlderwickAct = () => {
   const reduced = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
+  const cluesId = useId();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -38,7 +42,7 @@ const AlderwickAct = () => {
     <section
       id="alderwick"
       ref={ref}
-      className="relative overflow-hidden px-4 py-24 sm:px-8 sm:py-32"
+      className="relative overflow-hidden px-4 pb-12 pt-20 sm:px-8 sm:pb-14 sm:pt-24"
       style={{ background: "linear-gradient(var(--tf-black), #120f0c)" }}
     >
       <div className="mx-auto max-w-5xl">
@@ -81,58 +85,87 @@ const AlderwickAct = () => {
           <div className="tf-footlight tf-flicker" aria-hidden />
         </div>
 
-        <div className="mx-auto mt-14 max-w-2xl text-center">
+        <div className="mx-auto mt-12 max-w-2xl text-center">
           <p className="tf-label">{ALDERWICK_ACT.place}</p>
-          <h2 className="tf-display mt-6 text-2xl leading-[1.5] sm:text-[1.9rem]">
+          <h2 className="tf-display mt-5 text-2xl leading-[1.5] sm:text-[1.9rem]">
             {ALDERWICK_ACT.body}
           </h2>
 
-          <div className="mt-12">
+          <div className="mt-10">
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
-              aria-controls="vesper-clues"
-              className="group inline-flex flex-col items-center gap-3"
+              aria-controls={cluesId}
+              className="tf-seal group mx-auto block w-full max-w-[19rem]"
             >
-              <Crest
-                className={`h-16 w-16 transition-opacity duration-500 ${
-                  open ? "opacity-100" : "opacity-55 group-hover:opacity-90"
-                }`}
+              <span className="sr-only">
+                {open
+                  ? "Close the letter from the Vesper Society"
+                  : "Break the seal on a letter from the Vesper Society"}
+              </span>
+              <motion.img
+                src={STAGE.envelope.src}
+                width={STAGE.envelope.width}
+                height={STAGE.envelope.height}
+                alt=""
+                aria-hidden
+                loading="lazy"
+                decoding="async"
+                className="w-full"
+                style={{ filter: "drop-shadow(0 18px 30px rgba(0,0,0,0.6))" }}
+                animate={
+                  reduced
+                    ? undefined
+                    : { rotate: open ? -1.6 : -0.6, y: open ? -6 : 0, scale: open ? 1.02 : 1 }
+                }
+                transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1] }}
               />
-              <span className="tf-label text-[0.65rem]">
+              <span
+                className="tf-label mt-5 block text-[0.72rem]"
+                aria-hidden
+              >
                 {open ? "Seal the letter" : "Break the seal"}
               </span>
             </button>
           </div>
 
-          <motion.div
-            id="vesper-clues"
-            initial={false}
-            animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-            transition={{ duration: reduced ? 0 : 0.6, ease: [0.2, 0.7, 0.2, 1] }}
-            className="overflow-hidden"
-          >
-            <ul className="mt-8 space-y-4 text-left">
-              {VESPER_CLUES.map((clue) => (
-                <li
-                  key={clue.id}
-                  className="border-l pl-5"
-                  style={{ borderColor: "var(--tf-gold-faint)" }}
-                >
-                  <p className="tf-display text-[1.1rem] italic leading-[1.6]">
-                    “{clue.inscription}”
-                  </p>
-                  <p
-                    className="mt-2 text-[0.78rem] uppercase tracking-[0.16em]"
-                    style={{ color: "var(--tf-ivory-faint)" }}
-                  >
-                    {clue.source}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+          <AnimatePresence initial={false}>
+            {open && (
+              <motion.div
+                id={cluesId}
+                key="clues"
+                initial={reduced ? false : { opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={reduced ? undefined : { opacity: 0, height: 0 }}
+                transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }}
+                className="overflow-hidden"
+              >
+                <ul className="mt-9 space-y-5 text-left">
+                  {VESPER_CLUES.map((clue) => (
+                    <li
+                      key={clue.id}
+                      className="border-l pl-5"
+                      style={{ borderColor: "var(--tf-gold-faint)" }}
+                    >
+                      <p className="tf-display text-[1.15rem] italic leading-[1.6]">
+                        “{clue.inscription}”
+                      </p>
+                      <p
+                        className="mt-2 text-[0.78rem] uppercase tracking-[0.14em]"
+                        style={{ color: "var(--tf-ivory-faint)" }}
+                      >
+                        {clue.source}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          {/* The panel is removed from the tree when shut rather than left at
+              zero height, so `aria-controls` points at nothing to read. */}
+          {!open && <div id={cluesId} hidden />}
         </div>
       </div>
     </section>

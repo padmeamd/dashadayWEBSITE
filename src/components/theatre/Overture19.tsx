@@ -28,7 +28,7 @@ const Overture19 = () => {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden px-4 py-24 sm:px-8 sm:py-32"
+      className="relative overflow-hidden px-4 py-20 sm:px-8 sm:py-24"
       style={{ background: "linear-gradient(var(--tf-black), #15110e)" }}
     >
       <div className="mx-auto grid max-w-5xl items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">

@@ -70,7 +70,12 @@ const PlayerStage = ({
             element — centring the puppet with -translate-x-1/2 on the same
             node makes it jump half its own width to the right the moment the
             animation starts. The outer box places it; the inner image moves. */}
-        <div className="pointer-events-none absolute bottom-[7%] left-1/2 h-[80%] -translate-x-1/2">
+        <div className="pointer-events-none absolute bottom-[7%] left-1/2 h-[80%] -translate-x-1/2 overflow-hidden">
+          {/* A slow sheen crossing the figure. The puppets are flattened
+              cut-outs, so there is no baton or sleeve to rotate on its own;
+              moving light is the one addition that does not require taking
+              the artwork apart. */}
+          <span className="tf-glint z-10" aria-hidden />
           <img
             src={player.puppet.src}
             width={player.puppet.width}
@@ -152,7 +157,7 @@ const Players = () => {
   return (
     <section
       id="players"
-      className="relative px-4 py-24 sm:px-8 sm:py-32"
+      className="relative px-4 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-20"
       style={{ background: "linear-gradient(#120f0c, var(--tf-black))" }}
     >
       <div className="mx-auto max-w-6xl">

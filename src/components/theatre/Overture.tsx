@@ -66,7 +66,7 @@ const Overture = () => {
   };
 
   return (
-    <section className="relative px-4 pb-16 pt-24 sm:px-8 sm:pb-24 sm:pt-32">
+    <section className="relative px-4 pb-12 pt-20 sm:px-8 sm:pb-16 sm:pt-24">
       <div className="mx-auto max-w-5xl">
         <div className="tf-proscenium aspect-[16/9] w-full">
           <img
