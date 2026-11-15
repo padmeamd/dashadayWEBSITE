@@ -155,13 +155,17 @@ const Overture = () => {
         />
 
         {/* ── The company, as three ways in ───────────────────────────
-            Each puppet is a door. Gregory stands left and leads to the
-            chapters, Dasha holds the centre and leads to the society, Theo
-            stands right and leads back into Alderwick.
+            Gregory stands left and leads to the chapters, Dasha holds the
+            centre and leads to the society, Theo stands right and leads back
+            into Alderwick.
 
-            They are real links with real text under them, not hotspots on a
-            picture: the label is what a screen reader announces and what a
-            visitor on a touchscreen can read without hovering anything. */}
+            Below 640px the labels leave the stage. Three plates of 122px
+            cannot share a 320px stage — they were overlapping each other by
+            thirty pixels a side, which is why their text looked cut. On a
+            phone the figures stay as scenery and the three doors become a
+            row of proper links underneath, where they have room to be read
+            and hit. Only one set is ever in the document, so a screen reader
+            is never offered the same door twice. */}
         {DOORS.map((door, i) => {
           const spot = [23, 50, 77][i];
           const up = lifted === door.id;
@@ -181,7 +185,7 @@ const Overture = () => {
                 onMouseEnter={() => setLifted(door.id)}
                 onFocus={() => setLifted(door.id)}
                 onBlur={() => setLifted(null)}
-                className="tf-door flex h-full flex-col items-center justify-end"
+                className="tf-door hidden h-full flex-col items-center justify-end sm:flex"
               >
                 <img
                   src={door.puppet.src}
@@ -189,7 +193,7 @@ const Overture = () => {
                   height={door.puppet.height}
                   alt=""
                   aria-hidden
-                  className={`tf-puppet min-h-0 flex-1 w-auto object-contain ${
+                  className={`tf-puppet min-h-0 w-auto flex-1 object-contain ${
                     reduced ? "" : ["tf-sway", "tf-sway tf-sway--slow", "tf-sway tf-sway--fast"][i]
                   }`}
                   style={{
@@ -203,6 +207,20 @@ const Overture = () => {
                   {door.note && <span className="tf-door-note">{door.note}</span>}
                 </span>
               </a>
+
+              {/* On a phone the same figure, as scenery only. */}
+              <div aria-hidden className="flex h-full items-end sm:hidden">
+                <img
+                  src={door.puppet.src}
+                  width={door.puppet.width}
+                  height={door.puppet.height}
+                  alt=""
+                  className={`tf-puppet h-full w-auto object-contain ${
+                    reduced ? "" : ["tf-sway", "tf-sway tf-sway--slow", "tf-sway tf-sway--fast"][i]
+                  }`}
+                  style={{ filter: "drop-shadow(0 14px 18px rgba(0,0,0,0.6))" }}
+                />
+              </div>
             </motion.div>
           );
         })}
@@ -318,6 +336,23 @@ const Overture = () => {
             in that field, and object-cover lets the plate grow to whatever
             height the words and buttons come to without the ornament being
             stretched. */}
+        {/* The three doors, for the screen the stage is too narrow to hold
+            them on. */}
+        <nav aria-label="Where to go next" className="mt-6 grid grid-cols-3 gap-2 sm:hidden">
+          {DOORS.map((door) => (
+            <a
+              key={door.id}
+              href={door.href}
+              {...(door.external
+                ? { target: "_blank", rel: "noreferrer noopener" }
+                : {})}
+              className="tf-door-tile"
+            >
+              {door.label}
+            </a>
+          ))}
+        </nav>
+
         <div className="relative mx-auto mt-8 max-w-4xl sm:mt-10">
           <img
             src={STAGE.plate.src}

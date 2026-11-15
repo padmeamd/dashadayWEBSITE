@@ -98,7 +98,7 @@ const SeriesPage = () => (
             className="border-t pt-7"
             style={{ borderColor: "var(--tf-gold-faint)" }}
           >
-            <p className="tf-label text-[0.62rem]">
+            <p className="tf-label text-[0.72rem]">
               <time dateTime={update.date}>{update.label}</time>
             </p>
             <h3 className="tf-display mt-3 text-xl">{update.title}</h3>
@@ -115,7 +115,7 @@ const SeriesPage = () => (
                 href={update.link.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="tf-label mt-4 inline-flex items-center gap-2 border-b pb-1 text-[0.62rem]"
+                className="tf-label mt-4 inline-flex items-center gap-2 border-b pb-1 text-[0.72rem]"
                 style={{ borderColor: "var(--tf-gold-faint)" }}
               >
                 {update.link.label}
@@ -162,7 +162,7 @@ const SeriesPage = () => (
           href={GUIDE.cta.href}
           target="_blank"
           rel="noreferrer noopener"
-          className="tf-label mt-4 inline-flex items-center gap-2 border-b pb-1 text-[0.62rem]"
+          className="tf-label mt-4 inline-flex items-center gap-2 border-b pb-1 text-[0.72rem]"
           style={{ borderColor: "var(--tf-gold-faint)" }}
         >
           {GUIDE.cta.label}
@@ -171,7 +171,7 @@ const SeriesPage = () => (
       </motion.div>
 
       <div className="mt-20 text-center">
-        <Link to="/" className="tf-label inline-flex items-center gap-2 text-[0.62rem]">
+        <Link to="/" className="tf-label inline-flex items-center gap-2 text-[0.72rem]">
           <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
           Back to DashaDay
         </Link>

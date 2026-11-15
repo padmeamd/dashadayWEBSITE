@@ -131,7 +131,7 @@ const Chapters = () => {
                       {episode.schedule.map((entry) => (
                         <li
                           key={entry.date + entry.note}
-                          className="flex gap-3 text-[0.8rem] leading-[1.5]"
+                          className="flex gap-3 text-[0.82rem] leading-[1.55]"
                           style={{ color: "var(--tf-ivory-faint)" }}
                         >
                           <time

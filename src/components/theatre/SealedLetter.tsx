@@ -62,7 +62,7 @@ const SealedLetter = () => {
                   className="w-full transition-transform duration-700 group-hover:-translate-y-2 group-focus-visible:-translate-y-2"
                   style={{ filter: "drop-shadow(0 24px 40px rgba(0,0,0,0.65))" }}
                 />
-                <span className="tf-label mt-7 block text-[0.65rem]">
+                <span className="tf-label mt-7 block text-[0.74rem]">
                   Break the seal
                 </span>
               </motion.button>

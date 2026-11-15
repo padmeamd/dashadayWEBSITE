@@ -244,7 +244,7 @@ const Players = () => {
                         <p className="tf-display text-2xl uppercase tracking-[0.2em]">
                           {player.name}
                         </p>
-                        <p className="tf-label mt-2 text-[0.6rem] opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100">
+                        <p className="tf-label mt-2 text-[0.72rem] opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100">
                           {player.title}
                         </p>
                       </div>

@@ -555,7 +555,72 @@
 @media (max-width: 640px) {
   .tf-plate-btn {
     max-width: 15rem;
-    font-size: 0.6rem;
-    letter-spacing: 0.07em;
+    /* Was 0.6rem — nine and a half pixels, set when the plate was a fixed
+       15rem and the label had to squeeze. The plate is fluid now and the
+       field has room. */
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
   }
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+
+/* The three doors, once they leave the stage. Full-height tiles rather than
+   bare links: a label alone gives a 20px target, and a thumb is nine
+   millimetres across. */
+.tf-door-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.7rem 0.4rem;
+  border: 1px solid var(--tf-gold-faint);
+  background: rgba(20, 16, 13, 0.9);
+  font-family: var(--tf-display);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--tf-ivory);
+  transition: border-color 0.35s ease, background 0.35s ease;
+}
+
+.tf-door-tile:active,
+.tf-door-tile:focus-visible {
+  border-color: var(--tf-gold);
+  background: rgba(87, 33, 45, 0.9);
+}
+
+@media (max-width: 640px) {
+  /* Nothing on this page should ask a thumb to find a twenty-pixel line.
+     The chapter links were text with a one-pixel rule under them; the social
+     links were two short lines. Both get a real box. */
+  .tf-card-link {
+    min-height: 2.75rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    align-items: center;
+  }
+
+  /* Text links that act as calls to action: a 20px line is not a target.
+     The rule stays where it is; the box around it grows. */
+  .theatre a.tf-label {
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
+  .tf-social {
+    display: flex;
+    min-height: 2.75rem;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.25rem 0;
+  }
+
+  /* 9.6px and 9.9px were being asked to carry a character's billing and a
+     release date. Both are information, not texture. */
+  .tf-display + .tf-label,
+  .tf-door-note { font-size: 0.72rem; }
 }
