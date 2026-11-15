@@ -495,7 +495,10 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: 17rem;
+  /* Fluid with a ceiling. Fixed at 17rem the plate was wider than the cards
+     it sits in and three of them ran together into one strip. */
+  width: 100%;
+  max-width: 17rem;
   aspect-ratio: 3 / 1;
   /* One line, always: a label wrapping inside a painted field spills past
      the frame, and the frame cannot grow to meet it without stretching the
@@ -551,7 +554,7 @@
 
 @media (max-width: 640px) {
   .tf-plate-btn {
-    width: 15rem;
+    max-width: 15rem;
     font-size: 0.6rem;
     letter-spacing: 0.07em;
   }
