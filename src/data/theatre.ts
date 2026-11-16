@@ -72,8 +72,14 @@ export const STAGE = {
     "A gold key laid across a burgundy ticket sealed with red wax"),
   cardTelegram: asset("card-telegram", 800, 533, true,
     "A folded cream dispatch tied with a burgundy ribbon"),
-  cardScreen: asset("card-screen", 800, 533, true,
-    "A miniature gilded theatre with a blank screen between its curtains"),
+  /* The blank miniature screen said "a stage", not "a video". The medallion
+     reads as play at a glance and is still a paper theatre. The old file
+     stays on disk, unused. */
+  cardScreen: asset("card-play", 800, 731, true,
+    "A crimson theatre medallion with a play triangle at its centre"),
+  /** The AI guide: a burgundy book opening into a pop-up theatre. */
+  guideBook: asset("guide-book", 900, 1273, true,
+    "A burgundy book opening into a paper theatre with a film camera inside"),
   /** Behind the curtain. Both portraits are cut to one size on purpose: the
       blink is a swap, and a pixel of disagreement would read as a twitch. */
   dashaOpen: asset("dasha-open", 820, 749, true,

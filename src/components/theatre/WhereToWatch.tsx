@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { STAGE } from "@/data/theatre";
-import { SERIES_LINKS } from "@/data/series";
+import { GUIDE, SERIES_LINKS } from "@/data/series";
 import { SOCIAL_LINKS } from "@/config/site";
 
 /**
@@ -255,6 +255,52 @@ const WhereToWatch = () => {
                 </motion.li>
               ))}
             </ul>
+
+            {/* ── The guide ───────────────────────────────────────────
+                A band of its own below the three ways to watch, not a fourth
+                card among them: it is not a place to watch the series, it is
+                a thing to buy, and mixing it in would have read as a fourth
+                platform. Quieter than the cards — no filled ground, a hairline
+                border — but with its own picture and its own button, so it is
+                still easy to find.
+
+                Title and address come from data/series.ts, where the guide
+                already lives. */}
+            <aside
+              className="tf-guide mt-10 flex flex-col items-center gap-5 p-5 text-center sm:mt-12 sm:flex-row sm:gap-7 sm:p-6 sm:text-left"
+            >
+              <img
+                src={STAGE.guideBook.src}
+                width={STAGE.guideBook.width}
+                height={STAGE.guideBook.height}
+                alt=""
+                aria-hidden
+                loading="lazy"
+                decoding="async"
+                className="h-28 w-auto shrink-0 object-contain sm:h-32"
+              />
+
+              <div className="min-w-0 flex-1">
+                <h3 className="tf-display text-xl uppercase tracking-[0.1em] sm:text-2xl">
+                  {GUIDE.guideTitle}
+                </h3>
+                <p
+                  className="mt-2 text-[0.92rem] leading-[1.65]"
+                  style={{ color: "var(--tf-ivory-soft)" }}
+                >
+                  {GUIDE.subtitle}
+                </p>
+              </div>
+
+              <a
+                href={SERIES_LINKS.guide}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="tf-plate-btn tf-plate-btn--cream tf-plate-btn--sm w-full shrink-0 sm:w-auto"
+              >
+                Get AI guide
+              </a>
+            </aside>
 
             {/* ── Behind the curtain ──────────────────────────────────
                 Compact, and under the cards rather than in a block of its
