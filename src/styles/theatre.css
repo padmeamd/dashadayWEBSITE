@@ -658,3 +658,64 @@
 @media (max-width: 640px) {
   .tf-plate-btn--sm { max-width: 13rem; font-size: 0.72rem; }
 }
+
+/* ── The mobile theatre ──────────────────────────────────────────────────── */
+
+/* The scrim that keeps type legible over painted scenery, and keeps the
+   stage reading as a stage: dark at the floor, open in the middle. */
+.tf-mt-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(16, 13, 10, 0.72) 0%, rgba(16, 13, 10, 0.26) 26%,
+                    rgba(16, 13, 10, 0.3) 58%, rgba(16, 13, 10, 0.9) 100%);
+}
+
+/* Puppets stand on the floor and are sized by height, so their own
+   proportions decide their width. */
+.tf-mt-puppet {
+  position: absolute;
+  bottom: 9%;
+  height: 42%;
+  width: auto;
+  object-fit: contain;
+  transform-origin: 50% 100%;
+  margin-left: -1px;
+  translate: -50% 0;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.6));
+  will-change: transform, opacity;
+}
+
+.tf-mt-puppet--lead { height: 50%; z-index: 2; }
+
+/* The curtain panel is 2:3 portrait. Run to the full height of the stage and
+   cropped on the width, it never stretches — and a phone, being portrait
+   itself, suits it better than a desktop ever did. `object-position` keeps
+   the embroidered inner edge and the tassel in frame. */
+.tf-mt-curtain {
+  height: 100%;
+  /* Wide enough to read as a drawn curtain when closed, narrow enough that
+     two of them leave the stage open when parted. */
+  width: 54%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 72% top;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Sticky needs an ancestor that is not a scroll container. `overflow-x:
+   hidden` on the page wrapper makes one and quietly kills it; `clip` crops
+   the same way without doing that. */
+.theatre {
+  overflow-x: clip;
+}
+
+/* The fixed header overlays the top of the sticky stage. The bill hangs
+   below it rather than behind it. */
+.theatre { --tf-header: 4.6rem; }
+
+@media (min-width: 768px) {
+  .theatre { --tf-header: 5.3rem; }
+}

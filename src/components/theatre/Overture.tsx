@@ -20,6 +20,10 @@ import { SERIES_LINKS } from "@/data/series";
  * The title is in the artwork, so the artwork is decorative and the real H1
  * sits beside it for screen readers and for search. Nothing on the page says
  * the title twice to a sighted reader.
+ *
+ * This is the desktop staging. Below 640px it stands down and MobileTheatre
+ * takes its place — a stage this wide becomes a letterbox on a phone, and a
+ * letterbox is not a theatre.
  */
 
 const SEEN = "tf-overture-seen";
@@ -135,7 +139,7 @@ const Overture = () => {
   const unrolled = reduced || (inView && true);
 
   return (
-    <section className="relative px-0 pb-8 pt-[var(--tf-hero-offset,0px)] sm:pb-10">
+    <section className="relative hidden px-0 pb-8 pt-[var(--tf-hero-offset,0px)] sm:block sm:pb-10">
       <div
         ref={stageRef}
         className="tf-proscenium relative mx-auto aspect-[16/10] w-full sm:aspect-[16/9]"

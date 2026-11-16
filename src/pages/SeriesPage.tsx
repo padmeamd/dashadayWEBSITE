@@ -6,6 +6,7 @@ import Seo from "@/components/Seo";
 import Societies from "@/components/alderwick/Societies";
 
 import Overture from "@/components/theatre/Overture";
+import MobileTheatre from "@/components/theatre/MobileTheatre";
 import WhereToWatch from "@/components/theatre/WhereToWatch";
 import AlderwickAct from "@/components/theatre/AlderwickAct";
 import Chapters from "@/components/theatre/Chapters";
@@ -42,9 +43,10 @@ const rise = (delay = 0) => ({
 });
 
 const SeriesPage = () => (
-  <main className="theatre alderwick relative min-h-screen overflow-x-hidden">
+  <main className="theatre alderwick relative min-h-screen">
     <Seo />
 
+    <MobileTheatre />
     <Overture />
     <WhereToWatch />
     <AlderwickAct />
