@@ -649,9 +649,12 @@
    it the loudest thing in the section. */
 .tf-plate-btn--sm {
   max-width: 13rem;
-  font-size: 0.62rem;
+  font-size: 0.66rem;
 }
 
+/* The small plate keeps its width on a phone but not its type size: 0.62rem
+   came out at just under ten pixels, and nothing on this page is allowed
+   under eleven. */
 @media (max-width: 640px) {
-  .tf-plate-btn--sm { max-width: 13rem; font-size: 0.62rem; }
+  .tf-plate-btn--sm { max-width: 13rem; font-size: 0.72rem; }
 }
