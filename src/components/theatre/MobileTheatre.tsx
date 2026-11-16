@@ -62,12 +62,21 @@ const MobileTheatre = () => {
   const sideDim = useTransform(p, [S.open, S.alive, S.change], [1, 0.55, 1]);
   const gregX = useTransform(p, [S.alive, S.change], ["0%", "38%"]);
   const theoX = useTransform(p, [S.alive, S.change], ["0%", "-38%"]);
-  const companyFade = useTransform(p, [S.change, S.story], [1, 0]);
+  /* The stage clears before the words arrive. Overlapped, the text came
+     up behind two figures and neither could be read. */
+  const companyFade = useTransform(p, [S.change, S.change + 0.1], [1, 0]);
 
   /* ── Story ─────────────────────────────────────────────────────────── */
-  const storyFade = useTransform(p, [S.change, S.story], [0, 1]);
-  const storyY = useTransform(p, [S.change, S.story], ["14%", "0%"]);
+  const storyFade = useTransform(p, [S.change + 0.1, S.story], [0, 1]);
+  const storyY = useTransform(p, [S.change + 0.1, S.story], ["14%", "0%"]);
   const storyOut = useTransform(p, [0.9, 1], [1, 0]);
+  /* Declared here, not in the markup: below the early return for reduced
+     motion a hook would be called on some renders and not others, and React
+     counts them in order. */
+  const storyOpacity = useTransform(
+    [storyFade, storyOut],
+    ([a, b]: number[]) => a * b,
+  );
 
   /* ── Curtain ───────────────────────────────────────────────────────── */
   /* Parted all the way through, then drawn across at the end. */
@@ -232,8 +241,8 @@ const MobileTheatre = () => {
 
           {/* ── The story, once the stage has cleared ─────────────── */}
           <motion.div
-            className="absolute inset-x-0 bottom-0 z-20 px-6 pb-10 text-center"
-            style={{ opacity: useTransform([storyFade, storyOut], ([a, b]: number[]) => a * b), y: storyY }}
+            className="absolute inset-x-0 bottom-0 z-40 px-5 pb-10 text-center"
+            style={{ opacity: storyOpacity, y: storyY }}
           >
             <p className="tf-label">{ALDERWICK_ACT.place}</p>
             <p className="tf-display mt-3 text-[1.15rem] leading-[1.5]">
