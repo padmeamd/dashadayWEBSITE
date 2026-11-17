@@ -223,7 +223,14 @@ const MobileWelcome = () => {
       hint: `${episodeLabel} — and where to watch the rest`,
       /* Its own still, so the card shows the chapter it opens. */
       art: "/image/series/episode-02.jpg",
-      onClick: () => setScreen("series"),
+      /* Straight to the series page. It used to open a panel inside this
+         popup listing the same three platforms; the page now does that
+         properly, with the chapters, the theatre and the guide around it,
+         so the extra step only stood between the reader and all of it. */
+      onClick: () => {
+        close();
+        navigate(SERIES_ROUTE);
+      },
     },
     {
       key: "support",
